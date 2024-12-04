@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'css/books_list.css' %}">
+{% endblock css_link %}
+    
+
+{% block content %}
+
+{% include 'navbar.html' %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Toate Cărți</h1>
+    <div class="row">
+        {% for book in books %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">{{ book.description|truncatewords:20 }}</p>
+                    <p class="card-text"><small class="text-muted">Autor: {{ book.author }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

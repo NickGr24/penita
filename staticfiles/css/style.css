@@ -1,0 +1,380 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.greeting {
+    font-family: "Oswald", sans-serif;
+    font-size: 42px;
+    color: white;
+    position: relative;
+    z-index: 2; 
+    text-align: center;
+    margin-top: 100px;
+}
+
+.slogan {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    margin-top: 20px;
+    margin-left: 10px;
+    color: white;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 1px;
+    opacity: 0; 
+    animation: fadeIn 3s forwards 2.5s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+#myVideo {
+    position: absolute; /* Абсолютное позиционирование внутри section */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Видео находится позади всего контента */
+    object-fit: cover; /* Покрывает всю секцию, сохраняя соотношение сторон */
+    filter: brightness(40%); /* Затемнение для улучшения читаемости текста */
+}
+
+.video-section {
+    position: relative;
+    height: 100vh;
+    overflow: hidden; /* Скрывает видео за пределами секции */
+}
+.news-section {
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+.news-section .section-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-family: 'Oswald', sans-serif;
+  }
+  
+.news-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 10px 0;
+  }
+  
+.news-item {
+    flex: 0 0 300px;
+    scroll-snap-align: center;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: left;
+}
+
+.news-item img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.news-content {
+    padding: 15px;
+}
+
+.news-content h3 {
+    font-size: 1.5rem;
+    margin: 10px 0;
+}
+
+.news-content p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    color: #555;
+}
+  
+.news-content .btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+  
+.news-content .btn:hover {
+    background: #0056b3;
+}
+  
+
+
+@media (max-width: 768px) {
+    .greeting {
+        font-size: 32px; /* Уменьшаем размер текста на меньших экранах */
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+
+    nav a {
+        font-size: 18px; /* Уменьшаем размер текста ссылок на меньших экранах */
+    }
+}
+
+@media (max-width: 480px) {
+    .greeting {
+        font-size: 28px; /* Еще меньше размер текста для маленьких экранов */
+        margin-top: 25px;
+        text-align: center;
+    }
+    
+    .slogan {
+        margin-top: 20px;
+    }
+
+    nav a {
+        font-size: 16px; 
+        padding: 5px;
+    }
+}
+
+.content-section {
+    padding: 40px;
+}
+
+.section-intro {
+    background-color: #f9f9f9; 
+    padding: 60px 20px; 
+    text-align: center;
+}
+
+.section-intro h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.section-intro p {
+    font-size: 18px;
+    color: #666;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+}
+
+.content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.content-item {
+    max-width: 300px;
+    text-align: left;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+}
+
+.content-item img {
+    width: 100%;
+    border-radius: 10px; 
+}
+
+#ostavciuc-dinu{
+    margin-top: 50px;
+}
+
+.content-item #ostavciuc{
+    width: 240px;
+    height: 240px;
+}
+
+.content-item h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.content-item p {
+    font-size: 16px;
+    color: #555;
+}
+
+.btn {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: olivedrab;
+    border: none;
+    border-radius: 5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #333; 
+}
+
+.benefits-section {
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.benefits-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; 
+}
+
+.benefit-item {
+    flex: 1 1 300px;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.benefits-section h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 36px;
+    color: #333;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+.benefit-item i {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.benefit-item h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.benefit-item p {
+    font-size: 16px;
+    color: #666;
+}
+
+.benefits-section .fas {
+    color: #6b8e23;
+}
+
+.hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Reviews */
+.reviews-section {
+    background-color: #f0f0f0;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.reviews-section h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 40px;
+}
+
+.reviews-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    justify-content: center;
+}
+
+.review {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 300px;
+    margin: 0 auto; 
+}
+
+.stars {
+    color: #f2c94c;
+    margin-bottom: 15px;
+}
+
+.stars i {
+    font-size: 18px;
+}
+
+.review h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.review h4 {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.review p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.5;
+}
+
+
+@media (min-width: 768px) {
+    .reviews-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .reviews-container {
+        grid-template-columns: 1fr
+    }
+}
+
+@media (max-width: 768px) {
+    .benefits-container {
+        flex-direction: column; 
+        align-items: center;
+    }
+}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'css/articles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+{% endblock css_link %}
+    
+{% block content %}
+{% include 'navbar.html' %}
+<section class="articles-section">
+    <div class="header-section">
+        <h1>Articole</h1>
+    
+        <form method="get" action="{% url 'articles' %}" class="filter-form">
+            <input type="text" name="q" placeholder="Căutați în articole..." value="{{ query|default:'' }}">
+            
+            <select name="category">
+                <option value="">Toate categoriile</option>
+                <option value="procedura_penala" {% if category == 'procedura_penala' %}selected{% endif %}>Procedura Penală</option>
+                <option value="criminalistica" {% if category == 'criminalistica' %}selected{% endif %}>Criminalistica</option>
+                <option value="alte_stiinte" {% if category == 'alte_stiinte' %}selected{% endif %}>Alte Științe</option>
+            </select>
+            
+            <button type="submit">Filtrați</button>
+        </form>
+    </div>
+    
+
+    <div class="articles-list">
+        {% for article in articles %}
+        <div class="article-item">
+            <h2>{{ article.name }}</h2>
+            <p>{{ article.description }}</p>
+            <p><strong>Autor:</strong> {{ article.author }}</p>
+            <p><strong>Categorie:</strong> {{ article.get_category_display }}</p>
+            <p><strong>Publicat:</strong> {{ article.publication_date }}</p>
+            <a href="{% url 'article_detail' slug=article.slug %}" class="btn">Citește Articol</a>
+        </div>
+        {% empty %}
+        <p>Niciun articol găsit</p>
+        {% endfor %}
+    </div>
+</section>
+<script src="{% static 'js/navbar.js' %}"></script>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<nav class="navigation">
+    <div class="menu-icon" id="menu-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="nav-links" id="nav-links">
+        <a class="navlink" href="{% url 'home' %}">Principală</a>
+        <a class="navlink" href="{% url 'articles' %}">Articole</a>
+        <a class="navlink" href="{% url 'books_list' %}">Cărți</a>
+        {% if user.is_authenticated %}
+            <form action="{% url 'account_logout' %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                <button class="navlink" type="submit">
+                    Ieși din cont
+                </button>
+            </form>
+        {% else %}
+            <a class="navlink" href="{% url 'account_login' %}">Logare</a>
+        {% endif %}
+    </div>
+</nav>
+<script src="{% static 'js/navbar.js' %}"></script>

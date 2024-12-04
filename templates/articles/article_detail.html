@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <title>{{ article.name }}</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.8/pdfobject.min.js"></script>
+    <section class="article-reading-section">
+        <div id="pdf-container" style="width: 100%; height: 100vh; border: 1px solid #ddd;"></div>
+       
+    </section>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const url = "{{ article.file.url }}"; 
+            const pdfContainer = document.getElementById("pdf-container");
+    
+            if (!PDFObject.supportsPDFs) {
+                pdfContainer.innerHTML = `
+                    <p>Browserul dumneavoastră nu suportă vizualizarea integrată a fișierelor PDF. Îl <a href="${url}" download>puteți descărca aici</a>.</p>
+                `;
+            } else {
+                const options = {
+                    width: "100%",
+                    height: "100%",
+                    pdfOpenParams: {
+                        view: "FitH"
+                    }
+                };
+                PDFObject.embed(url, pdfContainer, options);
+            }
+        });
+    </script>
+    
+{% endblock content %}

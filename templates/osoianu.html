@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% block css_link %}
+<link rel="stylesheet" href="{% static 'css/authors-detail.css' %}">
+{% endblock css_link %}
+    
+{% include 'navbar.html' %}
+<div class="container">
+    <div class="row">
+        <div class="image-container">
+            <img src="{% static 'img/osoianu2.png' %}" alt="Osoianu" class="profile-image">
+        </div>
+        <div class="content-container">
+            <h1 class="title">Tudor Osoianu</h1>
+            <h3>Experiența profesională</h3>
+            <ul>
+                <li><strong>Membru al Comisiei de experți</strong>: domeniul atestării în științele juridice și politice (2020 - prezent).</li>
+                <li><strong>Expert</strong> în proiectul „Garanții procedurale în faza urmăririi penale” (2016).</li>
+                <li><strong>Formator</strong> la seminarele de instruire pentru ofițerii de poliție (2012-2013).</li>
+                <li><strong>Membru al Consiliului Științific Consultativ</strong> al Curții Supreme de Justiție (2014-2018).</li>
+            </ul>
+
+            <h3>Educație și formare</h3>
+            <ul>
+                <li><strong>Stagiu de perfecționare</strong> în domeniul dreptului penal și criminalisticii, Universitatea Central Europeană (2014).</li>
+                <li><strong>Diploma de merit</strong> la Academia Națională de Poliție „Ștefan cel Mare” (1999).</li>
+                <li><strong>Atestat de conferențiar universitar</strong> (2012).</li>
+            </ul>
+
+            <h3>Competențe personale</h3>
+            <p><strong>Limbi vorbite:</strong> Română (maternă), Rusă (avansat), Franceză (începător), Engleză (începător).</p>
+
+            <h3>Despre autor</h3>
+            <p>Tudor Osoianu este un expert renumit în domeniul dreptului penal și al criminalisticii, cu o experiență vastă de peste 25 de ani în cercetare, formare profesională și practică juridică. A fost activ în multiple proiecte internaționale și naționale pentru îmbunătățirea reformei justiției în Moldova.</p>
+
+            <p>Este, de asemenea, autor și coautor al mai multor lucrări științifice în domeniul dreptului penal și procesual, precum și un susținător activ al educației juridice în cadrul instituțiilor academice și profesionale.</p>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/navbar.js' %}"></script>
+{% endblock content %}

@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <section class="video-section">
+        <video autoplay muted loop id="myVideo">
+            <source src="{% static 'img/bg-video.mp4' %}" type="video/mp4">
+        </video>
+        {% include 'navbar.html' %}
+        <h3 class="greeting typing"></h3>
+        <p class="slogan">Claritate în drept, încredere în acțiune</p>
+    </section>
+
+    <section class="news-section hidden">
+        <h2 class="section-title">Ultimele Știri</h2>
+        <div class="news-slider">
+          {% for news in news_list %}
+          <div class="news-item">
+            <img src="{{ news.image.url }}" alt="{{ news.title }}">
+            <div class="news-content">
+              <h3>{{ news.title }}</h3>
+              <p>{{ news.content|truncatewords:20 }}</p>
+              <!-- <a href="{% url 'news_detail' slug=news.slug %}" class="btn">Citește mai mult</a> -->
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      
+    <section class="section-intro">
+      <h2 class="hidden">Întâlniți Autorii</h2>
+      <p class="hidden">Misiunea noastră este să oferim cărți juridice aprofundate și pline de înțeles, care vă ajută să navigați cu ușurință prin complexitățile legii. Explorați experiența noastră și aflați mai multe despre activitatea pe care o desfășurăm.</p>
+    
+      <div class="content">
+          <div class="content-item" id="ostavciuc-dinu">
+              <img src="{% static 'img/ostavciuc.png' %}" id="ostavciuc" alt="Author 1">
+              <h3>Dinu Ostavciuc</h3>
+              <p>
+                Dinu Ostavciuc are peste 20 de ani de experiență în drept public și a scris mai multe cărți pe acest subiect.</p>
+              <a href="{% url 'ostavciuc' %}" class="btn">Citește mai mult</a>
+          </div>
+          <div class="content-item" id="osoianu">
+              <img src="{% static 'img/osoianu.png' %}" alt="Author 2">
+              <h3>Tudor Osoianu</h3>
+              <p>
+                Tudor Osoianu se speciacilizează în procedura penala și a fost recunoscut pentru activitatea sa în domeniul educației juridice.</p>
+              <a href="{% url 'osoianu' %}" class="btn">Citește mai mult</a>
+          </div>
+      </div>
+    </section>
+    <section class="benefits-section">
+      <h2>De ce să ne alegi?</h2>
+      <div class="benefits-container">
+          <div class="benefit-item hidden">
+              <i class="fas fa-check-circle"></i>
+              <h3>Calitate Superioară</h3>
+              <p>Cărțile noastre sunt scrise de experți renumiți în domeniul dreptului, garantând informații precise și relevante</p>
+          </div>
+          <div class="benefit-item hidden">
+              <i class="fas fa-user-graduate"></i> 
+              <h3>Experiență de Peste 25 de Ani</h3>
+              <p>Avem mai bine de două decenii de experiență în publicarea materialelor științifice de calitate</p>
+          </div>
+          <div class="benefit-item hidden">
+              <i class="fas fa-file-pdf"></i>
+              <h3>Acces Ușor și Convenabil</h3>
+              <p>Cărțile noastre sunt disponibile online în format PDF, accesibile oricând și oriunde</p>
+          </div>
+      </div>
+  </section>
+    
+    <section class="reviews-section">
+      <h2 class="hidden">Ce spun cititorii noștri:</h2>
+      <div class="reviews-container">
+        <div class="hidden review">
+            <h3>Rusu Vitalie</h3>
+            <h4>Profesor</h4>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p>"Această carte mi-a oferit o perspectivă profundă asupra practicilor juridice moderne. Este o lectură obligatorie pentru oricine din domeniu."</p>
+        </div>
+        <div class="hidden review">
+            <h3>Viorel Berliba</h3>
+            <h4>Avocat</h4>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p>"Un ghid cuprinzător care acoperă elementele esențiale ale dreptului public. A fost o resursă valoroasă în practica mea."</p>
+        </div>
+        <div class="hidden review">
+            <h3>Nichita Grîu</h3>
+            <h4>Student</h4>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p>"Fiind nou în domeniul juridic, am găsit această carte extrem de utilă pentru a înțelege elementele fundamentale."</p>
+        </div>
+        <div class="hidden review">
+            <h3>Ion Covalciuc</h3>
+            <h4>Procuror</h4>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p>"Clară, interesantă și incredibil de informativă. O recomand cu certitudine atât studenților, cât și profesioniștilor."</p>
+        </div>
+        <div class="hidden review">
+            <h3>Ion Chirtoacă</h3>
+            <h4>Judecător</h4>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p>"Autorii au făcut o treabă excelentă simplificând conceptele juridice complexe fără a sacrifica profunzimea."</p>
+        </div>
+        <div class="hidden review">
+            <h3>Cătălin Andruș</h3>
+            <h4>Director CNAI România</h4>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+            </div>
+            <p>"Informațiile și exemplele din lumea reală din această carte sunt inestimabile pentru oricine implicat în cercetarea juridică."</p>
+        </div>
+        
+  </section>
+  <script src="{% static 'js/index.js' %}"></script>  
+  <script src="{% static 'js/navbar.js' %}"></script>  
+  
+{% endblock content %}
+  
