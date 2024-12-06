@@ -3,11 +3,13 @@ from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 'django-insecure-hzg02yjr#za$#-4&0ahl2uegg7%0o2l^wfn*)8bwa+yj&lfkd'
 
 DEBUG = True
 
 ALLOWED_HOSTS = ['46.202.154.76', 'penitadreptului.md', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://penitadreptului.md', 'https://www.penitadreptului.md']
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,7 +52,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'penita.urls'
 
-SITE_ID = 3
+SITE_ID = 1
 
 TEMPLATES = [
     {
@@ -111,9 +113,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "main/static",
+]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
