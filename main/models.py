@@ -4,7 +4,7 @@ from django.utils.text import slugify
 class News(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
-    image = models.ImageField(upload_to='mdeia/news', height_field=None, width_field=None, max_length=None)
+    image = models.ImageField(upload_to='news/', height_field=None, width_field=None, max_length=None)
     slug = models.SlugField()
 
     def __str__(self):

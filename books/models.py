@@ -15,7 +15,6 @@ class Subscription(models.Model):
     end_date = models.DateTimeField()
 
     def save(self, *args, **kwargs):
-        # Устанавливаем дату окончания в зависимости от выбранного плана
         if not self.end_date:
             if self.plan == 'monthly':
                 self.end_date = self.start_date + timedelta(days=30)
