@@ -54,34 +54,64 @@
     height: 100vh;
     overflow: hidden; /* Скрывает видео за пределами секции */
 }
+ 
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Основные стили для секции новостей */
 .news-section {
     padding: 50px 20px;
-    background-color: #f9f9f9;
+    background-color: #f4f4f9;
     text-align: center;
-  }
-  
+}
+
 .news-section .section-title {
     font-size: 2.5rem;
     margin-bottom: 20px;
     font-family: 'Oswald', sans-serif;
-  }
-  
+    color: #4a4a9f;
+    position: relative;
+}
+
+.news-section .section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: #4a4a9f;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+/* Стили слайдера новостей */
 .news-slider {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: 20px;
-    padding: 10px 0;
-  }
-  
+    padding: 20px 0;
+}
+
 .news-item {
     flex: 0 0 300px;
     scroll-snap-align: center;
-    background: #fff;
+    background: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .news-item img {
@@ -97,28 +127,53 @@
 .news-content h3 {
     font-size: 1.5rem;
     margin: 10px 0;
+    color: #4a4a9f;
+    font-weight: bold;
 }
 
 .news-content p {
     font-size: 1rem;
     margin-bottom: 10px;
-    color: #555;
+    color: #666;
 }
-  
+
 .news-content .btn {
     display: inline-block;
     padding: 10px 15px;
-    background: #007bff;
-    color: #fff;
+    background: #4a4a9f;
+    color: #ffffff;
     text-decoration: none;
     border-radius: 5px;
     transition: background 0.3s ease;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: bold;
 }
-  
+
 .news-content .btn:hover {
-    background: #0056b3;
+    background: #333;
 }
-  
+
+/* Адаптивность для секции новостей */
+@media (max-width: 768px) {
+    .news-item {
+        flex: 0 0 100%;
+    }
+
+    .news-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .news-content p {
+        font-size: 0.9rem;
+    }
+
+    .news-content .btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+}
+
 
 
 @media (max-width: 768px) {

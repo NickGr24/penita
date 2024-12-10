@@ -42,29 +42,21 @@ class PromoCode(models.Model):
         return self.code
 
 class Book(models.Model):
-    
     title = models.CharField(max_length=200)
     description = models.TextField()
-    authors = (('Tudor Osoianu', 'Tudor Osoianu'),
-               ('Dinu Ostavciuc', 'Dinu Ostavciuc'),
-               ('Tudor Osoianu, Dinu Ostavciuc', 'Tudor Osoianu, Dinu Ostavciuc'))
-    CATEGORY_CHOICES = (
-        ('procedura_penala', 'Procedura Penală'),
-        ('criminalistica', 'Criminalistica'),
-        ('alte_stiinte', 'Alte Științe'),
+    authors = (
+        ('Tudor Osoianu', 'Tudor Osoianu'),
+        ('Dinu Ostavciuc', 'Dinu Ostavciuc'),
+        ('Tudor Osoianu, Dinu Ostavciuc', 'Tudor Osoianu, Dinu Ostavciuc')
     )
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default="Procedura Penala")
     author = models.CharField(max_length=200, choices=authors)
-    file = models.FileField(upload_to='files/books', default=None)
-    slug = models.SlugField(unique=True)
-    def __str__(self):
-        return self.title
-    
+    file = models.FileField(upload_to='books/')
+    slug = models.SlugField(unique=True, blank=True)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
-    class Meta:
-        verbose_name = 'Carte'
-        verbose_name_plural = 'Cărți'
+    def __str__(self):
+        return self.title

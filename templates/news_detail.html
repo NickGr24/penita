@@ -1,8 +1,23 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'css/news_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+{% endblock css_link %}
+    
+
 {% block content %}
+{% include 'navbar.html' %}
 <section class="news-detail">
-    <h1>{{ news.title }}</h1>
-    <img src="{{ news.image.url }}" alt="{{ news.title }}">
-    <p>{{ news.content }}</p>
+    <div class="news-header">
+        <h1>{{ news.title }}</h1>
+    </div>
+    <div class="news-image">
+        <img src="{{ news.image.url }}" alt="{{ news.title }}">
+    </div>
+    <div class="news-content">
+        <p>{{ news.content }}</p>
+    </div>
 </section>
+<script src="{% static 'js/navbar.js' %}"></script>  
 {% endblock %}

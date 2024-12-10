@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'css/book_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+{% endblock css_link %}
+
+{% block content %}
+<title>{{ book.title }}</title>
+{% include 'navbar.html' %}
+
+<section class="book-detail-section">
+    <div class="book-content">
+        <div class="pdf-viewer-container">
+            <object 
+                data="{{ book.file.url }}" 
+                type="application/pdf" 
+                width="100%" 
+                height="800px">
+                <p>Browserul dumneavoastră nu suportă vizualizarea integrată a fișierelor PDF. </p> 
+                <a href="{{ book.file.url }}" target="_blank">Descărcați aici</a>.
+            </object>
+        </div>
+    </div>
+</section>
+
+<script src="{% static 'js/navbar.js' %}"></script>
+{% endblock content %}

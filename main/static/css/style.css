@@ -108,7 +108,7 @@
 .news-content .btn {
     display: inline-block;
     padding: 10px 15px;
-    background: #007bff;
+    background: olivedrab;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
@@ -116,7 +116,7 @@
 }
   
 .news-content .btn:hover {
-    background: #0056b3;
+    background: #333;
 }
   
 

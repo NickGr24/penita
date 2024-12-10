@@ -21,7 +21,7 @@
             <div class="news-content">
               <h3>{{ news.title }}</h3>
               <p>{{ news.content|truncatewords:20 }}</p>
-              <!-- <a href="{% url 'news_detail' slug=news.slug %}" class="btn">Citește mai mult</a> -->
+              <a href="{% url 'news_detail' slug=news.slug %}" class="btn">Citește mai mult</a>
             </div>
           </div>
           {% endfor %}
