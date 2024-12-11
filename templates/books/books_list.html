@@ -4,23 +4,19 @@
 {% block css_link %}
     <link rel="stylesheet" href="{% static 'css/books_list.css' %}">
 {% endblock css_link %}
-    
 
 {% block content %}
-
 {% include 'navbar.html' %}
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Toate Cărți</h1>
-    <div class="row">
+<div class="books-container">
+    <h1 class="page-title">Toate Cărți</h1>
+    <div class="books-grid">
         {% for book in books %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ book.title }}</h5>
-                    <p class="card-text">{{ book.description|truncatewords:20 }}</p>
-                    <p class="card-text"><small class="text-muted">Autor: {{ book.author }}</small></p>
-                    <a href="{% url 'book_detail' slug=book.slug %}" class="btn btn-primary">Citește</a>
-                </div>
+        <div class="book-card">
+            <div class="book-card-body">
+                <h5 class="book-title">{{ book.title }}</h5>
+                <p class="book-description">{{ book.description|truncatewords:20 }}</p>
+                <p class="book-author"><small>Autor: {{ book.author }}</small></p>
+                <a href="{% url 'book_detail' slug=book.slug %}" class="read-more-btn">Citește</a>
             </div>
         </div>
         {% endfor %}
