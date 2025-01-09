@@ -52,28 +52,28 @@
 .video-section {
     position: relative;
     height: 100vh;
-    overflow: hidden; /* Скрывает видео за пределами секции */
+    overflow: hidden; 
 }
 .news-section {
     padding: 50px 20px;
     background-color: #f9f9f9;
     text-align: center;
-  }
-  
+}
+
 .news-section .section-title {
     font-size: 2.5rem;
     margin-bottom: 20px;
     font-family: 'Oswald', sans-serif;
-  }
-  
+}
+
 .news-slider {
     display: flex;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: 20px;
     padding: 10px 0;
-  }
-  
+}
+
 .news-item {
     flex: 0 0 300px;
     scroll-snap-align: center;
@@ -81,6 +81,8 @@
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    display: flex; /* Добавляем flexbox */
+    flex-direction: column; /* Выравниваем содержимое вертикально */
     text-align: left;
 }
 
@@ -91,6 +93,10 @@
 }
 
 .news-content {
+    display: flex; /* Flexbox для выравнивания содержимого */
+    flex-direction: column; /* Содержимое идет сверху вниз */
+    flex-grow: 1; /* Заставляем растягиваться, чтобы кнопка была внизу */
+    justify-content: space-between; /* Разделяем заголовок и кнопку */
     padding: 15px;
 }
 
@@ -104,17 +110,18 @@
     margin-bottom: 10px;
     color: #555;
 }
-  
+
 .news-content .btn {
-    display: inline-block;
-    padding: 10px 15px;
     background: olivedrab;
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
+    text-align: center;
+    padding: 10px 15px;
+    width: 100%; /* Кнопка занимает всю ширину карточки */
     transition: background 0.3s ease;
 }
-  
+
 .news-content .btn:hover {
     background: #333;
 }
