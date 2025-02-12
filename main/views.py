@@ -36,3 +36,6 @@ def login(request):
 
 def contacts(request):
     return render(request, 'contacts.html')
+
+def terms_and_conditions(request):
+    return render(request, 'policies/terms.html')
