@@ -33,7 +33,7 @@
             <p>{{ article.description }}</p>
             <p><strong>Autor:</strong> {{ article.author }}</p>
             <p><strong>Categorie:</strong> {{ article.get_category_display }}</p>
-            <p><strong>Publicat:</strong> {{ article.publication_date }}</p>
+	    <p><strong>Publicat:</strong> {{ article.publication_date }}</p>
             <a href="{% url 'article_detail' slug=article.slug %}" class="btn">Citește Articol</a>
         </div>
         {% empty %}

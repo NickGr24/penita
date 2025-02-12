@@ -10,7 +10,8 @@ class Article(models.Model):
     authors = (
         ('Tudor Osoianu', 'Tudor Osoianu'),
         ('Dinu Ostavciuc', 'Dinu Ostavciuc'),
-        ('Tudor Osoianu, Dinu Ostavciuc', 'Tudor Osoianu, Dinu Ostavciuc')
+        ('Tudor Osoianu, Dinu Ostavciuc', 'Tudor Osoianu, Dinu Ostavciuc'),
+	('Tudor Osoianu, Dumitru Calendari', 'Tudor Osoianu, Dumitru Calendari'),
     )
     name = models.CharField(max_length=256)
     description = models.TextField(max_length=500, blank=True, null=True)

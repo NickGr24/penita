@@ -1,9 +1,7 @@
 from django.contrib import admin
-from .models import Book, Subscription, PromoCode
+from .models import Book
 
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
-admin.site.register(Subscription)
-admin.site.register(PromoCode)
