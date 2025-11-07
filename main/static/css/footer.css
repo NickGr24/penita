@@ -16,7 +16,12 @@ body {
     padding: 30px 0;
     text-align: center;
     border-top: 3px solid #3498db;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    left: 0;
 }
+
 
 .footer-content {
     max-width: 1200px;
@@ -75,6 +80,7 @@ body {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     color: rgba(255, 255, 255, 0.8);
     font-size: 0.9rem;
+    color: #007bff;
 }
 
 @media (max-width: 768px) {
@@ -92,3 +98,15 @@ body {
         height: 35px;
     }
 }
+
+@media (max-width: 480px) {
+    .payment-logos img {
+        height: 30px;
+        margin: 5px;
+    }
+
+    .footer-links a {
+        font-size: 0.9rem;
+    }
+}
+
