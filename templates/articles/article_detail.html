@@ -1,35 +1,498 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block css_link %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    
+    .article-container {
+        max-width: 100%;
+        margin: 0 auto;
+        background: #fff;
+        min-height: 100vh;
+    }
+    
+    .article-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+    }
+    
+    .article-header h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        font-family: 'Oswald', sans-serif;
+    }
+    
+    .article-meta {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 0.95rem;
+        opacity: 0.95;
+    }
+    
+    .article-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    /* PDF Viewer Controls */
+    .pdf-controls {
+        background: #f8f9fa;
+        padding: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        border-bottom: 2px solid #dee2e6;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    .pdf-controls button {
+        padding: 8px 15px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        transition: background 0.3s;
+    }
+    
+    .pdf-controls button:hover {
+        background: #0056b3;
+    }
+    
+    .pdf-controls button:disabled {
+        background: #6c757d;
+        cursor: not-allowed;
+    }
+    
+    .page-info {
+        font-weight: bold;
+        color: #333;
+        padding: 5px 10px;
+        background: white;
+        border-radius: 5px;
+    }
+    
+    .zoom-controls {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+    
+    .zoom-controls select {
+        padding: 6px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        background: white;
+    }
+    
+    /* PDF Container */
+    .pdf-viewer-container {
+        width: 100%;
+        background: #525659;
+        position: relative;
+        overflow: auto;
+        height: calc(100vh - 250px);
+    }
+    
+    #pdf-canvas-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 20px;
+    }
+    
+    .pdf-page {
+        background: white;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        margin-bottom: 20px;
+    }
+    
+    canvas {
+        display: block;
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Loading indicator */
+    .loading {
+        text-align: center;
+        padding: 50px;
+        color: white;
+        font-size: 1.2rem;
+    }
+    
+    .loading-spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #007bff;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+        .article-header {
+            padding: 20px 15px;
+        }
+        
+        .article-header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .article-meta {
+            font-size: 0.85rem;
+            gap: 10px;
+        }
+        
+        .pdf-controls {
+            padding: 10px;
+            gap: 10px;
+        }
+        
+        .pdf-controls button {
+            padding: 6px 10px;
+            font-size: 12px;
+        }
+        
+        .pdf-viewer-container {
+            height: calc(100vh - 200px);
+        }
+        
+        #pdf-canvas-container {
+            padding: 10px;
+        }
+        
+        .zoom-controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+    
+    /* Error message */
+    .error-message {
+        background: #f8d7da;
+        color: #721c24;
+        padding: 20px;
+        margin: 20px;
+        border-radius: 5px;
+        border: 1px solid #f5c6cb;
+    }
+    
+    /* Touch gesture hint for mobile */
+    .gesture-hint {
+        display: none;
+        background: #d4edda;
+        color: #155724;
+        padding: 10px;
+        text-align: center;
+        border-bottom: 1px solid #c3e6cb;
+    }
+    
+    @media (max-width: 768px) {
+        .gesture-hint {
+            display: block;
+        }
+    }
+</style>
+{% endblock css_link %}
+
 {% block content %}
-    <title>{{ article.name }}</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.8/pdfobject.min.js"></script>
-    <section class="article-reading-section">
-        <div id="pdf-container" style="width: 100%; height: 100vh; border: 1px solid #ddd;"></div>
-       
-    </section>
+{% include 'navbar.html' %}
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const url = "{{ article.file.url }}"; 
-            const pdfContainer = document.getElementById("pdf-container");
+<div class="article-container">
+    <div class="article-header">
+        <h1>{{ article.name }}</h1>
+        <div class="article-meta">
+            <span><i class="fas fa-user"></i> {{ article.author }}</span>
+            <span><i class="fas fa-calendar"></i> {{ article.publication_date|date:"d M Y" }}</span>
+            {% if article.category %}
+            <span><i class="fas fa-folder"></i> {{ article.get_category_display }}</span>
+            {% endif %}
+        </div>
+    </div>
     
-            if (!PDFObject.supportsPDFs) {
-                pdfContainer.innerHTML = `
-                    <p>Browserul dumneavoastră nu suportă vizualizarea integrată a fișierelor PDF. Îl <a href="${url}" download>puteți descărca aici</a>.</p>
-                `;
+    <div class="gesture-hint">
+        <i class="fas fa-hand-pointer"></i> Folosiți gesture-urile de zoom pentru o vizualizare mai bună
+    </div>
+    
+    <div class="pdf-controls">
+        <button id="prev-page" onclick="previousPage()">
+            <i class="fas fa-chevron-left"></i> Anterior
+        </button>
+        
+        <span class="page-info">
+            Pagina <span id="current-page">1</span> din <span id="total-pages">-</span>
+        </span>
+        
+        <button id="next-page" onclick="nextPage()">
+            Următor <i class="fas fa-chevron-right"></i>
+        </button>
+        
+        <div class="zoom-controls">
+            <button onclick="zoomOut()">
+                <i class="fas fa-search-minus"></i>
+            </button>
+            <select id="zoom-level" onchange="setZoom(this.value)">
+                <option value="0.5">50%</option>
+                <option value="0.75">75%</option>
+                <option value="1" selected>100%</option>
+                <option value="1.25">125%</option>
+                <option value="1.5">150%</option>
+                <option value="2">200%</option>
+                <option value="auto">Auto</option>
+                <option value="page-width">Lățime pagină</option>
+            </select>
+            <button onclick="zoomIn()">
+                <i class="fas fa-search-plus"></i>
+            </button>
+        </div>
+        
+        <button onclick="downloadPDF()">
+            <i class="fas fa-download"></i> Descarcă
+        </button>
+    </div>
+    
+    <div class="pdf-viewer-container">
+        <div id="pdf-canvas-container">
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                Se încarcă documentul...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    // Configurare PDF.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1;
+    let currentZoomMode = '1';
+    
+    const pdfUrl = "{{ article.file.url }}";
+    const container = document.getElementById('pdf-canvas-container');
+    
+    // Detectare dispozitiv mobil
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Încărcare PDF
+    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+        pdfDoc = pdf;
+        document.getElementById('total-pages').textContent = pdf.numPages;
+        
+        // Clear loading message
+        container.innerHTML = '';
+        
+        // Render first page
+        renderPage(pageNum);
+        
+        // Enable navigation buttons
+        updateNavButtons();
+        
+        // Set initial scale for mobile
+        if (isMobile) {
+            setZoom('page-width');
+        }
+    }).catch(function(error) {
+        container.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle"></i> Eroare la încărcarea documentului: ' + error.message + '</div>';
+        console.error('Error loading PDF:', error);
+    });
+    
+    function renderPage(num) {
+        pageRendering = true;
+        
+        pdfDoc.getPage(num).then(function(page) {
+            // Create canvas for this page
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Calculate scale
+            let viewport;
+            if (currentZoomMode === 'auto' || currentZoomMode === 'page-width') {
+                const containerWidth = container.clientWidth - 40; // Padding
+                const tempViewport = page.getViewport({ scale: 1 });
+                const desiredScale = currentZoomMode === 'page-width' 
+                    ? containerWidth / tempViewport.width
+                    : Math.min(containerWidth / tempViewport.width, (window.innerHeight - 300) / tempViewport.height);
+                viewport = page.getViewport({ scale: desiredScale });
+                scale = desiredScale;
             } else {
-                const options = {
-                    width: "100%",
-                    height: "100%",
-                    pdfOpenParams: {
-                        view: "FitH"
-                    }
-                };
-                PDFObject.embed(url, pdfContainer, options);
+                viewport = page.getViewport({ scale: scale });
             }
+            
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            // Render PDF page into canvas context
+            const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            
+            const renderTask = page.render(renderContext);
+            
+            renderTask.promise.then(function() {
+                pageRendering = false;
+                
+                // Clear container and add new canvas
+                container.innerHTML = '';
+                const pageDiv = document.createElement('div');
+                pageDiv.className = 'pdf-page';
+                pageDiv.appendChild(canvas);
+                container.appendChild(pageDiv);
+                
+                // Update page counter
+                document.getElementById('current-page').textContent = num;
+                
+                if (pageNumPending !== null) {
+                    renderPage(pageNumPending);
+                    pageNumPending = null;
+                }
+            });
         });
-    </script>
+    }
+    
+    function queueRenderPage(num) {
+        if (pageRendering) {
+            pageNumPending = num;
+        } else {
+            renderPage(num);
+        }
+    }
+    
+    function previousPage() {
+        if (pageNum <= 1) {
+            return;
+        }
+        pageNum--;
+        queueRenderPage(pageNum);
+        updateNavButtons();
+    }
+    
+    function nextPage() {
+        if (pageNum >= pdfDoc.numPages) {
+            return;
+        }
+        pageNum++;
+        queueRenderPage(pageNum);
+        updateNavButtons();
+    }
+    
+    function updateNavButtons() {
+        document.getElementById('prev-page').disabled = pageNum <= 1;
+        document.getElementById('next-page').disabled = pageNum >= pdfDoc.numPages;
+    }
+    
+    function setZoom(value) {
+        currentZoomMode = value;
+        if (value === 'auto' || value === 'page-width') {
+            // Will be calculated in renderPage
+        } else {
+            scale = parseFloat(value);
+        }
+        queueRenderPage(pageNum);
+    }
+    
+    function zoomIn() {
+        if (scale < 3) {
+            scale += 0.25;
+            currentZoomMode = scale.toString();
+            document.getElementById('zoom-level').value = scale.toString();
+            queueRenderPage(pageNum);
+        }
+    }
+    
+    function zoomOut() {
+        if (scale > 0.25) {
+            scale -= 0.25;
+            currentZoomMode = scale.toString();
+            document.getElementById('zoom-level').value = scale.toString();
+            queueRenderPage(pageNum);
+        }
+    }
+    
+    function downloadPDF() {
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = '{{ article.name }}.pdf';
+        link.click();
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            previousPage();
+        } else if (e.key === 'ArrowRight') {
+            nextPage();
+        }
+    });
+    
+    // Touch gestures for mobile
+    if (isMobile) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        container.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        container.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextPage();
+            }
+            if (touchEndX > touchStartX + 50) {
+                previousPage();
+            }
+        }
+    }
+    
+    // Responsive resize
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            if (currentZoomMode === 'auto' || currentZoomMode === 'page-width') {
+                queueRenderPage(pageNum);
+            }
+        }, 300);
+    });
+</script>
 
-    <script src="{% static 'js/navbar.js' %}"></script>
 {% endblock content %}

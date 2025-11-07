@@ -3,28 +3,66 @@
 
 {% block css_link %}
     <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 {% endblock css_link %}
     
 
 {% block content %}
 {% load socialaccount %}
-<div class="form-container">
-    <h2>Logare</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="id_login">Nume de utilizator:</label>
-            {{ form.login }}
+<div class="login-wrapper">
+    <div class="login-container">
+        <div class="login-header">
+            <h2>Bun venit înapoi!</h2>
+            <p>Conectează-te la contul tău</p>
         </div>
-        <div class="form-group">
-            <label for="id_password">Parolă:</label>
-            {{ form.password }}
+        
+        <form method="POST" class="login-form">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_login">
+                    <i class="fas fa-user"></i>
+                    Nume de utilizator
+                </label>
+                {{ form.login }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password">
+                    <i class="fas fa-lock"></i>
+                    Parolă
+                </label>
+                {{ form.password }}
+            </div>
+            
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    <span>Ține-mă minte</span>
+                </label>
+                <a href="#" class="forgot-password">Ai uitat parola?</a>
+            </div>
+            
+            <button type="submit" class="btn-login">
+                <span>Intră în cont</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            
+            <div class="divider">
+                <span>sau</span>
+            </div>
+            
+            <a href="{% provider_login_url 'google' %}" class="btn-google">
+                <i class="fa-brands fa-google"></i>
+                <span>Continuă cu Google</span>
+            </a>
+        </form>
+        
+        <div class="login-footer">
+            <p>Nu ai cont? <a href="{% url 'account_signup' %}">Înregistrează-te</a></p>
         </div>
-        <button type="submit" class="btn btn-primary">Intră în cont</button>
-        <a href="{% provider_login_url 'google' %}" class="login-google">
-            <i class="fa-brands fa-google"></i>
-        </a>
-    </form>
-    
+    </div>
 </div>
 {% endblock content %}

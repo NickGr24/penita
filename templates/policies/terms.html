@@ -1,35 +1,176 @@
-<!DOCTYPE html>
-<html lang="ro">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termeni și Condiții</title>
-    <link rel="stylesheet" href="/static/css/policies.css">
-</head>
-<body>
-    <header>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_link %}
+<style>
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .terms-container {
+        flex: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background-color: #fff;
+    }
+    
+    .terms-header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding-bottom: 30px;
+        border-bottom: 3px solid #007bff;
+    }
+    
+    .terms-header h1 {
+        color: #333;
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-family: 'Oswald', sans-serif;
+    }
+    
+    .terms-header .subtitle {
+        color: #666;
+        font-size: 1.1rem;
+    }
+    
+    .terms-content {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .terms-section {
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .terms-section:last-child {
+        border-bottom: none;
+    }
+    
+    .terms-section h2 {
+        color: #007bff;
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+    
+    .terms-section h2::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 24px;
+        background-color: #007bff;
+        margin-right: 12px;
+    }
+    
+    .terms-section p {
+        color: #555;
+        line-height: 1.8;
+        font-size: 1.05rem;
+        margin-left: 16px;
+        text-align: justify;
+    }
+    
+    .site-footer {
+        margin-top: auto;
+        background-color: #2c3e50;
+        color: white;
+        padding: 30px 0;
+    }
+    
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+        color: #3498db;
+    }
+    
+    @media (max-width: 768px) {
+        .terms-header h1 {
+            font-size: 2rem;
+        }
+        
+        .terms-content {
+            padding: 20px;
+        }
+        
+        .terms-section h2 {
+            font-size: 1.3rem;
+        }
+        
+        .terms-section p {
+            font-size: 1rem;
+            margin-left: 8px;
+        }
+    }
+</style>
+{% endblock css_link %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="terms-container">
+    <div class="terms-header">
         <h1>Termeni și Condiții</h1>
-    </header>
-    <main>
-        <section>
+        <p class="subtitle">Ultima actualizare: Ianuarie 2025</p>
+    </div>
+    
+    <div class="terms-content">
+        <div class="terms-section">
             <h2>1. Introducere</h2>
-            <p>Acest site web este operat de Penița Dreptății. Accesând sau utilizând site-ul, acceptați termenii și condițiile prezentate mai jos.</p>
-        </section>
-        <section>
+            <p>Acest site web este operat de Penița Dreptății. Accesând sau utilizând site-ul, acceptați termenii și condițiile prezentate mai jos. Vă rugăm să citiți cu atenție acești termeni înainte de a utiliza serviciile noastre.</p>
+        </div>
+        
+        <div class="terms-section">
             <h2>2. Obligațiile Utilizatorului</h2>
-            <p>Utilizatorul este obligat să utilizeze site-ul într-un mod legal și etic. Este interzisă postarea conținutului care este ofensator, fals sau inadecvat.</p>
-        </section>
-        <section>
+            <p>Utilizatorul este obligat să utilizeze site-ul într-un mod legal și etic. Este interzisă postarea conținutului care este ofensator, fals sau inadecvat. De asemenea, utilizatorii trebuie să respecte drepturile de autor și să nu încalce confidențialitatea altor persoane.</p>
+        </div>
+        
+        <div class="terms-section">
             <h2>3. Proprietatea Intelectuală</h2>
-            <p>Toate drepturile asupra textelor, imaginilor și codului sursă aparțin Peniței Dreptății. Utilizarea materialelor este permisă doar cu consimțământul scris al deținătorului drepturilor.</p>
-        </section>
-        <section>
+            <p>Toate drepturile asupra textelor, imaginilor și codului sursă aparțin Peniței Dreptății. Utilizarea materialelor este permisă doar cu consimțământul scris al deținătorului drepturilor. Reproducerea neautorizată a conținutului poate duce la acțiuni legale.</p>
+        </div>
+        
+        <div class="terms-section">
             <h2>4. Limitarea Răspunderii</h2>
-            <p>Penița Dreptății nu este responsabilă pentru erori tehnice sau pierderi de date care pot apărea în urma utilizării site-ului.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Penița Dreptății. Toate drepturile rezervate.</p>
-    </footer>
-</body>
-</html>
+            <p>Penița Dreptății nu este responsabilă pentru erori tehnice sau pierderi de date care pot apărea în urma utilizării site-ului. Utilizatorii sunt încurajați să facă backup-uri regulate ale datelor lor importante.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>5. Modificări ale Termenilor</h2>
+            <p>Ne rezervăm dreptul de a modifica acești termeni și condiții în orice moment. Modificările vor intra în vigoare imediat după publicarea lor pe site. Utilizarea continuă a site-ului după aceste modificări constituie acceptarea termenilor actualizați.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>6. Contact</h2>
+            <p>Pentru orice întrebări sau nelămuriri cu privire la acești termeni și condiții, vă rugăm să ne contactați folosind informațiile disponibile pe pagina de Contact.</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

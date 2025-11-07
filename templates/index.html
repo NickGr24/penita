@@ -17,7 +17,11 @@
         <div class="news-slider">
           {% for news in news_list %}
           <div class="news-item">
+            {% if news.image %}
             <img src="{{ news.image.url }}" alt="{{ news.title }}">
+            {% else %}
+            <img src="{% static 'img/news-placeholder.jpg' %}" alt="{{ news.title }}">
+            {% endif %}
             <div class="news-content">
               <h3>{{ news.title }}</h3>
               <p>{{ news.content|truncatewords:20 }}</p>

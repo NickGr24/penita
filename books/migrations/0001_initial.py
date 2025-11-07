@@ -42,30 +42,6 @@ class Migration(migrations.Migration):
                 ('start_date', models.DateTimeField(default=django.utils.timezone.now)),
                 ('end_date', models.DateTimeField()),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='subscription', to=settings.AUTH_USER_MODEL)),
-
-                ('file', models.FileField(default=None, upload_to='files/books')),
-                ('slug', models.SlugField(unique=True)),
-
-            ],
-        ),
-        migrations.CreateModel(
-            name='PromoCode',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=20, unique=True)),
-                ('discount_percentage', models.PositiveIntegerField()),
-                ('is_active', models.BooleanField(default=True)),
-                ('expiration_date', models.DateTimeField()),
-            ],
-        ),
-        migrations.CreateModel(
-            name='Subscription',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('plan', models.CharField(choices=[('monthly', 'Monthly'), ('yearly', 'Yearly')], max_length=10)),
-                ('start_date', models.DateTimeField(default=django.utils.timezone.now)),
-                ('end_date', models.DateTimeField()),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='subscription', to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]
