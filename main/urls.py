@@ -9,5 +9,6 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('tudor-osoianu/', views.osoianu, name='osoianu'),
     path('dinu-ostavciuc/', views.ostavciuc, name='ostavciuc'), 
-    path('terms-and-conditions/', views.terms_and_conditions, name='terms_and_conditions'),  
+    path('terms-and-conditions/', views.terms_and_conditions, name='terms_and_conditions'),
+    path('privacy-policy/', views.privacy_policy, name='privacy_policy'),  
 ]

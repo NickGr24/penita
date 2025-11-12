@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css_link %}
+<style>
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .terms-container {
+        flex: 1;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+        background-color: #fff;
+    }
+    
+    .terms-header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding-bottom: 30px;
+        border-bottom: 3px solid #007bff;
+    }
+    
+    .terms-header h1 {
+        color: #333;
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        font-family: 'Oswald', sans-serif;
+    }
+    
+    .terms-header .subtitle {
+        color: #666;
+        font-size: 1.1rem;
+    }
+    
+    .terms-content {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        padding: 40px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .terms-section {
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .terms-section:last-child {
+        border-bottom: none;
+    }
+    
+    .terms-section h2 {
+        color: #007bff;
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+    
+    .terms-section h2::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 24px;
+        background-color: #007bff;
+        margin-right: 12px;
+    }
+    
+    .terms-section p, .terms-section ul {
+        color: #555;
+        line-height: 1.8;
+        font-size: 1.05rem;
+        margin-left: 16px;
+        text-align: justify;
+    }
+    
+    .terms-section ul {
+        list-style-position: inside;
+        padding-left: 20px;
+    }
+    
+    .terms-section ul li {
+        margin-bottom: 8px;
+    }
+    
+    .site-footer {
+        margin-top: auto;
+        background-color: #2c3e50;
+        color: white;
+        padding: 30px 0;
+    }
+    
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+        color: #3498db;
+    }
+    
+    @media (max-width: 768px) {
+        .terms-header h1 {
+            font-size: 2rem;
+        }
+        
+        .terms-content {
+            padding: 20px;
+        }
+        
+        .terms-section h2 {
+            font-size: 1.3rem;
+        }
+        
+        .terms-section p, .terms-section ul {
+            font-size: 1rem;
+            margin-left: 8px;
+        }
+    }
+</style>
+{% endblock css_link %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="terms-container">
+    <div class="terms-header">
+        <h1>Politica de Confidențialitate</h1>
+        <p class="subtitle">Data intrării în vigoare: 10 noiembrie 2025</p>
+    </div>
+    
+    <div class="terms-content">
+        <div class="terms-section">
+            <h2>Informații generale</h2>
+            <p>Denumirea juridică: SRL SCALELAW SOLUTIONS<br>
+            IDNO: 1025600064372<br>
+            Brand comercial: applexium<br>
+            Website: www.applexium.com<br>
+            Adresă juridică: MD-2069, str. Calea Ieşilor, 67, ap.(of.) 9, mun. Chişinău, Republica Moldova<br>
+            Sediu: Stefan cel Mare și Sfant Boulevard 132, Chișinău<br>
+            Contact: info@applexium.com /+373 78 768 765</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Domeniu de aplicare</h2>
+            <p>Această politică explică modul în care prelucrăm datele cu caracter personal ale vizitatorilor site-ului, ale clienților și ale potențialilor clienți ai SRL SCALELAW SOLUTIONS, precum și ale persoanelor care comunică cu noi prin mijloace electronice sau telefonice. Politica se aplică împreună cu Termenii și condițiile.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Ce date prelucrăm</h2>
+            <ul>
+                <li>Date furnizate direct: nume și prenume, e-mail, telefon, companie/functie (dacă este cazul), adresă de facturare/livrare (unde este cazul), preferințe cont, conținutul mesajelor trimise prin formulare.</li>
+                <li>Date generate/furnizate de terți: identificatori de plată (tokenizați) furnizați de procesatorul bancar, confirmări de plată, status tranzacție, verificări antifraudă.</li>
+                <li>Date tehnice/analitice: adrese IP, identificatori de cookie, tipul/versiunea browserului, setări dispozitiv, pagini vizitate, evenimente de utilizare (conform setărilor de cookie și consimțământului tău).</li>
+                <li>Suport/relatii clienți: înregistrări ale solicitărilor, tichete de suport, corespondență.</li>
+            </ul>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Temeiuri legale ale prelucrării</h2>
+            <ul>
+                <li>Executarea unui contract sau pași precontractuali (de ex., creare cont, procesare comenzi, furnizare servicii digitale, alte bunuri).</li>
+                <li>Îndeplinirea obligațiilor legale (de ex., fiscal-contabile, arhivare).</li>
+                <li>Interes legitim (asigurarea securității site-ului, prevenirea fraudei, îmbunătățirea serviciilor, apărarea drepturilor în justiție).</li>
+                <li>Consimțământ (marketing prin e-mail, cookie-uri neesențiale, anumite analitice/remarketing).</li>
+                <li>Îți poți retrage consimțământul în orice moment.</li>
+            </ul>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Scopurile prelucrării</h2>
+            <ul>
+                <li>Administrarea site-ului și furnizarea conținutului.</li>
+                <li>Gestionarea conturilor de utilizator și a achizițiilor de produse/servicii digitale (licențe, abonamente).</li>
+                <li>Procesarea plăților prin intermediul procesatorului bancar și prevenirea fraudei.</li>
+                <li>Suport clienți, comunicare contractuală și post-vânzare.</li>
+                <li>Analiză de utilizare și îmbunătățirea experienței (numai cu consimțământ pentru cookie-uri neesențiale).</li>
+                <li>Marketing direct prin e-mail/SMS numai cu consimțământ.</li>
+            </ul>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Plăți online</h2>
+            <p>Pentru plățile cu cardul, datele de plată sunt colectate și procesate pe pagina securizată a procesatorului bancar. Nu stocăm și nu accesăm datele complete ale cardului tău. Putem primi din partea procesatorului informații despre statusul tranzacției, suma, moneda și identificatori tehnici ai plății, exclusiv pentru confirmare, decont și prevenirea fraudei.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Cookie-uri și tehnologii similare</h2>
+            <p>Folosim cookie-uri strict necesare (funcționare site, securitate) și, cu consimțământul tău, cookie-uri de analiză și/sau marketing. Detalii despre categoriile folosite, durata și parteneri sunt descrise în Politica de cookie-uri, unde poți gestiona consimțământul. Bannerul de consimțământ îți permite acceptarea/refuzul categoriilor neesențiale.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Destinatari și împuterniciți</h2>
+            <p>Furnizori de servicii IT (găzduire, mentenanță, e-mail, CRM), procesatorul de plăți al băncii comerciale, furnizori de soluții de analiză/antifraudă, consultanți (juridic/contabil), autorități publice competente atunci când legea impune. Transmitem doar datele necesare, în baza unor contracte și obligații de confidențialitate/ securitate.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Transferuri internaționale</h2>
+            <p>Dacă anumiți furnizori își desfășoară activitatea în afara Republicii Moldova sau în state fără un nivel echivalent de protecție, vom asigura garanții adecvate (clauze contractuale standard sau alte mecanisme recunoscute) și te vom informa în Politica de cookie-uri/în secțiunea relevantă a acestei politici.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Păstrarea datelor</h2>
+            <ul>
+                <li>Conturi și relație contractuală – pe durata utilizării serviciilor și o perioadă ulterioară necesară pentru constatarea, exercitarea sau apărarea unui drept în instanță.</li>
+                <li>Documente financiar-contabile – conform legislației aplicabile (de regulă, pe perioada prevăzută de normele contabile/fiscale).</li>
+                <li>Jurnale tehnice/analitice – potrivit ciclurilor operaționale și setărilor de cookie (termen redus pentru IP/ID unde este posibil).</li>
+                <li>La expirarea termenelor, datele se șterg sau se anonimizează în mod sigur.</li>
+            </ul>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Securitate</h2>
+            <p>Aplicăm măsuri tehnice și organizatorice adecvate (control acces, criptare în tranzit, pseudonimizare/limitarea datelor, politici de backup, revizuiri periodice). Deși depunem eforturi rezonabile, niciun sistem nu poate garanta securitate absolută.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Drepturile tale</h2>
+            <ul>
+                <li>Dreptul de acces la date, rectificare, ștergere (în condițiile legii), restricționare, opoziție la prelucrare, portabilitatea datelor (unde este aplicabil), precum și dreptul de a nu face obiectul unei decizii bazate exclusiv pe prelucrare automată, inclusiv crearea de profiluri, dacă produce efecte juridice similare.</li>
+                <li>Dreptul de retragere a consimțământului în orice moment, fără a afecta legalitatea prelucrării efectuate anterior retragerii.</li>
+                <li>Dreptul de a depune o plângere la autoritatea națională de supraveghere: Centrul Național pentru Protecția Datelor cu Caracter Personal din Republica Moldova.</li>
+                <li>Pentru exercitarea drepturilor, contactează-ne la info@applexium.com sau la adresa poștală din secțiunea 1. Te putem solicita informații suplimentare pentru confirmarea identității.</li>
+            </ul>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Minorii</h2>
+            <p>Serviciile noastre se adresează persoanelor majore. Nu prelucrăm în mod intenționat date ale minorilor pentru scopuri de marketing. Dacă ai motive să crezi că am colectat date ale unui minor fără consimțământul reprezentantului legal, te rugăm să ne contactezi pentru ștergere.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Decizii automate și profilare</h2>
+            <p>Nu adoptăm decizii cu efecte juridice sau similare exclusiv pe baza prelucrării automate. Putem utiliza analize agregate/statistice pentru îmbunătățirea serviciilor, fără a produce efecte juridice individuale.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Link-uri și servicii terțe</h2>
+            <p>Site-ul poate include link-uri către servicii externe (de exemplu, pagina de plată a băncii sau platforme analitice). Nu controlăm politicile acestora; te rugăm să consulți politicile de confidențialitate ale respectivilor furnizori.</p>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Modificări ale politicii</h2>
+            <ul>
+                <li>Putem actualiza periodic această politică pentru a reflecta schimbări legislative sau operaționale. Versiunea actuală este disponibilă pe www.applexium.com</li>
+                <li>Dacă modificările sunt substanțiale, vom notifica utilizatorii prin mijloace rezonabile (de exemplu, banner sau e-mail, acolo unde este cazul).</li>
+            </ul>
+        </div>
+        
+        <div class="terms-section">
+            <h2>Contact</h2>
+            <p>Pentru orice întrebări sau solicitări privind protecția datelor, ne poți contacta la:<br>
+            E-mail: info@applexium.com<br>
+            Adresă: MD-2069, str. Calea Ieşilor, 67, ap.(of.) 9, mun. Chişinău, Republica Moldova<br>
+            Telefon: +373 78 768 765</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

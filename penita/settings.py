@@ -3,9 +3,10 @@ from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-hzg02yjr#za$#-4&0ahl2uegg7%0o2l^wfn*)8bwa+yj&lfkd'
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = False
+DEBUG = config('DEBUG', default=False, cast=bool)
+
 
 ALLOWED_HOSTS = ['46.202.154.76', 'penitadreptului.md', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://penitadreptului.md', 'https://www.penitadreptului.md']

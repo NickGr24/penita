@@ -39,3 +39,6 @@ def contacts(request):
 
 def terms_and_conditions(request):
     return render(request, 'policies/terms.html')
+
+def privacy_policy(request):
+    return render(request, 'policies/privacy.html')
