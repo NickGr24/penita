@@ -5,7 +5,7 @@
 {% block content %}
     <section class="video-section">
         <video autoplay muted loop id="myVideo">
-            <source src="{% static 'img/bg-video.mp4' %}" type="video/mp4">
+            <source src="{% static 'img/bg-video.webm' %}" type="video/webm">
         </video>
         {% include 'navbar.html' %}
         <h3 class="greeting typing"></h3>
@@ -20,7 +20,7 @@
             {% if news.image %}
             <img src="{{ news.image.url }}" alt="{{ news.title }}">
             {% else %}
-            <img src="{% static 'img/news-placeholder.jpg' %}" alt="{{ news.title }}">
+            <img src="{% static 'img/news-placeholder.webp' %}" alt="{{ news.title }}">
             {% endif %}
             <div class="news-content">
               <h3>{{ news.title }}</h3>
@@ -38,14 +38,14 @@
     
       <div class="content">
           <div class="content-item" id="ostavciuc-dinu">
-              <img src="{% static 'img/ostavciuc.png' %}" id="ostavciuc" alt="Author 1">
+              <img src="{% static 'img/ostavciuc.webp' %}" id="ostavciuc" alt="Author 1">
               <h3>Dinu Ostavciuc</h3>
               <p>
                 Dinu Ostavciuc are peste 20 de ani de experiență în drept public și a scris mai multe cărți pe acest subiect.</p>
               <a href="{% url 'ostavciuc' %}" class="btn">Citește mai mult</a>
           </div>
           <div class="content-item" id="osoianu">
-              <img src="{% static 'img/osoianu.png' %}" alt="Author 2">
+              <img src="{% static 'img/osoianu.webp' %}" alt="Author 2">
               <h3>Tudor Osoianu</h3>
               <p>
                 Tudor Osoianu se specializează în procedura penala și a fost recunoscut pentru activitatea sa în domeniul educației juridice.</p>
