@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css_link %}
+<style>
+    .fail-container {
+        max-width: 600px;
+        margin: 100px auto;
+        padding: 20px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .fail-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        overflow: hidden;
+        animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(30px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .fail-header {
+        background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
+
+    .fail-icon {
+        width: 80px;
+        height: 80px;
+        background: white;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: shake 0.8s ease;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+        20%, 40%, 60%, 80% { transform: translateX(10px); }
+    }
+
+    .fail-icon i {
+        font-size: 40px;
+        color: #c0392b;
+    }
+
+    .fail-header h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .fail-header p {
+        opacity: 0.95;
+        font-size: 1.1rem;
+    }
+
+    .fail-body {
+        padding: 40px 30px;
+    }
+
+    .error-info {
+        background: #fee;
+        border-left: 4px solid #e74c3c;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .error-info h3 {
+        color: #c0392b;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .error-info p {
+        color: #5a6c7d;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .transaction-details {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .detail-label {
+        color: #6c757d;
+        font-size: 0.95rem;
+    }
+
+    .detail-value {
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .help-section {
+        background: #f0f4e8;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+
+    .help-section h3 {
+        color: #556B2F;
+        margin-bottom: 15px;
+        font-size: 1.1rem;
+    }
+
+    .help-section ul {
+        margin: 0;
+        padding-left: 20px;
+        color: #5a6c7d;
+    }
+
+    .help-section li {
+        margin-bottom: 10px;
+        line-height: 1.6;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(107, 142, 35, 0.3);
+    }
+
+    .btn-secondary {
+        background: #e9ecef;
+        color: #495057;
+    }
+
+    .btn-secondary:hover {
+        background: #dee2e6;
+    }
+
+    .support-info {
+        text-align: center;
+        color: #6c757d;
+        font-size: 0.9rem;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .support-info a {
+        color: #6B8E23;
+        text-decoration: none;
+    }
+
+    .support-info a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .fail-container {
+            margin: 50px 20px;
+            padding: 0;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+        }
+
+        .detail-row {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="fail-container">
+    <div class="fail-card">
+        <div class="fail-header">
+            <div class="fail-icon">
+                <i class="fas fa-times"></i>
+            </div>
+            <h1>Plată eșuată</h1>
+            <p>Din păcate, plata nu a putut fi procesată</p>
+        </div>
+
+        <div class="fail-body">
+            <div class="error-info">
+                <h3><i class="fas fa-exclamation-triangle"></i> Ce s-a întâmplat?</h3>
+                <p>Tranzacția dvs. nu a fost finalizată cu succes. Aceasta poate fi din cauza datelor introduse incorect, fondurilor insuficiente sau anulării plății.</p>
+            </div>
+
+            <div class="transaction-details">
+                <div class="detail-row">
+                    <span class="detail-label">ID Tranzacție:</span>
+                    <span class="detail-value">{{ payment.order_id|default:payment.id|truncatechars:20 }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Carte:</span>
+                    <span class="detail-value">{{ book.title }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Sumă:</span>
+                    <span class="detail-value">{{ payment.amount }} {{ payment.currency }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value" style="color: #e74c3c;">{{ payment.get_status_display }}</span>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3><i class="fas fa-lightbulb"></i> Ce puteți face?</h3>
+                <ul>
+                    <li>Verificați dacă aveți fonduri suficiente în cont</li>
+                    <li>Asigurați-vă că ați introdus corect datele cardului</li>
+                    <li>Încercați să folosiți un alt card bancar</li>
+                    <li>Contactați banca dvs. dacă problema persistă</li>
+                    <li>Încercați din nou peste câteva minute</li>
+                </ul>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{% url 'initiate_payment' book.id %}" class="btn btn-primary">
+                    <i class="fas fa-redo"></i> Încercați din nou
+                </a>
+                <a href="{% url 'books_list' %}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Înapoi la cărți
+                </a>
+            </div>
+
+            <div class="support-info">
+                <p><i class="fas fa-headset"></i> Aveți nevoie de ajutor? <a href="mailto:support@penitadreptului.md">Contactați suportul</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
