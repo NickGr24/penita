@@ -10,7 +10,7 @@
     
 
 {% block content %}
-{# {% load socialaccount %} - Temporarily disabled for Google OAuth #}
+{% load socialaccount %}
 <div class="login-wrapper">
     <div class="login-container">
         <div class="login-header">
@@ -50,8 +50,6 @@
                 <i class="fas fa-arrow-right"></i>
             </button>
 
-            {% comment %}
-            Google login temporarily disabled - uncomment when OAuth is configured
             <div class="divider">
                 <span>sau</span>
             </div>
@@ -60,7 +58,6 @@
                 <i class="fa-brands fa-google"></i>
                 <span>Continuă cu Google</span>
             </a>
-            {% endcomment %}
         </form>
         
         <div class="login-footer">
