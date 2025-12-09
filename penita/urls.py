@@ -9,6 +9,7 @@ urlpatterns = [
     path('', include('main.urls')),
     path('', include('articles.urls')),
     path('', include('books.urls')),
+    path('', include('payments.urls')),
     path('accounts/', include('allauth.urls')),  # Страницы аккаунтов (регистрация, логин)
 ]
 

@@ -15,6 +15,11 @@ class Book(models.Model):
     file = models.FileField(upload_to='books/')
     slug = models.SlugField(unique=True, blank=True)
 
+    # Payment fields
+    is_paid = models.BooleanField(default=False, help_text='Check if this book requires payment')
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, help_text='Price in MDL (0 for free books)')
+    preview_file = models.FileField(upload_to='books/previews/', null=True, blank=True, help_text='Optional preview file for paid books')
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -22,3 +27,12 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    def has_user_purchased(self, user):
+        """Check if user has purchased this book"""
+        if not self.is_paid or self.price <= 0:
+            return True  # Free books are always accessible
+        if not user.is_authenticated:
+            return False
+        # Check if user has a successful payment for this book
+        return self.payments.filter(user=user, status='OK').exists()

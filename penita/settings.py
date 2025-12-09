@@ -18,9 +18,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main', 
+    'main',
     'articles',
     'books',
+    'payments',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -130,6 +131,12 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-LOGIN_REDIRECT_URL = '/'  
-LOGOUT_REDIRECT_URL = '/' 
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+# MAIB Payment Gateway Settings
+MAIB_PROJECT_ID = config('MAIB_PROJECT_ID', default='')
+MAIB_PROJECT_SECRET = config('MAIB_PROJECT_SECRET', default='')
+MAIB_SIGNATURE_KEY = config('MAIB_SIGNATURE_KEY', default='')
+MAIB_TEST_MODE = config('MAIB_TEST_MODE', default=True, cast=bool)
