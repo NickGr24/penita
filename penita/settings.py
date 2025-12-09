@@ -135,6 +135,11 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
+# Allauth settings - disable email verification
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+
 # MAIB Payment Gateway Settings
 MAIB_PROJECT_ID = config('MAIB_PROJECT_ID', default='')
 MAIB_PROJECT_SECRET = config('MAIB_PROJECT_SECRET', default='')
