@@ -50,14 +50,21 @@
                 <i class="fas fa-arrow-right"></i>
             </button>
 
+            {% get_providers as socialaccount_providers %}
+            {% if socialaccount_providers %}
             <div class="divider">
                 <span>sau</span>
             </div>
 
-            <a href="{% provider_login_url 'google' %}" class="btn-google">
-                <i class="fa-brands fa-google"></i>
-                <span>Continuă cu Google</span>
-            </a>
+            {% for provider in socialaccount_providers %}
+                {% if provider.id == "google" %}
+                <a href="{% provider_login_url 'google' %}" class="btn-google">
+                    <i class="fa-brands fa-google"></i>
+                    <span>Continuă cu Google</span>
+                </a>
+                {% endif %}
+            {% endfor %}
+            {% endif %}
         </form>
         
         <div class="login-footer">

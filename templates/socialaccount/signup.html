@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load socialaccount %}
+{% load i18n %}
 
 {% block css_link %}
     <link rel="stylesheet" href="{% static 'css/forms.css' %}">
@@ -8,19 +8,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 {% endblock css_link %}
-    
 
 {% block content %}
 <div class="login-wrapper">
     <div class="login-container">
         <div class="login-header">
-            <h2>Creează un cont nou!</h2>
-            <p>Înregistrează-te pentru a continua</p>
+            <h2>Finalizează Înregistrarea</h2>
+            <p>{% blocktrans with provider_name=account.get_provider.name %}Folosești contul tău {{ provider_name }} pentru a te conecta.{% endblocktrans %}</p>
+            <p>Te rugăm să completezi acest formular:</p>
         </div>
-        
-        <form method="POST" action="{% url 'account_signup' %}" class="login-form">
+
+        <form method="POST" action="{% url 'socialaccount_signup' %}" class="login-form">
             {% csrf_token %}
-            
+
             {% if form.errors %}
                 <div class="form-errors">
                     {% for field in form %}
@@ -33,7 +33,7 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            
+
             {% if form.email %}
             <div class="form-group">
                 <label for="id_email">
@@ -43,7 +43,7 @@
                 {{ form.email }}
             </div>
             {% endif %}
-            
+
             {% if form.username %}
             <div class="form-group">
                 <label for="id_username">
@@ -53,57 +53,29 @@
                 {{ form.username }}
             </div>
             {% endif %}
-            
-            {% if form.password1 %}
-            <div class="form-group">
-                <label for="id_password1">
-                    <i class="fas fa-lock"></i>
-                    Parolă
-                </label>
-                {{ form.password1 }}
-            </div>
-            {% endif %}
-            
-            {% if form.password2 %}
-            <div class="form-group">
-                <label for="id_password2">
-                    <i class="fas fa-lock"></i>
-                    Confirmă parola
-                </label>
-                {{ form.password2 }}
-            </div>
-            {% endif %}
-            
-            {% if redirect_field_value %}
-                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-            {% endif %}
-            
-            <button type="submit" class="btn-login">
-                <span>Înregistrează-te</span>
-                <i class="fas fa-arrow-right"></i>
-            </button>
 
-            {% get_providers as socialaccount_providers %}
-            {% if socialaccount_providers %}
-            <div class="divider">
-                <span>sau</span>
-            </div>
-
-            {% for provider in socialaccount_providers %}
-                {% if provider.id == "google" %}
-                <a href="{% provider_login_url 'google' %}" class="btn-google">
-                    <i class="fa-brands fa-google"></i>
-                    <span>Continuă cu Google</span>
-                </a>
+            {% for field in form %}
+                {% if field.name != 'email' and field.name != 'username' %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                </div>
                 {% endif %}
             {% endfor %}
-            {% endif %}
+
+            {{ redirect_field }}
+
+            <button type="submit" class="btn-login">
+                <span>Finalizează Înregistrarea</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
         </form>
-        
+
         <div class="login-footer">
             <p>Ai deja cont? <a href="{% url 'account_login' %}">Conectează-te</a></p>
         </div>
     </div>
 </div>
 {% endblock content %}
-
