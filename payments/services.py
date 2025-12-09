@@ -3,10 +3,10 @@ import json
 import hashlib
 import hmac
 import logging
-from datetime import datetime
 from typing import Dict, Optional, Tuple
 from django.conf import settings
 from django.urls import reverse
+from django.utils import timezone
 from .models import Payment, MAIBSettings, PaymentLog
 
 logger = logging.getLogger(__name__)
@@ -206,7 +206,7 @@ class MAIBPaymentService:
             payment.callback_data = callback_data
             
             if payment.status == 'OK':
-                payment.paid_at = datetime.now()
+                payment.paid_at = timezone.now()
             
             payment.save()
             
@@ -280,7 +280,7 @@ class MAIBPaymentService:
                 # Update payment with refund info
                 payment.status = 'REFUNDED'
                 payment.refund_amount = amount or payment.amount
-                payment.refund_date = datetime.now()
+                payment.refund_date = timezone.now()
                 payment.save()
                 
                 return True, result

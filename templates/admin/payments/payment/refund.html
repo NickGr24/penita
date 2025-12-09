@@ -1,0 +1,158 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">Home</a>
+    &rsaquo; <a href="{% url 'admin:payments_payment_changelist' %}">Payments</a>
+    &rsaquo; <a href="{% url 'admin:payments_payment_change' payment.pk %}">{{ payment.order_id }}</a>
+    &rsaquo; Process Refund
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Process Refund for Payment: {{ payment.order_id }}</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="{% if message.tags %}{{ message.tags }}{% endif %}" style="padding: 10px; margin: 10px 0; border-radius: 4px; {% if 'error' in message.tags %}background-color: #ffebe9; border: 1px solid #dc3545;{% elif 'success' in message.tags %}background-color: #d4edda; border: 1px solid #28a745;{% else %}background-color: #d1ecf1; border: 1px solid #17a2b8;{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px;">
+        <h2>Payment Details</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="border-bottom: 1px solid #ddd;">
+                <th style="text-align: left; padding: 10px; background: #f8f9fa;">Payment ID</th>
+                <td style="padding: 10px;">{{ payment.order_id }}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <th style="text-align: left; padding: 10px; background: #f8f9fa;">MAIB Transaction ID</th>
+                <td style="padding: 10px;">{{ payment.pay_id }}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <th style="text-align: left; padding: 10px; background: #f8f9fa;">User</th>
+                <td style="padding: 10px;">{{ payment.user.username }} ({{ payment.user.email }})</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <th style="text-align: left; padding: 10px; background: #f8f9fa;">Book</th>
+                <td style="padding: 10px;">{{ payment.book.title }}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <th style="text-align: left; padding: 10px; background: #f8f9fa;">Amount Paid</th>
+                <td style="padding: 10px; font-weight: bold; font-size: 1.2em; color: #28a745;">{{ payment.amount }} {{ payment.currency }}</td>
+            </tr>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <th style="text-align: left; padding: 10px; background: #f8f9fa;">Payment Date</th>
+                <td style="padding: 10px;">{{ payment.paid_at|date:"d.m.Y H:i"|default:"N/A" }}</td>
+            </tr>
+            <tr>
+                <th style="text-align: left; padding: 10px; background: #f8f9fa;">Status</th>
+                <td style="padding: 10px;">
+                    <span style="background: {% if payment.status == 'OK' %}#28a745{% else %}#6c757d{% endif %}; color: white; padding: 5px 10px; border-radius: 3px;">
+                        {{ payment.get_status_display }}
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="background: #fff3cd; border: 1px solid #ffc107; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+        <h3 style="color: #856404; margin-top: 0;">⚠️ Important Information</h3>
+        <ul style="color: #856404; margin: 0;">
+            <li>A refund can only be processed <strong>once</strong> per payment</li>
+            <li>You can process a <strong>partial refund</strong> by entering a specific amount</li>
+            <li>Leave the refund amount empty for a <strong>full refund</strong> ({{ payment.amount }} {{ payment.currency }})</li>
+            <li>The refund will be processed immediately through MAIB API</li>
+            <li>This action cannot be undone</li>
+        </ul>
+    </div>
+
+    <form method="post" style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        {% csrf_token %}
+
+        <h2>Refund Amount</h2>
+
+        <div style="margin-bottom: 20px;">
+            <label for="{{ form.refund_amount.id_for_label }}" style="display: block; font-weight: bold; margin-bottom: 5px;">
+                {{ form.refund_amount.label }}
+            </label>
+            <input
+                type="number"
+                name="{{ form.refund_amount.name }}"
+                id="{{ form.refund_amount.id_for_label }}"
+                step="0.01"
+                max="{{ payment.amount }}"
+                placeholder="Leave empty for full refund ({{ payment.amount }} {{ payment.currency }})"
+                style="width: 100%; max-width: 400px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 1em;"
+            >
+            <small style="display: block; color: #6c757d; margin-top: 5px;">
+                {{ form.refund_amount.help_text }}
+            </small>
+            {% if form.refund_amount.errors %}
+                <div style="color: #dc3545; margin-top: 5px;">
+                    {{ form.refund_amount.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 4px;">
+            <label style="display: flex; align-items: center; cursor: pointer;">
+                <input
+                    type="checkbox"
+                    name="{{ form.confirm.name }}"
+                    id="{{ form.confirm.id_for_label }}"
+                    required
+                    style="margin-right: 10px; width: 18px; height: 18px; cursor: pointer;"
+                >
+                <span style="font-weight: bold;">
+                    {{ form.confirm.label }}
+                </span>
+            </label>
+            {% if form.confirm.errors %}
+                <div style="color: #dc3545; margin-top: 5px;">
+                    {{ form.confirm.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button
+                type="submit"
+                class="button default"
+                style="background: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1em; font-weight: bold;"
+                onmouseover="this.style.background='#c82333'"
+                onmouseout="this.style.background='#dc3545'"
+            >
+                Process Refund
+            </button>
+
+            <a
+                href="{% url 'admin:payments_payment_change' payment.pk %}"
+                class="button"
+                style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 4px; text-decoration: none; display: inline-block; font-size: 1em;"
+                onmouseover="this.style.background='#5a6268'"
+                onmouseout="this.style.background='#6c757d'"
+            >
+                Cancel
+            </a>
+        </div>
+    </form>
+
+    <div style="background: #e7f3ff; border: 1px solid #2196F3; padding: 15px; border-radius: 8px; margin-top: 20px;">
+        <h3 style="color: #0c5460; margin-top: 0;">ℹ️ According to MAIB Documentation</h3>
+        <ul style="color: #0c5460; margin: 0;">
+            <li>Endpoint: <code>POST https://api.maibmerchants.md/v1/refund</code></li>
+            <li>Parameters: <code>payId</code> (required), <code>refundAmount</code> (optional)</li>
+            <li>If refundAmount is not specified, full payment amount will be refunded</li>
+            <li>Refund can only be processed once per transaction</li>
+            <li>For additional refunds, contact MAIB support</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
