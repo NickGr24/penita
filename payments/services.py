@@ -56,9 +56,12 @@ class MAIBPaymentService:
         if not self.settings:
             logger.error("MAIB settings not configured")
             return None
-            
+
         url = f"{self.settings.api_base_url}/generate-token"
-        
+
+        # Log credentials being used (masked for security)
+        logger.info(f"Attempting to generate token with Project ID: {self.settings.project_id[:10]}...")
+
         try:
             response = requests.post(
                 url,
@@ -68,22 +71,30 @@ class MAIBPaymentService:
                 },
                 timeout=30
             )
-            
+
+            logger.info(f"Token generation response status: {response.status_code}")
+
             if response.status_code == 200:
                 data = response.json()
+                logger.info(f"Token generation response: {data}")
                 if data.get('ok'):
                     self.access_token = data.get('result', {}).get('accessToken')
                     self._log(None, 'info', 'Access token generated successfully')
+                    logger.info("Access token generated successfully!")
                     return self.access_token
                 else:
+                    error_msg = data.get('errors', [{'errorMessage': 'Unknown error'}])
+                    logger.error(f"MAIB API returned error: {error_msg}")
                     self._log(None, 'error', 'Failed to generate access token', data)
             else:
-                self._log(None, 'error', f'Token generation failed with status {response.status_code}')
-                
+                logger.error(f'Token generation failed with status {response.status_code}')
+                logger.error(f'Response body: {response.text}')
+                self._log(None, 'error', f'Token generation failed with status {response.status_code}', {'response': response.text})
+
         except Exception as e:
             logger.error(f"Error generating access token: {e}")
             self._log(None, 'error', f'Token generation exception: {str(e)}')
-            
+
         return None
     
     def initiate_payment(self, payment: Payment, request) -> Tuple[bool, Dict]:

@@ -47,22 +47,25 @@ def initiate_payment(request, book_id):
         
         # Initiate payment with MAIB
         success, result = service.initiate_payment(payment, request)
-        
+
         if success:
             # Redirect to MAIB payment page
             pay_url = result.get('payUrl')
             if pay_url:
+                logger.info(f"Redirecting to MAIB payment page: {pay_url}")
                 return HttpResponseRedirect(pay_url)
             else:
+                logger.error("Payment initiation succeeded but no payUrl received")
                 messages.error(request, "Failed to get payment URL from MAIB")
                 payment.status = 'FAIL'
                 payment.save()
         else:
             error_msg = result.get('error', 'Payment initiation failed')
-            messages.error(request, f"Payment error: {error_msg}")
+            logger.error(f"Payment initiation failed: {error_msg}")
+            messages.error(request, f"Ошибка оплаты: {error_msg}")
             payment.status = 'FAIL'
             payment.save()
-            
+
         return redirect('book_detail', slug=book.slug)
     
     # GET request - show payment confirmation page
