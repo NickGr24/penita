@@ -29,17 +29,50 @@
     <div class="articles-list">
         {% for article in articles %}
         <div class="article-item">
-            <h2>{{ article.name }}</h2>
-            <p>{{ article.description }}</p>
-            <p><strong>Autor:</strong> {{ article.author }}</p>
-            <p><strong>Categorie:</strong> {{ article.get_category_display }}</p>
-	    <p><strong>Publicat:</strong> {{ article.publication_date }}</p>
-            <a href="{% url 'article_detail' slug=article.slug %}" class="btn">Citește Articol</a>
+            <div class="article-item-body">
+                <h2>{{ article.name }}</h2>
+                <p>{{ article.description }}</p>
+
+                <div class="article-meta">
+                    <p><strong>Autor:</strong> {{ article.author }}</p>
+                    <p><strong>Categorie:</strong> {{ article.get_category_display }}</p>
+                </div>
+
+                <div class="article-footer">
+                    <a href="{% url 'article_detail' slug=article.slug %}" class="btn">Citește Articol</a>
+                </div>
+            </div>
         </div>
         {% empty %}
-        <p>Niciun articol găsit</p>
+        <p style="grid-column: 1 / -1; text-align: center; color: #7f8c8d; font-size: 1.2rem;">Niciun articol găsit</p>
         {% endfor %}
     </div>
+
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pagination-btn">
+                <i class="fas fa-angle-double-left"></i>
+            </a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pagination-btn">
+                <i class="fas fa-angle-left"></i>
+            </a>
+        {% endif %}
+
+        <span class="pagination-info">
+            Pagina {{ page_obj.number }} din {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pagination-btn">
+                <i class="fas fa-angle-right"></i>
+            </a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pagination-btn">
+                <i class="fas fa-angle-double-right"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
 </section>
 <script src="{% static 'js/navbar.js' %}"></script>
 {% endblock content %}

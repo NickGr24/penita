@@ -10,9 +10,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.DeleteModel(
-            name='PromoCode',
-        ),
+        # migrations.DeleteModel(
+        #     name='PromoCode',
+        # ),
         migrations.AddField(
             model_name='book',
             name='is_paid',
@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
             name='price',
             field=models.DecimalField(decimal_places=2, default=0.0, help_text='Price in MDL (0 for free books)', max_digits=10),
         ),
-        migrations.DeleteModel(
-            name='Subscription',
-        ),
+        # migrations.DeleteModel(
+        #     name='Subscription',
+        # ),
     ]

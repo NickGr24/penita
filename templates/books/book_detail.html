@@ -18,7 +18,7 @@
     }
     
     .book-header {
-        background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
+        background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);
         color: white;
         padding: 40px 20px;
         text-align: center;
@@ -54,6 +54,95 @@
         line-height: 1.6;
         opacity: 0.9;
     }
+
+    /* Purchase section for paid books */
+    .purchase-section {
+        background: white;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+
+    .purchase-section h2 {
+        color: #2c3e50;
+        font-size: 2rem;
+        margin-bottom: 15px;
+    }
+
+    .purchase-section p {
+        color: #7f8c8d;
+        font-size: 1.1rem;
+        margin-bottom: 30px;
+    }
+
+    .price-display {
+        font-size: 3rem;
+        font-weight: 700;
+        color: #6B8E23;
+        margin-bottom: 30px;
+    }
+
+    .price-display .currency {
+        font-size: 1.5rem;
+        color: #7f8c8d;
+    }
+
+    .btn-purchase {
+        padding: 18px 50px;
+        background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 20px rgba(107, 142, 35, 0.3);
+    }
+
+    .btn-purchase:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(107, 142, 35, 0.5);
+    }
+
+    .purchase-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 2px dashed #e9ecef;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #2c3e50;
+    }
+
+    .feature-item i {
+        color: #6B8E23;
+        font-size: 1.3rem;
+    }
+
+    .free-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
     
     /* PDF Viewer Controls */
     .pdf-controls {
@@ -72,7 +161,7 @@
     
     .pdf-controls button {
         padding: 10px 20px;
-        background: #3498db;
+        background: #6B8E23;
         color: white;
         border: none;
         border-radius: 5px;
@@ -84,9 +173,9 @@
         transition: all 0.3s;
         font-weight: 500;
     }
-    
+
     .pdf-controls button:hover {
-        background: #2980b9;
+        background: #556B2F;
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
@@ -201,7 +290,7 @@
         left: 0;
         width: 0%;
         height: 3px;
-        background: linear-gradient(90deg, #3498db, #2ecc71);
+        background: linear-gradient(90deg, #6B8E23, #556B2F);
         z-index: 1000;
         transition: width 0.3s;
     }
@@ -291,7 +380,7 @@
     /* Touch gesture hint for mobile */
     .gesture-hint {
         display: none;
-        background: #2ecc71;
+        background: #6B8E23;
         color: white;
         padding: 12px;
         text-align: center;
@@ -342,7 +431,6 @@
         <h1>{{ book.title }}</h1>
         <div class="book-meta">
             <span><i class="fas fa-user-edit"></i> {{ book.author }}</span>
-            <span><i class="fas fa-book-open"></i> Carte juridică</span>
         </div>
         {% if book.description %}
         <p class="book-description">{{ book.description }}</p>
@@ -352,7 +440,46 @@
     <div class="gesture-hint">
         <i class="fas fa-info-circle"></i> Swipe stânga/dreapta pentru navigare • Pinch pentru zoom
     </div>
-    
+
+    {% if show_purchase_button %}
+    <!-- Purchase Section for Paid Books -->
+    <div class="purchase-section">
+        <h2><i class="fas fa-lock"></i> Această carte este cu plată</h2>
+        <p>Achiziționați cartea pentru a o putea citi complet</p>
+
+        <div class="price-display">
+            {{ book.price|floatformat:0 }} <span class="currency">MDL</span>
+        </div>
+
+        <a href="{% url 'initiate_payment' book.id %}" class="btn-purchase">
+            <i class="fas fa-shopping-cart"></i> Cumpără acum
+        </a>
+
+        <div class="purchase-features">
+            <div class="feature-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Acces permanent</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-download"></i>
+                <span>Descarcă PDF</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Plată securizată</span>
+            </div>
+        </div>
+    </div>
+    {% elif book.is_paid and user_has_access %}
+    <!-- Already Purchased Badge -->
+    <div class="purchase-section">
+        <span class="free-badge"><i class="fas fa-check-circle"></i> Achiziționat</span>
+        <h2>Aveți acces la această carte</h2>
+        <p>Cartea a fost achiziționată anterior. Bucurați-vă de lectură!</p>
+    </div>
+    {% endif %}
+
+    {% if user_has_access %}
     <div class="pdf-controls">
         <div class="page-navigation">
             <button id="prev-page" onclick="previousPage()">
@@ -400,12 +527,14 @@
             </div>
         </div>
     </div>
+    {% endif %}
 </div>
 
 <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Ecran complet">
     <i class="fas fa-expand"></i>
 </button>
 
+{% if user_has_access %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
     // Configurare PDF.js
@@ -701,5 +830,6 @@
         }, 300);
     });
 </script>
+{% endif %}
 
 {% endblock content %}
