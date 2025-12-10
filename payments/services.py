@@ -267,22 +267,39 @@ class MAIBPaymentService:
         }
         
         try:
+            logger.info(f"Sending refund request to URL: {url}")
+            logger.info(f"Refund data: {refund_data}")
+            logger.info(f"Using access token: {self.access_token[:20]}..." if self.access_token else "No access token")
+
             self._log(payment, 'request', 'Initiating refund', refund_data)
-            
+
             response = requests.post(url, json=refund_data, headers=headers, timeout=30)
             response_data = response.json()
-            
+
+            logger.info(f"Refund response status: {response.status_code}")
+            logger.info(f"Refund response data: {response_data}")
+
             self._log(payment, 'response', f'Refund response: {response.status_code}', response_data)
             
             if response.status_code == 200 and response_data.get('ok'):
                 result = response_data.get('result', {})
-                
+
+                # Log detailed refund response
+                status_code = result.get('statusCode')
+                status_message = result.get('statusMessage')
+                logger.info(f"Refund accepted - statusCode: {status_code}, message: {status_message}")
+
                 # Update payment with refund info
+                # Note: statusCode "400" with "Accepted (for reversal)" is SUCCESS
                 payment.status = 'REFUNDED'
                 payment.refund_amount = amount or payment.amount
                 payment.refund_date = timezone.now()
+                payment.status_code = status_code
+                payment.status_message = status_message
                 payment.save()
-                
+
+                logger.info(f"Payment {payment.pay_id} marked as REFUNDED in database")
+
                 return True, result
             else:
                 error_msg = response_data.get('errors', [{'errorMessage': 'Unknown error'}])[0]
@@ -294,38 +311,50 @@ class MAIBPaymentService:
             return False, {"error": str(e)}
     
     def get_payment_status(self, payment: Payment) -> Optional[Dict]:
-        """Check payment status from MAIB"""
+        """Check payment status from MAIB including refund status"""
         if not payment.pay_id:
             return None
-            
+
         if not self.access_token:
             self.generate_access_token()
-            
+
         if not self.access_token:
             return None
-        
+
         url = f"{self.settings.api_base_url}/pay-info"
         headers = {
             "Authorization": f"Bearer {self.access_token}",
             "Content-Type": "application/json"
         }
-        
+
         try:
+            logger.info(f"Checking payment/refund status for payId: {payment.pay_id}")
+
             response = requests.post(
                 url,
                 json={"payId": payment.pay_id},
                 headers=headers,
                 timeout=30
             )
-            
+
             if response.status_code == 200:
                 data = response.json()
+                logger.info(f"Payment status response: {data}")
+
                 if data.get('ok'):
-                    return data.get('result')
-                    
+                    result = data.get('result')
+
+                    # Log refund-related information if present
+                    if result:
+                        status_code = result.get('statusCode')
+                        status_message = result.get('statusMessage')
+                        logger.info(f"Transaction statusCode: {status_code}, message: {status_message}")
+
+                    return result
+
         except Exception as e:
             logger.error(f"Error checking payment status: {e}")
-            
+
         return None
     
     def _get_client_ip(self, request) -> str:

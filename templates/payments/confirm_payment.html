@@ -242,13 +242,39 @@
                 </ul>
             </div>
             
-            <form method="POST" action="{% url 'initiate_payment' book.id %}">
+            <form method="POST" action="{% url 'initiate_payment' book.id %}" id="paymentForm">
                 {% csrf_token %}
+
+                <div class="terms-agreement" style="margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 10px; border-left: 4px solid #6B8E23;">
+                    <label style="display: flex; align-items: flex-start; cursor: pointer; margin: 0;">
+                        <input
+                            type="checkbox"
+                            name="terms_accepted"
+                            id="terms_accepted"
+                            required
+                            style="width: 20px; height: 20px; margin-right: 12px; margin-top: 2px; cursor: pointer; flex-shrink: 0;"
+                        >
+                        <span style="color: #2c3e50; font-size: 1rem; line-height: 1.5;">
+                            Sunt de acord cu
+                            <a href="{% url 'terms_and_conditions' %}" target="_blank" style="color: #6B8E23; font-weight: 600; text-decoration: underline;">
+                                Termenii și Condițiile
+                            </a>
+                            de utilizare și confirm că am citit
+                            <a href="{% url 'privacy_policy' %}" target="_blank" style="color: #6B8E23; font-weight: 600; text-decoration: underline;">
+                                Politica de Confidențialitate
+                            </a>
+                        </span>
+                    </label>
+                    <small style="display: block; color: #6c757d; margin-top: 10px; margin-left: 32px;">
+                        <i class="fas fa-info-circle"></i> Bifați această casetă pentru a continua cu plata
+                    </small>
+                </div>
+
                 <div class="payment-actions">
                     <a href="{% url 'book_detail' book.slug %}" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Înapoi
                     </a>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" id="payButton">
                         <i class="fas fa-credit-card"></i> Continuă către plată
                     </button>
                 </div>
@@ -262,5 +288,62 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Terms acceptance validation and UX
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('paymentForm');
+        const termsCheckbox = document.getElementById('terms_accepted');
+        const payButton = document.getElementById('payButton');
+
+        // Initially disable button if checkbox is not checked
+        if (termsCheckbox && payButton) {
+            // Check initial state
+            updateButtonState();
+
+            // Update button state on checkbox change
+            termsCheckbox.addEventListener('change', function() {
+                updateButtonState();
+            });
+
+            // Form submission validation
+            form.addEventListener('submit', function(e) {
+                if (!termsCheckbox.checked) {
+                    e.preventDefault();
+                    alert('Vă rugăm să acceptați Termenii și Condițiile pentru a continua cu plata.');
+                    termsCheckbox.focus();
+
+                    // Add shake animation to checkbox container
+                    const termsContainer = document.querySelector('.terms-agreement');
+                    termsContainer.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        termsContainer.style.animation = '';
+                    }, 500);
+                }
+            });
+        }
+
+        function updateButtonState() {
+            if (termsCheckbox.checked) {
+                payButton.style.opacity = '1';
+                payButton.style.cursor = 'pointer';
+            } else {
+                payButton.style.opacity = '0.6';
+                payButton.style.cursor = 'not-allowed';
+            }
+        }
+    });
+
+    // Shake animation for terms container
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
 
 {% endblock %}

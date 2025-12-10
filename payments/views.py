@@ -32,6 +32,12 @@ def initiate_payment(request, book_id):
         return redirect('book_detail', slug=book.slug)
     
     if request.method == 'POST':
+        # Validate terms acceptance
+        terms_accepted = request.POST.get('terms_accepted')
+        if not terms_accepted:
+            messages.error(request, "Trebuie să acceptați Termenii și Condițiile pentru a continua.")
+            return redirect('initiate_payment', book_id=book.id)
+
         # Create payment record
         payment = Payment.objects.create(
             user=request.user,

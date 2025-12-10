@@ -174,8 +174,12 @@ class PaymentAdmin(admin.ModelAdmin):
                         'opts': self.model._meta,
                     })
 
-                # Process refund
-                service = MAIBPaymentService(test_mode=True)  # Use same mode as payment
+                # Process refund (determine mode from active settings)
+                from .models import MAIBSettings
+                active_settings = MAIBSettings.objects.filter(is_active=True).first()
+                test_mode = active_settings.mode == 'test' if active_settings else True
+
+                service = MAIBPaymentService(test_mode=test_mode)
                 success, result = service.refund_payment(payment, refund_amount)
 
                 if success:
