@@ -87,22 +87,34 @@ def initiate_payment(request, book_id):
 @require_http_methods(["POST"])
 def payment_callback(request):
     """Handle callback from MAIB with payment result"""
+    # Log raw request details for debugging
+    logger.info("="*50)
+    logger.info("MAIB CALLBACK RECEIVED!")
+    logger.info(f"Request method: {request.method}")
+    logger.info(f"Content-Type: {request.content_type}")
+    logger.info(f"Remote IP: {request.META.get('REMOTE_ADDR')}")
+    logger.info(f"X-Forwarded-For: {request.META.get('HTTP_X_FORWARDED_FOR')}")
+    logger.info(f"Request body: {request.body}")
+    logger.info("="*50)
+
     try:
         # Parse callback data
         if request.content_type == 'application/json':
             callback_data = json.loads(request.body)
         else:
             callback_data = request.POST.dict()
-        
-        logger.info(f"Received callback: {callback_data}")
-        
+
+        logger.info(f"Parsed callback data: {callback_data}")
+
         # Process callback
         service = MAIBPaymentService(test_mode=True)
         success = service.process_callback(callback_data)
-        
+
         if success:
+            logger.info("Callback processed successfully")
             return JsonResponse({'status': 'success'})
         else:
+            logger.error("Callback processing failed")
             return JsonResponse({'status': 'error'}, status=400)
             
     except Exception as e:
