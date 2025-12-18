@@ -84,41 +84,50 @@ def initiate_payment(request, book_id):
 
 
 @csrf_exempt
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "GET"])  # Temporarily accept GET to debug
 def payment_callback(request):
     """Handle callback from MAIB with payment result"""
-    # Log raw request details for debugging
-    logger.info("="*50)
-    logger.info("MAIB CALLBACK RECEIVED!")
-    logger.info(f"Request method: {request.method}")
-    logger.info(f"Content-Type: {request.content_type}")
-    logger.info(f"Remote IP: {request.META.get('REMOTE_ADDR')}")
-    logger.info(f"X-Forwarded-For: {request.META.get('HTTP_X_FORWARDED_FOR')}")
-    logger.info(f"Request body: {request.body}")
-    logger.info("="*50)
+    # Log raw request details for debugging - using ERROR level to ensure it shows in logs
+    logger.error("="*50)
+    logger.error("🔔 MAIB CALLBACK RECEIVED!")
+    logger.error(f"Request method: {request.method}")
+    logger.error(f"Content-Type: {request.content_type}")
+    logger.error(f"Remote IP: {request.META.get('REMOTE_ADDR')}")
+    logger.error(f"X-Forwarded-For: {request.META.get('HTTP_X_FORWARDED_FOR')}")
+    logger.error(f"Request body: {request.body}")
+    logger.error(f"GET params: {dict(request.GET)}")
+    logger.error(f"POST params: {dict(request.POST)}")
+    logger.error("="*50)
 
     try:
         # Parse callback data
-        if request.content_type == 'application/json':
+        if request.method == 'GET':
+            callback_data = request.GET.dict()
+            logger.error("📥 Data from GET params")
+        elif request.content_type == 'application/json':
             callback_data = json.loads(request.body)
+            logger.error("📥 Data from JSON body")
         else:
             callback_data = request.POST.dict()
+            logger.error("📥 Data from POST form")
 
-        logger.info(f"Parsed callback data: {callback_data}")
+        logger.error(f"✅ Parsed callback data: {callback_data}")
 
         # Process callback
         service = MAIBPaymentService(test_mode=True)
         success = service.process_callback(callback_data)
 
         if success:
-            logger.info("Callback processed successfully")
+            logger.error("✅ Callback processed successfully!")
             return JsonResponse({'status': 'success'})
         else:
-            logger.error("Callback processing failed")
+            logger.error("❌ Callback processing failed")
             return JsonResponse({'status': 'error'}, status=400)
-            
+
     except Exception as e:
-        logger.error(f"Error processing callback: {e}")
+        logger.error(f"💥 Exception processing callback: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
 
