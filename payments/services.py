@@ -110,7 +110,13 @@ class MAIBPaymentService:
         
         # Build callback URLs
         domain = request.get_host()
-        scheme = 'https' if request.is_secure() else 'http'
+
+        # Always use HTTPS for production domain, HTTP only for localhost
+        if 'localhost' in domain or '127.0.0.1' in domain:
+            scheme = 'http'
+        else:
+            scheme = 'https'
+
         base_url = f"{scheme}://{domain}"
         
         callback_url = base_url + reverse('payment_callback')

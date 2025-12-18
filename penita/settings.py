@@ -8,8 +8,11 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 
-ALLOWED_HOSTS = ['46.202.154.76', 'penitadreptului.md', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['46.202.154.76', 'penitadreptului.md', 'www.penitadreptului.md', 'localhost', '127.0.0.1']
 CSRF_TRUSTED_ORIGINS = ['https://penitadreptului.md', 'https://www.penitadreptului.md']
+
+# HTTPS/SSL Settings for production behind proxy (nginx)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
