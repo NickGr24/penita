@@ -63,7 +63,7 @@ class PaymentAdmin(admin.ModelAdmin):
         'callback_data', 'client_ip'
     ]
     date_hierarchy = 'created_at'
-    actions = ['process_refund']
+    actions = ['process_refund', 'check_payment_status']
     
     fieldsets = (
         ('Transaction Info', {
@@ -218,6 +218,74 @@ class PaymentAdmin(admin.ModelAdmin):
             reverse('admin:payments_payment_refund', args=[payment.pk])
         )
     process_refund.short_description = 'Process refund for selected payment'
+
+    def check_payment_status(self, request, queryset):
+        """Admin action to check payment status from MAIB API"""
+        from .models import MAIBSettings
+
+        updated_count = 0
+        error_count = 0
+
+        # Get active settings to determine mode
+        active_settings = MAIBSettings.objects.filter(is_active=True).first()
+        test_mode = active_settings.mode == 'test' if active_settings else False
+
+        service = MAIBPaymentService(test_mode=test_mode)
+
+        for payment in queryset:
+            if not payment.pay_id:
+                self.message_user(
+                    request,
+                    f'Payment {payment.order_id} has no payId - cannot check status',
+                    messages.WARNING
+                )
+                error_count += 1
+                continue
+
+            # Get status from MAIB
+            status_data = service.get_payment_status(payment)
+
+            if status_data and status_data.get('ok'):
+                result = status_data.get('result', {})
+
+                # Update payment with latest data
+                old_status = payment.status
+                payment.status = result.get('status', payment.status)
+                payment.status_code = result.get('statusCode')
+                payment.status_message = result.get('statusMessage')
+                payment.rrn = result.get('rrn') or payment.rrn
+                payment.approval_code = result.get('approval') or payment.approval_code
+                payment.card_number = result.get('cardNumber') or payment.card_number
+                payment.three_ds = result.get('threeDs') or payment.three_ds
+
+                if payment.status == 'OK' and not payment.paid_at:
+                    from django.utils import timezone
+                    payment.paid_at = timezone.now()
+
+                payment.save()
+
+                self.message_user(
+                    request,
+                    f'Payment {payment.order_id}: {old_status} → {payment.status}',
+                    messages.SUCCESS if old_status != payment.status else messages.INFO
+                )
+                updated_count += 1
+            else:
+                self.message_user(
+                    request,
+                    f'Failed to get status for payment {payment.order_id}',
+                    messages.ERROR
+                )
+                error_count += 1
+
+        if updated_count > 0:
+            self.message_user(
+                request,
+                f'Successfully checked {updated_count} payment(s)',
+                messages.SUCCESS
+            )
+
+    check_payment_status.short_description = 'Check payment status from MAIB'
 
     class PaymentLogInline(admin.TabularInline):
         model = PaymentLog
