@@ -65,7 +65,7 @@ class Payment(models.Model):
     approval_code = models.CharField(max_length=50, null=True, blank=True)
     card_number = models.CharField(max_length=20, null=True, blank=True, 
                                    help_text="Masked card number")
-    three_ds = models.CharField(max_length=10, null=True, blank=True,
+    three_ds = models.CharField(max_length=20, null=True, blank=True,
                                help_text="3D Secure status")
     
     # Refund fields
