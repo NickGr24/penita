@@ -183,7 +183,47 @@
         color: #6B8E23;
         margin-right: 5px;
     }
-    
+
+    .processing-notice {
+        background: #fff3cd;
+        border: 2px solid #ffc107;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        display: none;
+    }
+
+    .processing-notice.active {
+        display: block;
+    }
+
+    .processing-notice h3 {
+        color: #856404;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+
+    .processing-notice p {
+        color: #856404;
+        margin-bottom: 0;
+    }
+
+    .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #ffc107;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 1s linear infinite;
+        margin: 10px auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
     @media (max-width: 768px) {
         .success-container {
             margin: 50px 20px;
@@ -224,6 +264,13 @@
         </div>
         
         <div class="success-body">
+            <!-- Processing notice (shown while waiting for callback) -->
+            <div id="processing-notice" class="processing-notice {% if payment.status != 'OK' %}active{% endif %}">
+                <div class="spinner"></div>
+                <h3><i class="fas fa-clock"></i> Procesare plată...</h3>
+                <p>Așteptăm confirmarea de la bancă. Pagina se va actualiza automat.</p>
+            </div>
+
             <div class="transaction-info">
                 <div class="info-row">
                     <span class="info-label">ID Tranzacție:</span>
@@ -270,11 +317,59 @@
 </div>
 
 <script>
-    // Confetti animation for celebration
+    // Auto-refresh payment status if pending
+    const paymentId = '{{ payment.id }}';
+    const paymentStatus = '{{ payment.status }}';
+    let checkInterval = null;
+
+    function checkPaymentStatus() {
+        fetch(`/payment/status/${paymentId}/`)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Payment status check:', data);
+
+                if (data.is_successful) {
+                    // Payment is successful, reload page to show confetti and access
+                    console.log('Payment successful! Reloading page...');
+                    clearInterval(checkInterval);
+                    location.reload();
+                } else if (data.status === 'FAIL' || data.status === 'CANCELLED') {
+                    // Payment failed, redirect to fail page
+                    clearInterval(checkInterval);
+                    window.location.href = `/payment/fail/${paymentId}/`;
+                }
+            })
+            .catch(error => {
+                console.error('Error checking payment status:', error);
+            });
+    }
+
+    // If payment is pending, check status every 3 seconds
+    if (paymentStatus !== 'OK') {
+        console.log('Payment pending, starting auto-check...');
+        // Check immediately
+        checkPaymentStatus();
+        // Then check every 3 seconds
+        checkInterval = setInterval(checkPaymentStatus, 3000);
+
+        // Stop checking after 5 minutes (max 100 checks)
+        setTimeout(() => {
+            if (checkInterval) {
+                clearInterval(checkInterval);
+                console.log('Stopped auto-checking after 5 minutes');
+                document.getElementById('processing-notice').innerHTML = `
+                    <h3><i class="fas fa-exclamation-triangle"></i> Verificare întârziată</h3>
+                    <p>Plata este în procesare. Vă rugăm să verificați <a href="/payment/history/">istoricul plăților</a> peste câteva minute.</p>
+                `;
+            }
+        }, 300000); // 5 minutes
+    }
+
+    // Confetti animation for celebration (only if payment successful)
     function createConfetti() {
         const colors = ['#2ecc71', '#3498db', '#9b59b6', '#f1c40f', '#e74c3c'];
         const confettiCount = 50;
-        
+
         for (let i = 0; i < confettiCount; i++) {
             const confetti = document.createElement('div');
             confetti.style.position = 'fixed';
@@ -287,20 +382,20 @@
             confetti.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
             confetti.style.pointerEvents = 'none';
             confetti.style.zIndex = '9999';
-            
+
             document.body.appendChild(confetti);
-            
+
             // Animate falling
             let pos = -10;
             const speed = Math.random() * 3 + 2;
             const drift = Math.random() * 2 - 1;
-            
+
             const animation = setInterval(() => {
                 pos += speed;
                 confetti.style.top = pos + 'px';
                 confetti.style.left = parseFloat(confetti.style.left) + drift + '%';
                 confetti.style.transform = 'rotate(' + (parseFloat(confetti.style.transform.match(/\d+/)) + 5) + 'deg)';
-                
+
                 if (pos > window.innerHeight) {
                     confetti.remove();
                     clearInterval(animation);
@@ -308,9 +403,11 @@
             }, 20);
         }
     }
-    
-    // Trigger confetti on page load
-    setTimeout(createConfetti, 300);
+
+    // Trigger confetti only if payment is successful
+    if (paymentStatus === 'OK') {
+        setTimeout(createConfetti, 300);
+    }
 </script>
 
 {% endblock %}

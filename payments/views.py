@@ -48,9 +48,13 @@ def initiate_payment(request, book_id):
             client_ip=get_client_ip(request)
         )
         
-        # Initialize MAIB service
-        service = MAIBPaymentService(test_mode=True)  # Use test mode for now
-        
+        # Initialize MAIB service (automatically detects mode from active settings)
+        from .models import MAIBSettings
+        active_settings = MAIBSettings.objects.filter(is_active=True).first()
+        test_mode = active_settings.mode == 'test' if active_settings else True
+
+        service = MAIBPaymentService(test_mode=test_mode)
+
         # Initiate payment with MAIB
         success, result = service.initiate_payment(payment, request)
 
@@ -113,8 +117,12 @@ def payment_callback(request):
 
         logger.error(f"✅ Parsed callback data: {callback_data}")
 
-        # Process callback
-        service = MAIBPaymentService(test_mode=True)
+        # Process callback (automatically detects mode from active settings)
+        from .models import MAIBSettings
+        active_settings = MAIBSettings.objects.filter(is_active=True).first()
+        test_mode = active_settings.mode == 'test' if active_settings else True
+
+        service = MAIBPaymentService(test_mode=test_mode)
         success = service.process_callback(callback_data)
 
         if success:
@@ -140,8 +148,12 @@ def payment_success(request, payment_id):
     if payment.status == 'OK':
         messages.success(request, f"Payment successful! You can now access {payment.book.title}")
     else:
-        # Try to check status from MAIB
-        service = MAIBPaymentService(test_mode=True)
+        # Try to check status from MAIB (automatically detects mode from active settings)
+        from .models import MAIBSettings
+        active_settings = MAIBSettings.objects.filter(is_active=True).first()
+        test_mode = active_settings.mode == 'test' if active_settings else True
+
+        service = MAIBPaymentService(test_mode=test_mode)
         status_info = service.get_payment_status(payment)
         
         if status_info and status_info.get('status') == 'OK':
@@ -194,7 +206,12 @@ def check_payment_status(request, payment_id):
     
     # Check if status needs updating
     if payment.status == 'PENDING':
-        service = MAIBPaymentService(test_mode=True)
+        # Automatically detects mode from active settings
+        from .models import MAIBSettings
+        active_settings = MAIBSettings.objects.filter(is_active=True).first()
+        test_mode = active_settings.mode == 'test' if active_settings else True
+
+        service = MAIBPaymentService(test_mode=test_mode)
         status_info = service.get_payment_status(payment)
         
         if status_info:
