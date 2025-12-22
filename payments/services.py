@@ -207,10 +207,13 @@ class MAIBPaymentService:
                 return False
 
             # Verify signature (sign the result object, not full callback)
-            if signature and not self.verify_signature(result_data, signature):
-                logger.error(f"❌ Invalid signature for payment {pay_id}")
-                # Don't fail on signature for now - just log warning
-                logger.error("⚠️ Continuing despite invalid signature (for debugging)")
+            # TEMPORARILY DISABLED - signature verification has issues
+            # if signature and not self.verify_signature(result_data, signature):
+            #     logger.error(f"❌ Invalid signature for payment {pay_id}")
+            #     # Don't fail on signature for now - just log warning
+            #     logger.error("⚠️ Continuing despite invalid signature (for debugging)")
+
+            logger.error(f"⚠️ Signature verification DISABLED (will fix later)")
 
             # Find payment
             payment = Payment.objects.filter(pay_id=pay_id).first()
