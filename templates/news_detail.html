@@ -14,7 +14,7 @@
     </div>
 
     {% if news.image %}
-    <div class="news-main-image">
+    <div class="news-image">
         <img src="{{ news.image.url }}" alt="{{ news.title }}">
     </div>
     {% endif %}
@@ -23,17 +23,10 @@
         <p>{{ news.content }}</p>
     </div>
 
-    {% if news.images.all %}
-    <div class="news-gallery">
-        <h2>Галерея</h2>
-        <div class="gallery-grid">
-            {% for image in news.images.all %}
-            <div class="gallery-item">
-                <img src="{{ image.image.url }}" alt="{{ news.title }} - изображение {{ forloop.counter }}">
-            </div>
-            {% endfor %}
-        </div>
+    {% for image in news.images.all %}
+    <div class="news-image">
+        <img src="{{ image.image.url }}" alt="{{ news.title }} - изображение {{ forloop.counter }}">
     </div>
-    {% endif %}
+    {% endfor %}
 </section>
 {% endblock %}
