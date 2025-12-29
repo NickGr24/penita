@@ -23,7 +23,19 @@
         text-align: center;
         margin-bottom: 50px;
         padding-bottom: 30px;
-        border-bottom: 3px solid #007bff;
+        position: relative;
+    }
+
+    .terms-header::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 200px;
+        height: 4px;
+        background: linear-gradient(90deg, #6B8E23 0%, #556B2F 100%);
+        border-radius: 2px;
     }
     
     .terms-header h1 {
@@ -57,21 +69,23 @@
     }
     
     .terms-section h2 {
-        color: #007bff;
+        color: #556B2F;
         font-size: 1.6rem;
         margin-bottom: 15px;
-        font-weight: 500;
+        font-weight: 600;
+        font-family: 'Poppins', sans-serif;
         display: flex;
         align-items: center;
     }
-    
+
     .terms-section h2::before {
         content: "";
         display: inline-block;
-        width: 4px;
-        height: 24px;
-        background-color: #007bff;
+        width: 5px;
+        height: 26px;
+        background: linear-gradient(180deg, #6B8E23 0%, #556B2F 100%);
         margin-right: 12px;
+        border-radius: 3px;
     }
     
     .terms-section p, .terms-section ul {
@@ -89,34 +103,6 @@
     
     .terms-section ul li {
         margin-bottom: 8px;
-    }
-    
-    .site-footer {
-        margin-top: auto;
-        background-color: #2c3e50;
-        color: white;
-        padding: 30px 0;
-    }
-    
-    .footer-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    
-    .footer-links a {
-        color: white;
-        text-decoration: none;
-        font-size: 1rem;
-        transition: color 0.3s ease;
-    }
-    
-    .footer-links a:hover {
-        color: #3498db;
     }
     
     @media (max-width: 768px) {
@@ -154,8 +140,8 @@
             <h2>Informații generale</h2>
             <p>Denumirea juridică: SRL SCALELAW SOLUTIONS<br>
             IDNO: 1025600064372<br>
-            Brand comercial: applexium<br>
-            Website: www.applexium.com<br>
+            Brand comercial: penitadreptului.md<br>
+            Website: penitadreptului.md<br>
             Adresă juridică: MD-2069, str. Calea Ieşilor, 67, ap.(of.) 9, mun. Chişinău, Republica Moldova<br>
             Sediu: Stefan cel Mare și Sfant Boulevard 132, Chișinău<br>
             Contact: info@applexium.com /+373 78 768 765</p>
@@ -262,7 +248,7 @@
         <div class="terms-section">
             <h2>Modificări ale politicii</h2>
             <ul>
-                <li>Putem actualiza periodic această politică pentru a reflecta schimbări legislative sau operaționale. Versiunea actuală este disponibilă pe www.applexium.com</li>
+                <li>Putem actualiza periodic această politică pentru a reflecta schimbări legislative sau operaționale. Versiunea actuală este disponibilă pe penitadreptului.md</li>
                 <li>Dacă modificările sunt substanțiale, vom notifica utilizatorii prin mijloace rezonabile (de exemplu, banner sau e-mail, acolo unde este cazul).</li>
             </ul>
         </div>

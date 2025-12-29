@@ -1,10 +1,11 @@
 body {
-    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Merriweather', Georgia, serif;
     margin: 0;
     padding: 0;
     background: linear-gradient(180deg, #f9f9f9 0%, #e8ebe8 100%);
     color: #333;
     min-height: 100vh;
+    line-height: 1.7;
 }
 
 .books-container {
@@ -37,7 +38,6 @@ body {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -64,6 +64,7 @@ body {
 .book-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 60px rgba(107, 142, 35, 0.25);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .book-card-body {
@@ -187,16 +188,16 @@ body {
     box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
 }
 
-/* Scroll-based animation */
+/* Scroll-based animation with IntersectionObserver */
 .book-card {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .book-card.show {
     opacity: 1;
     transform: translateY(0);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 /* Responsive design */

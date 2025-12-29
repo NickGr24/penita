@@ -1,4 +1,28 @@
-  const elements = document.querySelectorAll('.hidden');
+// Intersection Observer for authors animations
+document.addEventListener('DOMContentLoaded', function() {
+    const authorItems = document.querySelectorAll('.content-item');
+
+    const observerOptions = {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    authorItems.forEach(item => {
+        observer.observe(item);
+    });
+});
+
+// Old animation system for .hidden elements
+const elements = document.querySelectorAll('.hidden');
 
 function isElementInViewport(el) {
     const rect = el.getBoundingClientRect();
