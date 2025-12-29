@@ -12,11 +12,28 @@
     <div class="news-header">
         <h1>{{ news.title }}</h1>
     </div>
-    <div class="news-image">
+
+    {% if news.image %}
+    <div class="news-main-image">
         <img src="{{ news.image.url }}" alt="{{ news.title }}">
     </div>
+    {% endif %}
+
     <div class="news-content">
         <p>{{ news.content }}</p>
     </div>
+
+    {% if news.images.all %}
+    <div class="news-gallery">
+        <h2>Галерея</h2>
+        <div class="gallery-grid">
+            {% for image in news.images.all %}
+            <div class="gallery-item">
+                <img src="{{ image.image.url }}" alt="{{ news.title }} - изображение {{ forloop.counter }}">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 </section>
 {% endblock %}
