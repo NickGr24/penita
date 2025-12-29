@@ -157,6 +157,29 @@ h1, h2, h3, h4, h5, h6 {
     nav a {
         font-size: 18px; /* Уменьшаем размер текста ссылок на меньших экранах */
     }
+
+    /* Горизонтальный скролл для новостей на мобильных */
+    .news-slider {
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding: 10px 20px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+    }
+
+    /* Скрываем скроллбар но оставляем возможность скролла */
+    .news-slider::-webkit-scrollbar {
+        display: none;
+    }
+
+    .news-slider {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .news-item {
+        flex: 0 0 280px; /* Немного уже для мобильных */
+    }
 }
 
 @media (max-width: 480px) {
@@ -165,14 +188,27 @@ h1, h2, h3, h4, h5, h6 {
         margin-top: 25px;
         text-align: center;
     }
-    
+
     .slogan {
         margin-top: 20px;
     }
 
     nav a {
-        font-size: 16px; 
+        font-size: 16px;
         padding: 5px;
+    }
+
+    /* Для очень маленьких экранов делаем карточки новостей еще компактнее */
+    .news-item {
+        flex: 0 0 250px;
+    }
+
+    .news-item img {
+        height: 200px;
+    }
+
+    .news-content h3 {
+        font-size: 1.2rem;
     }
 }
 
