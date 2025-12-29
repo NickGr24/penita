@@ -4,7 +4,7 @@ from django.utils.text import slugify
 class News(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to='news/', height_field=None, width_field=None, max_length=None)
+    image = models.ImageField(upload_to='news/', null=True, blank=True, help_text='Главное изображение (опционально)')
     slug = models.SlugField()
 
     def __str__(self):
@@ -23,7 +23,7 @@ class News(models.Model):
 class NewsImage(models.Model):
     news = models.ForeignKey(News, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='news/gallery/')
-    order = models.PositiveIntegerField(default=0)
+    order = models.PositiveIntegerField(default=0, help_text='Порядок отображения (0, 1, 2...)')
 
     class Meta:
         ordering = ['order']
