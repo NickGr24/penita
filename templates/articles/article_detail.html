@@ -452,15 +452,18 @@
     let scale = 1;
     let currentZoomMode = 'page-width';
 
-    const pdfUrl = "{{ article.file.url }}";
+    const pdfUrl = "{% url 'serve_article_pdf' article.slug %}";
     const container = document.getElementById('pdf-canvas-container');
     const progressBar = document.getElementById('reading-progress');
 
     // Detectare dispozitiv mobil
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-    // Încărcare PDF
-    pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+    // Încărcare PDF cu credentials pentru поддержки авторизации (если нужно в будущем)
+    pdfjsLib.getDocument({
+        url: pdfUrl,
+        withCredentials: true
+    }).promise.then(function(pdf) {
         pdfDoc = pdf;
         document.getElementById('total-pages').textContent = pdf.numPages;
 
