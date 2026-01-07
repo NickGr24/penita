@@ -60,23 +60,23 @@
     .book-header {
         background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);
         color: white;
-        padding: 40px 20px;
+        padding: 20px 15px;
         text-align: center;
     }
-    
+
     .book-header h1 {
-        font-size: 2.5rem;
-        margin-bottom: 15px;
+        font-size: 1.8rem;
+        margin-bottom: 10px;
         font-family: 'Oswald', sans-serif;
         text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
-    
+
     .book-meta {
         display: flex;
         justify-content: center;
-        gap: 30px;
+        gap: 20px;
         flex-wrap: wrap;
-        font-size: 1.1rem;
+        font-size: 0.95rem;
         opacity: 0.95;
         margin-bottom: 15px;
     }
@@ -187,11 +187,11 @@
     /* PDF Viewer Controls */
     .pdf-controls {
         background: #2c3e50;
-        padding: 15px;
+        padding: 10px 8px;
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 15px;
+        gap: 10px;
         flex-wrap: wrap;
         position: sticky;
         top: 0;
@@ -275,23 +275,25 @@
         background: #34495e;
         position: relative;
         overflow: auto;
-        height: calc(100vh - 300px);
+        height: calc(100vh - 150px);
     }
-    
+
     #pdf-canvas-container {
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 30px 20px;
-        gap: 20px;
+        padding: 10px 5px;
+        gap: 15px;
+        max-width: 100%;
     }
-    
+
     .pdf-page {
         background: white;
         box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        margin-bottom: 30px;
+        margin-bottom: 15px;
         border-radius: 4px;
         overflow: hidden;
+        width: 100%;
     }
     
     canvas {
@@ -636,11 +638,11 @@
             // Calculate scale
             let viewport;
             if (currentZoomMode === 'auto' || currentZoomMode === 'page-width') {
-                const containerWidth = container.clientWidth - 40; // Padding
+                const containerWidth = container.clientWidth - 10; // Small padding
                 const tempViewport = page.getViewport({ scale: 1 });
-                const desiredScale = currentZoomMode === 'page-width' 
-                    ? containerWidth / tempViewport.width
-                    : Math.min(containerWidth / tempViewport.width, (window.innerHeight - 350) / tempViewport.height);
+                const desiredScale = currentZoomMode === 'page-width'
+                    ? (containerWidth * 0.98) / tempViewport.width  // 98% width for full screen
+                    : Math.min(containerWidth / tempViewport.width, (window.innerHeight - 200) / tempViewport.height);
                 viewport = page.getViewport({ scale: desiredScale });
                 scale = desiredScale;
             } else {
