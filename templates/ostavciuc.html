@@ -1,5 +1,41 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block title %}Dinu Ostavciuc - Doctor Habilitat în Drept | Penița Dreptului{% endblock %}
+
+{% block meta_description %}Dinu Ostavciuc - Doctor habilitat în drept, Rector al Academiei Ștefan cel Mare. Autor a peste 100 de publicații juridice.{% endblock %}
+
+{% block canonical %}https://penitadreptului.md/dinu-ostavciuc/{% endblock %}
+{% block og_url %}https://penitadreptului.md/dinu-ostavciuc/{% endblock %}
+{% block og_type %}profile{% endblock %}
+{% block og_title %}Dinu Ostavciuc - Doctor Habilitat în Drept{% endblock %}
+{% block og_description %}Rector al Academiei Ștefan cel Mare, autor a peste 100 de publicații juridice.{% endblock %}
+{% block og_image %}https://penitadreptului.md{% static 'img/ostavciuc.webp' %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Dinu Ostavciuc",
+    "jobTitle": "Doctor Habilitat în Drept, Rector",
+    "description": "Rector al Academiei Ștefan cel Mare a MAI, autor a peste 100 de publicații juridice",
+    "image": "https://penitadreptului.md/static/img/ostavciuc.webp",
+    "url": "https://penitadreptului.md/dinu-ostavciuc/",
+    "worksFor": {
+        "@type": "EducationalOrganization",
+        "name": "Academia Ștefan cel Mare a MAI"
+    },
+    "knowsLanguage": ["ro", "ru", "en"],
+    "nationality": {
+        "@type": "Country",
+        "name": "Moldova"
+    },
+    "honorificSuffix": "Dr. hab."
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {% block css_link %}

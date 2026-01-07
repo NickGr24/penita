@@ -2,9 +2,68 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5XE9BHJ3HE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-5XE9BHJ3HE');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Penița Dreptului</title>
+
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}Penița Dreptului - Blog Juridic{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Blog juridic despre dreptul procesual penal și criminalistica din Republica Moldova. Articole, cărți și resurse de Tudor Osoianu și Dinu Ostavciuc.{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}drept procesual penal, criminalistică, Moldova, articole juridice, cărți juridice, Tudor Osoianu, Dinu Ostavciuc{% endblock %}">
+    <meta name="author" content="Tudor Osoianu, Dinu Ostavciuc">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{% block canonical %}https://penitadreptului.md{% endblock %}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:url" content="{% block og_url %}https://penitadreptului.md{% endblock %}">
+    <meta property="og:title" content="{% block og_title %}Penița Dreptului - Blog Juridic{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Blog juridic despre dreptul procesual penal și criminalistica din Republica Moldova.{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}https://penitadreptului.md{% static 'img/og-default.webp' %}{% endblock %}">
+    <meta property="og:locale" content="ro_RO">
+    <meta property="og:site_name" content="Penița Dreptului">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}Penița Dreptului - Blog Juridic{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Blog juridic despre dreptul procesual penal și criminalistica din Republica Moldova.{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}https://penitadreptului.md{% static 'img/og-default.webp' %}{% endblock %}">
+
+    <!-- Structured Data -->
+    {% block structured_data %}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Penița Dreptului",
+        "url": "https://penitadreptului.md",
+        "description": "Blog juridic despre dreptul procesual penal și criminalistica",
+        "inLanguage": "ro-RO",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Penița Dreptului",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://penitadreptului.md{% static 'img/favicon.webp' %}"
+            }
+        }
+    }
+    </script>
+    {% endblock %}
+
+    <!-- Google Search Console verification (replace with your code) -->
+    {% block google_verification %}{% endblock %}
+
+    <!-- Styles -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/articles.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
@@ -14,12 +73,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <!-- Временный фавикон (ожидается логотип) -->
     <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.webp' %}">
-    
+
     {% block css_link %}
-        
     {% endblock css_link %}
-        
 </head>
 
 <body>    

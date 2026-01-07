@@ -1,5 +1,40 @@
 {% extends "base.html" %}
 {% load static %}
+
+{% block title %}Tudor Osoianu - Expert în Drept Procesual Penal | Penița Dreptului{% endblock %}
+
+{% block meta_description %}Tudor Osoianu - expert în dreptul procesual penal și criminalistică cu peste 25 de ani experiență. Autor de articole și cărți juridice din Moldova.{% endblock %}
+
+{% block canonical %}https://penitadreptului.md/tudor-osoianu/{% endblock %}
+{% block og_url %}https://penitadreptului.md/tudor-osoianu/{% endblock %}
+{% block og_type %}profile{% endblock %}
+{% block og_title %}Tudor Osoianu - Expert în Drept Procesual Penal{% endblock %}
+{% block og_description %}Expert renumit în domeniul dreptului procesual penal și criminalisticii din Moldova.{% endblock %}
+{% block og_image %}https://penitadreptului.md{% static 'img/osoianu2.webp' %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Tudor Osoianu",
+    "jobTitle": "Expert în Drept Procesual Penal și Criminalistică",
+    "description": "Expert renumit în domeniul dreptului procesual penal și criminalisticii cu peste 25 de ani experiență",
+    "image": "https://penitadreptului.md/static/img/osoianu2.webp",
+    "url": "https://penitadreptului.md/tudor-osoianu/",
+    "worksFor": {
+        "@type": "Organization",
+        "name": "Penița Dreptului"
+    },
+    "knowsLanguage": ["ro", "ru", "fr", "en"],
+    "nationality": {
+        "@type": "Country",
+        "name": "Moldova"
+    }
+}
+</script>
+{% endblock %}
+
 {% block content %}
 
 {% block css_link %}

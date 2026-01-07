@@ -1,6 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}Cărți Juridice - Drept Procesual Penal și Criminalistică | Penița Dreptului{% endblock %}
+
+{% block meta_description %}Colecție de cărți juridice profesionale despre dreptul procesual penal și criminalistică. Disponibile în format PDF de la Tudor Osoianu și Dinu Ostavciuc.{% endblock %}
+
+{% block canonical %}https://penitadreptului.md/books/{% endblock %}
+{% block og_url %}https://penitadreptului.md/books/{% endblock %}
+{% block og_title %}Cărți Juridice | Penița Dreptului{% endblock %}
+{% block og_description %}Cărți profesionale despre dreptul procesual penal și criminalistică din Moldova.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Cărți Juridice",
+    "description": "Colecție de cărți juridice despre dreptul procesual penal și criminalistică",
+    "url": "https://penitadreptului.md/books/",
+    "inLanguage": "ro-RO",
+    "isPartOf": {
+        "@type": "WebSite",
+        "name": "Penița Dreptului",
+        "url": "https://penitadreptului.md"
+    }
+}
+</script>
+{% endblock %}
+
 {% block css_link %}
     <link rel="stylesheet" href="{% static 'css/books_list.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">

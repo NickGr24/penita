@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'django.contrib.sitemaps',
 ]
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -46,6 +47,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'penita.middleware.RemoveWWWMiddleware',  # Редирект с www на версию без www
     'django.contrib.sessions.middleware.SessionMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -148,3 +150,8 @@ MAIB_PROJECT_ID = config('MAIB_PROJECT_ID', default='')
 MAIB_PROJECT_SECRET = config('MAIB_PROJECT_SECRET', default='')
 MAIB_SIGNATURE_KEY = config('MAIB_SIGNATURE_KEY', default='')
 MAIB_TEST_MODE = config('MAIB_TEST_MODE', default=True, cast=bool)
+
+# SEO Configuration
+SITE_URL = 'https://penitadreptului.md'
+SITE_NAME = 'Penița Dreptului'
+SITE_DESCRIPTION = 'Blog juridic despre dreptul procesual penal și criminalistică din Republica Moldova. Articole, cărți și resurse de Tudor Osoianu și Dinu Ostavciuc.'

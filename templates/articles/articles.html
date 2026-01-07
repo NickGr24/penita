@@ -1,5 +1,33 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}Articole Juridice - Drept Procesual Penal și Criminalistică | Penița Dreptului{% endblock %}
+
+{% block meta_description %}Colecție de articole științifice despre procedura penală, criminalistică și alte științe juridice. Scrise de experți Tudor Osoianu și Dinu Ostavciuc.{% endblock %}
+
+{% block canonical %}https://penitadreptului.md/articles/{% endblock %}
+{% block og_url %}https://penitadreptului.md/articles/{% endblock %}
+{% block og_title %}Articole Juridice | Penița Dreptului{% endblock %}
+{% block og_description %}Articole științifice despre dreptul procesual penal și criminalistică din Moldova.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Articole Juridice",
+    "description": "Colecție de articole științifice despre dreptul procesual penal și criminalistică",
+    "url": "https://penitadreptului.md/articles/",
+    "inLanguage": "ro-RO",
+    "isPartOf": {
+        "@type": "WebSite",
+        "name": "Penița Dreptului",
+        "url": "https://penitadreptului.md"
+    }
+}
+</script>
+{% endblock %}
+
 {% block css_link %}
     <link rel="stylesheet" href="{% static 'css/articles.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">

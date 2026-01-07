@@ -1,6 +1,40 @@
 {% extends 'base.html' %}
-
 {% load static %}
+
+{% block title %}Penița Dreptului - Blog Juridic despre Dreptul Procesual Penal și Criminalistica{% endblock %}
+
+{% block meta_description %}Descoperiți articole și cărți juridice despre dreptul procesual penal și criminalistica. Resurse profesionale de Tudor Osoianu și Dinu Ostavciuc pentru specialiști din Moldova.{% endblock %}
+
+{% block canonical %}https://penitadreptului.md/{% endblock %}
+{% block og_url %}https://penitadreptului.md/{% endblock %}
+{% block og_title %}Penița Dreptului - Blog Juridic despre Dreptul Procesual Penal{% endblock %}
+{% block og_description %}Blog juridic cu articole și cărți despre dreptul procesual penal și criminalistica din Moldova.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Penița Dreptului",
+    "url": "https://penitadreptului.md",
+    "description": "Blog juridic despre dreptul procesual penal și criminalistica din Republica Moldova",
+    "inLanguage": "ro-RO",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://penitadreptului.md/articles/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Penița Dreptului",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://penitadreptului.md/static/img/favicon.webp"
+        }
+    }
+}
+</script>
+{% endblock %}
 
 {% block content %}
     <section class="video-section">

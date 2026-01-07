@@ -1,6 +1,46 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block title %}{{ book.title }} | Cărți Juridice | Penița Dreptului{% endblock %}
+
+{% block meta_description %}{{ book.description|truncatewords:25 }}{% endblock %}
+
+{% block canonical %}https://penitadreptului.md/books/{{ book.slug }}/{% endblock %}
+{% block og_url %}https://penitadreptului.md/books/{{ book.slug }}/{% endblock %}
+{% block og_type %}book{% endblock %}
+{% block og_title %}{{ book.title }}{% endblock %}
+{% block og_description %}{{ book.description|truncatewords:25 }}{% endblock %}
+
+{% block twitter_title %}{{ book.title }}{% endblock %}
+{% block twitter_description %}{{ book.description|truncatewords:25 }}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Book",
+    "name": "{{ book.title|escapejs }}",
+    "description": "{{ book.description|escapejs }}",
+    "author": {
+        "@type": "Person",
+        "name": "{{ book.author }}"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "Penița Dreptului"
+    },
+    "inLanguage": "ro-RO",
+    "bookFormat": "EBook"{% if book.is_paid %},
+    "offers": {
+        "@type": "Offer",
+        "price": "{{ book.price }}",
+        "priceCurrency": "MDL",
+        "availability": "https://schema.org/InStock"
+    }{% endif %}
+}
+</script>
+{% endblock %}
+
 {% block css_link %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf_viewer.min.css">
 <style>
@@ -547,7 +587,7 @@
     let scale = 1;
     let currentZoomMode = 'page-width';
     
-    const pdfUrl = "{{ book.file.url }}";
+    const pdfUrl = "{% url 'serve_book_pdf' book.slug %}";
     const container = document.getElementById('pdf-canvas-container');
     const progressBar = document.getElementById('reading-progress');
     
@@ -720,7 +760,7 @@
     
     function downloadPDF() {
         const link = document.createElement('a');
-        link.href = pdfUrl;
+        link.href = "{% url 'serve_book_pdf' book.slug %}";
         link.download = '{{ book.title }}.pdf';
         link.click();
     }
