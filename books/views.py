@@ -5,17 +5,21 @@ from django.views.decorators.http import require_http_methods
 import os
 from .models import Book
 
-@login_required
 def books_list(request):
+    """Публичный список книг для SEO-индексации."""
     books = Book.objects.all()
     return render(request, 'books/books_list.html', {'books': books})
 
-@login_required
+
 def book_detail(request, slug):
+    """Публичная страница книги для SEO-индексации. PDF защищён отдельно."""
     book = get_object_or_404(Book, slug=slug)
 
-    # Check if user has access to this book
-    user_has_access = book.has_user_purchased(request.user)
+    # Для анонимных пользователей - показываем страницу без доступа к PDF
+    if request.user.is_authenticated:
+        user_has_access = book.has_user_purchased(request.user)
+    else:
+        user_has_access = not book.is_paid  # Бесплатные книги доступны всем авторизованным
 
     # Show purchase button if book is paid and user doesn't have access
     show_purchase_button = book.is_paid and not user_has_access

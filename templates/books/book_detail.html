@@ -5,6 +5,8 @@
 
 {% block meta_description %}{{ book.description|truncatewords:25 }}{% endblock %}
 
+{% block meta_keywords %}{{ book.title }}, {{ book.author }}, carte juridică, drept procesual penal, procedura penală, criminalistică, manual juridic Moldova{% endblock %}
+
 {% block canonical %}https://penitadreptului.md/books/{{ book.slug }}/{% endblock %}
 {% block og_url %}https://penitadreptului.md/books/{{ book.slug }}/{% endblock %}
 {% block og_type %}book{% endblock %}

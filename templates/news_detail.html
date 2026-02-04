@@ -5,6 +5,8 @@
 
 {% block meta_description %}{{ news.content|truncatewords:25 }}{% endblock %}
 
+{% block meta_keywords %}{{ news.title }}, știri juridice Moldova, noutăți drept, actualități juridice, procesul penal{% endblock %}
+
 {% block canonical %}https://penitadreptului.md/news/{{ news.slug }}/{% endblock %}
 {% block og_url %}https://penitadreptului.md/news/{{ news.slug }}/{% endblock %}
 {% block og_type %}article{% endblock %}
