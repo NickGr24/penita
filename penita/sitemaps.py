@@ -54,6 +54,10 @@ class BookSitemap(Sitemap):
     def location(self, obj):
         return reverse('book_detail', kwargs={'slug': obj.slug})
 
+    def lastmod(self, obj):
+        """Дата последнего обновления для Google"""
+        return obj.updated_at or obj.created_at
+
 
 class NewsSitemap(Sitemap):
     """Sitemap для новостей"""

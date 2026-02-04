@@ -43,14 +43,37 @@ def privacy_policy(request):
 
 
 def robots_txt(request):
-    """Генерация robots.txt"""
+    """Генерация robots.txt с оптимизацией для SEO"""
     lines = [
         "User-agent: *",
         "Allow: /",
+        "Allow: /static/",
+        "Allow: /media/",
         "",
         "# Disallow admin and auth pages",
         "Disallow: /admin/",
         "Disallow: /accounts/",
+        "Disallow: /accounts/signup/",
+        "Disallow: /accounts/login/",
+        "Disallow: /accounts/password/",
+        "Disallow: /accounts/email/",
+        "Disallow: /accounts/social/",
+        "",
+        "# Disallow payment pages",
+        "Disallow: /payments/",
+        "Disallow: /confirm-payment/",
+        "Disallow: /payment-success/",
+        "Disallow: /payment-fail/",
+        "",
+        "# Block aggressive bots",
+        "User-agent: MJ12bot",
+        "Disallow: /",
+        "",
+        "User-agent: AhrefsBot",
+        "Crawl-delay: 10",
+        "",
+        "# Main domain",
+        "Host: penitadreptului.md",
         "",
         "# Sitemap",
         "Sitemap: https://penitadreptului.md/sitemap.xml",

@@ -15,6 +15,10 @@ class Book(models.Model):
     file = models.FileField(upload_to='books/')
     slug = models.SlugField(unique=True, blank=True)
 
+    # Timestamps for SEO (lastmod in sitemap)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
     # Payment fields
     is_paid = models.BooleanField(default=False, help_text='Check if this book requires payment')
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, help_text='Price in MDL (0 for free books)')

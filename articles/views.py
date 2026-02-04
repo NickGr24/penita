@@ -29,7 +29,16 @@ def articles(request):
 
 def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
-    return render(request, 'articles/article_detail.html', {'article': article})
+
+    # Похожие статьи той же категории для внутренней перелинковки (SEO)
+    related_articles = Article.objects.filter(
+        category=article.category
+    ).exclude(id=article.id).order_by('-publication_date')[:4]
+
+    return render(request, 'articles/article_detail.html', {
+        'article': article,
+        'related_articles': related_articles,
+    })
 
 
 @require_http_methods(["GET"])

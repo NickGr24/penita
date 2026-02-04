@@ -47,6 +47,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',  # GZip сжатие для скорости
     'penita.middleware.RemoveWWWMiddleware',  # Редирект с www на версию без www
     'django.contrib.sessions.middleware.SessionMiddleware',
     'allauth.account.middleware.AccountMiddleware',
@@ -129,7 +130,17 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
-X_FRAME_OPTIONS = 'ALLOWALL'  
+# Security Settings
+X_FRAME_OPTIONS = 'SAMEORIGIN'  # Защита от clickjacking
+
+# HSTS - HTTP Strict Transport Security (только HTTPS)
+SECURE_HSTS_SECONDS = 31536000  # 1 год
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Дополнительные security headers
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True  
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', 

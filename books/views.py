@@ -24,10 +24,16 @@ def book_detail(request, slug):
     # Show purchase button if book is paid and user doesn't have access
     show_purchase_button = book.is_paid and not user_has_access
 
+    # Другие книги того же автора для внутренней перелинковки (SEO)
+    other_books = Book.objects.filter(
+        author=book.author
+    ).exclude(id=book.id)[:4]
+
     context = {
         'book': book,
         'user_has_access': user_has_access,
         'show_purchase_button': show_purchase_button,
+        'other_books': other_books,
     }
 
     return render(request, 'books/book_detail.html', context)

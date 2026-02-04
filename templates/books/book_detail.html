@@ -41,6 +41,32 @@
     }{% endif %}
 }
 </script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Acasă",
+            "item": "https://penitadreptului.md/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Cărți",
+            "item": "https://penitadreptului.md/books/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "{{ book.title|escapejs }}",
+            "item": "https://penitadreptului.md/books/{{ book.slug }}/"
+        }
+    ]
+}
+</script>
 {% endblock %}
 
 {% block css_link %}
@@ -462,11 +488,128 @@
             display: block;
         }
     }
+
+    /* Breadcrumbs для SEO и навигации */
+    .breadcrumbs {
+        padding: 12px 20px;
+        background: #f8f9f0;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #e0e5d1;
+    }
+
+    .breadcrumbs a {
+        color: #6B8E23;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .breadcrumbs a:hover {
+        color: #556B2F;
+        text-decoration: underline;
+    }
+
+    .breadcrumbs .separator {
+        margin: 0 8px;
+        color: #999;
+    }
+
+    .breadcrumbs .current {
+        color: #555;
+        font-weight: 500;
+    }
+
+    /* Other Books секция */
+    .other-books {
+        background: #f8f9f0;
+        padding: 40px 20px;
+        margin-top: 30px;
+    }
+
+    .other-books h3 {
+        text-align: center;
+        color: #2c3e50;
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .books-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .book-card-related {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .book-card-related:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .book-card-related h4 {
+        color: #2c3e50;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    .book-card-related h4 a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .book-card-related h4 a:hover {
+        color: #6B8E23;
+    }
+
+    .book-card-related p {
+        color: #666;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+
+    .book-card-related .view-book {
+        color: #6B8E23;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .book-card-related .view-book:hover {
+        color: #556B2F;
+    }
+
+    @media (max-width: 600px) {
+        .books-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 {% endblock css_link %}
 
 {% block content %}
 {% include 'navbar.html' %}
+
+<!-- Breadcrumbs для SEO и навигации -->
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    <a href="{% url 'home' %}">Acasă</a>
+    <span class="separator">/</span>
+    <a href="{% url 'books_list' %}">Cărți</a>
+    <span class="separator">/</span>
+    <span class="current">{{ book.title|truncatewords:8 }}</span>
+</nav>
 
 <div class="reading-progress" id="reading-progress"></div>
 
@@ -573,6 +716,24 @@
     </div>
     {% endif %}
 </div>
+
+<!-- Other Books для внутренней перелинковки (SEO) -->
+{% if other_books %}
+<section class="other-books">
+    <h3><i class="fas fa-book"></i> Alte cărți de {{ book.author }}</h3>
+    <div class="books-grid">
+        {% for other in other_books %}
+        <div class="book-card-related">
+            <h4><a href="{% url 'book_detail' other.slug %}">{{ other.title }}</a></h4>
+            <p>{{ other.description|truncatewords:20 }}</p>
+            <a href="{% url 'book_detail' other.slug %}" class="view-book">
+                Vezi cartea <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
 
 <button class="fullscreen-btn" onclick="toggleFullscreen()" title="Ecran complet">
     <i class="fas fa-expand"></i>
