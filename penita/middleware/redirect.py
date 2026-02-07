@@ -17,8 +17,8 @@ class RemoveWWWMiddleware:
 
         # Если запрос идет на www версию, делаем 301 редирект на версию без www
         if host.startswith('www.'):
-            # Получаем схему (http или https) из заголовков прокси
-            scheme = request.META.get('HTTP_X_FORWARDED_PROTO', 'http')
+            # Всегда используем HTTPS (сайт работает только по HTTPS)
+            scheme = request.META.get('HTTP_X_FORWARDED_PROTO', 'https')
 
             # Убираем www из хоста
             new_host = host[4:]  # Удаляем 'www.'
