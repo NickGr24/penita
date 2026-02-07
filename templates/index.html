@@ -34,11 +34,58 @@
     }
 }
 </script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Penița Dreptului",
+    "url": "https://penitadreptului.md",
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "bestRating": "5",
+        "ratingCount": "6",
+        "reviewCount": "6"
+    },
+    "review": [
+        {
+            "@type": "Review",
+            "author": {"@type": "Person", "name": "Rusu Vitalie"},
+            "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+            "reviewBody": "Această carte mi-a oferit o perspectivă profundă asupra practicilor juridice moderne."
+        },
+        {
+            "@type": "Review",
+            "author": {"@type": "Person", "name": "Viorel Berliba"},
+            "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+            "reviewBody": "Un ghid cuprinzător care acoperă elementele esențiale ale dreptului public."
+        },
+        {
+            "@type": "Review",
+            "author": {"@type": "Person", "name": "Ion Covalciuc"},
+            "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+            "reviewBody": "Clară, interesantă și incredibil de informativă."
+        },
+        {
+            "@type": "Review",
+            "author": {"@type": "Person", "name": "Ion Chirtoacă"},
+            "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+            "reviewBody": "Autorii au simplificat conceptele juridice complexe fără a sacrifica profunzimea."
+        },
+        {
+            "@type": "Review",
+            "author": {"@type": "Person", "name": "Cătălin Andruș"},
+            "reviewRating": {"@type": "Rating", "ratingValue": "5"},
+            "reviewBody": "Informațiile și exemplele din lumea reală din această carte sunt inestimabile."
+        }
+    ]
+}
+</script>
 {% endblock %}
 
 {% block content %}
     <section class="video-section">
-        <video autoplay muted loop id="myVideo">
+        <video autoplay muted loop id="myVideo" poster="{% static 'img/bg-video-poster.webp' %}" preload="none">
             <source src="{% static 'img/bg-video.webm' %}" type="video/webm">
         </video>
         {% include 'navbar.html' %}
@@ -52,9 +99,9 @@
           {% for news in news_list %}
           <div class="news-item">
             {% if news.image %}
-            <img src="{{ news.image.url }}" alt="{{ news.title }}">
+            <img src="{{ news.image.url }}" alt="{{ news.title }}" loading="lazy" width="400" height="225">
             {% else %}
-            <img src="{% static 'img/news-placeholder.webp' %}" alt="{{ news.title }}">
+            <img src="{% static 'img/news-placeholder.webp' %}" alt="{{ news.title }}" loading="lazy" width="800" height="450">
             {% endif %}
             <div class="news-content">
               <h3>{{ news.title }}</h3>
@@ -72,14 +119,14 @@
     
       <div class="content">
           <div class="content-item" id="ostavciuc-dinu">
-              <img src="{% static 'img/ostavciuc.webp' %}" id="ostavciuc" alt="Dinu Ostavciuc - Doctor Habilitat în Drept">
+              <img src="{% static 'img/ostavciuc.webp' %}" id="ostavciuc" alt="Dinu Ostavciuc - Doctor Habilitat în Drept" loading="lazy" width="300" height="300">
               <h3>Dinu Ostavciuc</h3>
               <p>
                 Dinu Ostavciuc are peste 20 de ani de experiență în drept public și a scris mai multe cărți pe acest subiect.</p>
               <a href="{% url 'ostavciuc' %}" class="btn">Citește mai mult</a>
           </div>
           <div class="content-item" id="osoianu">
-              <img src="{% static 'img/osoianu.webp' %}" alt="Tudor Osoianu - Expert în Drept Procesual Penal">
+              <img src="{% static 'img/osoianu.webp' %}" alt="Tudor Osoianu - Expert în Drept Procesual Penal" loading="lazy" width="300" height="300">
               <h3>Tudor Osoianu</h3>
               <p>
                 Tudor Osoianu se speciacilizează în procedura penala și a fost recunoscut pentru activitatea sa în domeniul educației juridice.</p>
@@ -185,7 +232,7 @@
         </div>
 
   </section>
-  <script src="{% static 'js/index.js' %}"></script>
+  <script src="{% static 'js/index.js' %}" defer></script>
 
 {% endblock content %}
   

@@ -20,7 +20,7 @@
     <meta name="description" content="{% block meta_description %}Blog juridic despre dreptul procesual penal și criminalistica din Republica Moldova. Articole, cărți și resurse de Tudor Osoianu și Dinu Ostavciuc.{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}drept procesual penal, criminalistică, Moldova, articole juridice, cărți juridice, Tudor Osoianu, Dinu Ostavciuc{% endblock %}">
     <meta name="author" content="Tudor Osoianu, Dinu Ostavciuc">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
     <link rel="canonical" href="{% block canonical %}https://penitadreptului.md{% endblock %}">
 
     <!-- Open Graph / Facebook -->
@@ -68,11 +68,9 @@
     <link rel="stylesheet" href="{% static 'css/articles.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Oswald:wght@200..700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Временный фавикон (ожидается логотип) -->
     <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.webp' %}">
@@ -88,8 +86,8 @@
 <footer class="site-footer">
     <div class="footer-content">
         <div class="payment-logos">
-            <img src="{% static 'img/visa_logo.webp' %}" alt="Visa">
-            <img src="{% static 'img/mc.svg' %}" alt="Mastercard">
+            <img src="{% static 'img/visa_logo.webp' %}" alt="Visa" loading="lazy" width="80" height="45">
+            <img src="{% static 'img/mc.svg' %}" alt="Mastercard" loading="lazy" width="50" height="40">
         </div>
         <div class="footer-links">
             <a href="{% url 'terms_and_conditions' %}">Termeni și Condiții</a>
@@ -101,6 +99,6 @@
         &copy; {% now "Y" %} Penița Dreptului. Toate drepturile rezervate.
     </div>
 </footer>
-<script src="{% static 'js/navbar.js' %}"></script>
+<script src="{% static 'js/navbar.js' %}" defer></script>
 </body>
 </html>

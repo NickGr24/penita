@@ -60,7 +60,7 @@
 
     {% if news.image %}
     <div class="news-image">
-        <img src="{{ news.image.url }}" alt="{{ news.title }}">
+        <img src="{{ news.image.url }}" alt="{{ news.title }}" loading="lazy">
     </div>
     {% endif %}
 
@@ -70,7 +70,7 @@
 
     {% for image in news.images.all %}
     <div class="news-image">
-        <img src="{{ image.image.url }}" alt="{{ news.title }} - изображение {{ forloop.counter }}">
+        <img src="{{ image.image.url }}" alt="{{ news.title }} - imagine {{ forloop.counter }}" loading="lazy">
     </div>
     {% endfor %}
 </section>
