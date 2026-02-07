@@ -39,17 +39,19 @@ def book_detail(request, slug):
     return render(request, 'books/book_detail.html', context)
 
 
-@login_required
 @require_http_methods(["GET"])
 def serve_book_pdf(request, slug):
     """
     Безопасная отдача PDF файлов книг.
     Проверяет права доступа пользователя перед отдачей файла.
+    Бесплатные книги доступны всем, платные — только авторизованным покупателям.
     """
     book = get_object_or_404(Book, slug=slug)
 
     # Проверка прав доступа
     if not book.has_user_purchased(request.user):
+        if not request.user.is_authenticated:
+            return redirect('account_login')
         raise Http404("У вас нет доступа к этой книге")
 
     # Проверка существования файла
