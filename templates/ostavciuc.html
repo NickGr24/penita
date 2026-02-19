@@ -33,7 +33,11 @@
         "@type": "Country",
         "name": "Moldova"
     },
-    "honorificSuffix": "Dr. hab."
+    "honorificSuffix": "Dr. hab.",
+    "hasCredential": [
+        {"@type": "EducationalOccupationalCredential", "credentialCategory": "Doctor habilitat în drept"}
+    ],
+    "award": ["Ordinul Credință Patriei clasa I", "Crucea Pentru Merit"]
 }
 </script>
 {% endblock %}
@@ -81,5 +85,70 @@
             <p>A fost decorat cu numeroase distincții, printre care Ordinul Credință Patriei clasa I și Crucea „Pentru Merit”, pentru activitatea sa remarcabilă în serviciul public.</p>
         </div>
     </div>
+
+    {% if articles %}
+    <div class="publications-section">
+        <h2>Articolele autorului</h2>
+        <ul class="publications-list">
+            {% for article in articles %}
+            <li><a href="/articles/{{ article.slug }}/">{{ article.name }}</a>
+                {% if article.category %}<span class="pub-category">{{ article.get_category_display }}</span>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if books %}
+    <div class="publications-section">
+        <h2>Cărțile autorului</h2>
+        <ul class="publications-list">
+            {% for book in books %}
+            <li><a href="/books/{{ book.slug }}/">{{ book.title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
 </div>
+
+<style>
+.publications-section {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px 25px;
+    background: #fafaf5;
+    border: 1px solid #e0ddd5;
+    border-radius: 8px;
+}
+.publications-section h2 {
+    color: #556B2F;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #556B2F;
+    padding-bottom: 8px;
+}
+.publications-list {
+    list-style: none;
+    padding: 0;
+}
+.publications-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+.publications-list li:last-child { border-bottom: none; }
+.publications-list a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+}
+.publications-list a:hover {
+    color: #556B2F;
+    text-decoration: underline;
+}
+.pub-category {
+    font-size: 0.8rem;
+    color: #888;
+    margin-left: 8px;
+}
+</style>
 {% endblock content %}

@@ -3,7 +3,7 @@
 
 {% block title %}{{ article.name }} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}{{ article.description|default:article.name|truncatewords:25 }}{% endblock %}
+{% block meta_description %}{{ article.excerpt|default:article.description|default:article.name|truncatewords:25 }}{% endblock %}
 
 {% block meta_keywords %}{{ article.name }}, {{ article.get_category_display }}, {{ article.author }}, drept procesual penal, procedura penală, criminalistică, Codul de procedură penală, Moldova{% endblock %}
 
@@ -40,6 +40,7 @@
         "@type": "WebPage",
         "@id": "https://penitadreptului.md/articles/{{ article.slug }}/"
     },
+    {% if article.excerpt %}"abstract": "{{ article.excerpt|escapejs }}",{% endif %}
     "inLanguage": "ro-RO",
     "about": {
         "@type": "Thing",
@@ -393,6 +394,102 @@
         }
     }
 
+    /* Article Preview for SEO */
+    .article-preview {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 25px 20px;
+        background: #fafdf5;
+        border-bottom: 2px solid #e0e5d1;
+    }
+
+    .article-description {
+        font-size: 1.1rem;
+        color: #444;
+        line-height: 1.7;
+        margin-bottom: 15px;
+        font-style: italic;
+    }
+
+    .article-excerpt {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 15px;
+    }
+
+    .pdf-notice {
+        text-align: center;
+        padding: 12px;
+        background: #f0f4e8;
+        border-radius: 8px;
+        color: #6B8E23;
+        font-weight: 500;
+        font-size: 0.95rem;
+    }
+
+    .pdf-notice i {
+        margin-right: 5px;
+        color: #c0392b;
+    }
+
+    /* SEO content - visible article text */
+    .seo-content {
+        max-width: 900px;
+        margin: 20px auto;
+        padding: 25px 30px;
+        background: #fafaf5;
+        border: 1px solid #e0ddd5;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: #333;
+    }
+
+    .seo-content h2 {
+        font-size: 1.2rem;
+        color: #556B2F;
+        margin-bottom: 15px;
+    }
+
+    .seo-content-preview {
+        max-height: 300px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .seo-content-preview.collapsed::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: linear-gradient(transparent, #fafaf5);
+    }
+
+    .seo-toggle-btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 8px 20px;
+        background: #556B2F;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .seo-toggle-btn:hover {
+        background: #6B8E23;
+    }
+
+    @media (max-width: 768px) {
+        .article-preview {
+            padding: 20px 15px;
+        }
+    }
+
     /* Breadcrumbs для SEO и навигации */
     .breadcrumbs {
         max-width: 900px;
@@ -543,6 +640,48 @@
             {% endif %}
         </div>
     </div>
+
+    {% if article.excerpt or article.seo_content %}
+    <!-- SEO Article Preview - visible to users and search engines -->
+    <div class="article-preview">
+        {% if article.description %}
+        <p class="article-description">{{ article.description }}</p>
+        {% endif %}
+        {% if article.excerpt %}
+        <div class="article-excerpt">
+            <p>{{ article.excerpt }}</p>
+        </div>
+        {% endif %}
+        <div class="pdf-notice">
+            <i class="fas fa-file-pdf"></i> Citiți articolul complet în format PDF mai jos
+        </div>
+    </div>
+    {% endif %}
+
+    {% if article.seo_content %}
+    <div class="seo-content">
+        <h2>Textul articolului</h2>
+        <div class="seo-content-preview collapsed" id="seo-text">
+            {{ article.seo_content|safe }}
+        </div>
+        <button class="seo-toggle-btn" onclick="toggleSeoContent()" id="seo-toggle-btn">Citește mai mult</button>
+    </div>
+    <script>
+    function toggleSeoContent() {
+        var el = document.getElementById('seo-text');
+        var btn = document.getElementById('seo-toggle-btn');
+        if (el.classList.contains('collapsed')) {
+            el.classList.remove('collapsed');
+            el.style.maxHeight = 'none';
+            btn.textContent = 'Ascunde textul';
+        } else {
+            el.classList.add('collapsed');
+            el.style.maxHeight = '300px';
+            btn.textContent = 'Citește mai mult';
+        }
+    }
+    </script>
+    {% endif %}
 
     <div class="gesture-hint">
         <i class="fas fa-info-circle"></i> Swipe stânga/dreapta pentru navigare • Pinch pentru zoom

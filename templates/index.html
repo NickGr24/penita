@@ -81,6 +81,21 @@
     ]
 }
 </script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Penița Dreptului",
+    "url": "https://penitadreptului.md",
+    "description": "Blog juridic profesional cu articole și cărți despre dreptul procesual penal și criminalistica din Republica Moldova",
+    "areaServed": {
+        "@type": "Country",
+        "name": "Moldova"
+    },
+    "knowsAbout": ["Drept Procesual Penal", "Criminalistică", "Drept Penal"],
+    "inLanguage": "ro"
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -89,7 +104,7 @@
             <source src="{% static 'img/bg-video.webm' %}" type="video/webm">
         </video>
         {% include 'navbar.html' %}
-        <h1 class="greeting typing"></h1>
+        <h1 class="greeting typing">Bine ați venit la Penița Dreptului</h1>
         <p class="slogan">Claritate în drept, încredere în acțiune</p>
     </section>
 

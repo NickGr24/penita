@@ -20,17 +20,20 @@ class Article(models.Model):
     author = models.CharField(max_length=256, choices=authors)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, null=True, blank=True)
     slug = models.SlugField()
+    
+    # SEO fields - текстовое содержимое для индексации Google
+    seo_content = models.TextField(blank=True, null=True,
+        help_text="HTML версия статьи для SEO (будет видна Google)")
+    excerpt = models.TextField(max_length=500, blank=True, null=True,
+        help_text="Краткий отрывок для превью на странице")
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-        
-    def __str__(self):
-        return self.name
     
     class Meta:
         verbose_name = 'Articol'

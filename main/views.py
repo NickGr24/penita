@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.http import HttpResponse
-from .models import News  
+from .models import News
+from articles.models import Article
+from books.models import Book
 
 def homepage(request):
     news_list = News.objects.all().order_by('-id')
@@ -21,11 +23,15 @@ def register(request):
     return render(request, 'user/register.html', {'form': form})
 
 def osoianu(request):
-    return render(request, 'osoianu.html')
+    articles = Article.objects.filter(author__icontains='Tudor Osoianu').order_by('-publication_date')
+    books = Book.objects.filter(author__icontains='Tudor Osoianu').order_by('-created_at')
+    return render(request, 'osoianu.html', {'articles': articles, 'books': books})
 
 
 def ostavciuc(request):
-    return render(request, 'ostavciuc.html')
+    articles = Article.objects.filter(author__icontains='Dinu Ostavciuc').order_by('-publication_date')
+    books = Book.objects.filter(author__icontains='Dinu Ostavciuc').order_by('-created_at')
+    return render(request, 'ostavciuc.html', {'articles': articles, 'books': books})
 
 
 def news_detail(request, slug):
