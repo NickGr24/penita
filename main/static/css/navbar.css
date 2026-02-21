@@ -4,7 +4,7 @@ nav {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    z-index: 2;
+    z-index: 1100;
     background-color: rgba(0, 0, 0, 0.938);
     padding: 20px;
     height: 80px;
