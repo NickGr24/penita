@@ -46,18 +46,19 @@ window.addEventListener('scroll', showElements);
 window.addEventListener('load', showElements);
 
     document.addEventListener("DOMContentLoaded", function() {
-      const text = "Bine ați venit la Penița Dreptului"; 
+      const titleElement = document.querySelector('.typing');
+      const text = titleElement.textContent.trim();
       let index = 0;
-      const titleElement = document.querySelector('.typing'); 
-  
+      titleElement.textContent = '';
+
       function type() {
           if (index < text.length) {
-              titleElement.textContent += text.charAt(index); 
+              titleElement.textContent += text.charAt(index);
               index++;
               setTimeout(type, 60);
           }
       }
-  
+
       type();
   });
   
