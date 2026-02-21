@@ -51,6 +51,32 @@
     color: #666;
 }
 
+/* Internal links */
+.news-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.news-links a {
+    color: #6B8E23;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.3s;
+}
+
+.news-links a:hover {
+    color: #556B2F;
+}
+
 /* Адаптивность для страницы деталей новости */
 @media (max-width: 768px) {
     .news-detail {

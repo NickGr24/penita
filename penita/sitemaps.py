@@ -71,6 +71,9 @@ class NewsSitemap(Sitemap):
     def location(self, obj):
         return reverse('news_detail', kwargs={'slug': obj.slug})
 
+    def lastmod(self, obj):
+        return obj.updated_at or obj.created_at
+
 
 sitemaps = {
     'static': StaticViewSitemap,

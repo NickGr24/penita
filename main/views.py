@@ -8,7 +8,13 @@ from books.models import Book
 
 def homepage(request):
     news_list = News.objects.all().order_by('-id')
-    return render(request, 'index.html', {'news_list': news_list})
+    latest_articles = Article.objects.all().order_by('-publication_date')[:6]
+    featured_books = Book.objects.all().order_by('-created_at')[:4]
+    return render(request, 'index.html', {
+        'news_list': news_list,
+        'latest_articles': latest_articles,
+        'featured_books': featured_books,
+    })
 
 def register(request):
     if request.method == 'POST':

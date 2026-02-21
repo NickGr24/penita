@@ -7,6 +7,8 @@ class News(models.Model):
     content = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='news/', null=True, blank=True, help_text='Главное изображение (опционально)')
     slug = models.SlugField()
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return self.title

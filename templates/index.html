@@ -149,6 +149,42 @@
           </div>
       </div>
     </section>
+    {% if latest_articles %}
+    <section class="home-articles-section">
+        <h2>Ultimele Articole</h2>
+        <div class="home-articles-grid">
+            {% for article in latest_articles %}
+            <a href="{% url 'article_detail' slug=article.slug %}" class="home-article-card">
+                <h3>{{ article.name }}</h3>
+                <p>{{ article.description|default:article.name|truncatewords:15 }}</p>
+                <span class="home-card-meta"><i class="fas fa-user-edit"></i> {{ article.author }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="{% url 'articles' %}" class="btn">Toate Articolele</a>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if featured_books %}
+    <section class="home-books-section">
+        <h2>Cărțile Noastre</h2>
+        <div class="home-books-grid">
+            {% for book in featured_books %}
+            <a href="{% url 'book_detail' slug=book.slug %}" class="home-book-card">
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.description|truncatewords:15 }}</p>
+                <span class="home-card-meta"><i class="fas fa-user-edit"></i> {{ book.author }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        <div style="text-align: center; margin-top: 25px;">
+            <a href="{% url 'books_list' %}" class="btn">Toate Cărțile</a>
+        </div>
+    </section>
+    {% endif %}
+
     <section class="benefits-section">
       <h2>De ce să ne alegi?</h2>
       <div class="benefits-container">

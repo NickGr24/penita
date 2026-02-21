@@ -73,5 +73,11 @@
         <img src="{{ image.image.url }}" alt="{{ news.title }} - imagine {{ forloop.counter }}" loading="lazy">
     </div>
     {% endfor %}
+
+    <div class="news-links">
+        <a href="{% url 'articles' %}"><i class="fas fa-file-alt"></i> Articole Științifice</a>
+        <a href="{% url 'books_list' %}"><i class="fas fa-book"></i> Cărți Juridice</a>
+        <a href="{% url 'home' %}"><i class="fas fa-home"></i> Pagina Principală</a>
+    </div>
 </section>
 {% endblock %}

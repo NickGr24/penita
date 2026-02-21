@@ -308,6 +308,32 @@ body {
     }
 }
 
+/* Cross-link banner */
+.cross-link-banner {
+    text-align: center;
+    padding: 20px;
+    background: #f0f4e8;
+    border-radius: 8px;
+    margin: 30px auto;
+    max-width: 600px;
+}
+
+.cross-link-banner p {
+    font-size: 1rem;
+    color: #444;
+    margin: 0;
+}
+
+.cross-link-banner a {
+    color: #6B8E23;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.cross-link-banner a:hover {
+    text-decoration: underline;
+}
+
 /* Pagination */
 .pagination {
     display: flex;
