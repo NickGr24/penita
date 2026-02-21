@@ -411,27 +411,6 @@
         font-style: italic;
     }
 
-    .article-excerpt {
-        font-size: 1rem;
-        color: #555;
-        line-height: 1.8;
-        margin-bottom: 15px;
-    }
-
-    .pdf-notice {
-        text-align: center;
-        padding: 12px;
-        background: #f0f4e8;
-        border-radius: 8px;
-        color: #6B8E23;
-        font-weight: 500;
-        font-size: 0.95rem;
-    }
-
-    .pdf-notice i {
-        margin-right: 5px;
-        color: #c0392b;
-    }
 
     /* SEO content - hidden from users, readable by search engines */
     .seo-content {
@@ -603,20 +582,9 @@
         </div>
     </div>
 
-    {% if article.excerpt or article.seo_content %}
-    <!-- SEO Article Preview - visible to users and search engines -->
+    {% if article.description %}
     <div class="article-preview">
-        {% if article.description %}
         <p class="article-description">{{ article.description }}</p>
-        {% endif %}
-        {% if article.excerpt %}
-        <div class="article-excerpt">
-            <p>{{ article.excerpt }}</p>
-        </div>
-        {% endif %}
-        <div class="pdf-notice">
-            <i class="fas fa-file-pdf"></i> Citiți articolul complet în format PDF mai jos
-        </div>
     </div>
     {% endif %}
 
