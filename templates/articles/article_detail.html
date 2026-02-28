@@ -412,19 +412,6 @@
     }
 
 
-    /* SEO content - hidden from users, readable by search engines */
-    .seo-content {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        padding: 0;
-        margin: -1px;
-        overflow: hidden;
-        clip: rect(0, 0, 0, 0);
-        white-space: nowrap;
-        border: 0;
-    }
-
     @media (max-width: 768px) {
         .article-preview {
             padding: 20px 15px;
@@ -585,12 +572,6 @@
     {% if article.description %}
     <div class="article-preview">
         <p class="article-description">{{ article.description }}</p>
-    </div>
-    {% endif %}
-
-    {% if article.seo_content %}
-    <div class="seo-content" aria-hidden="true">
-        {{ article.seo_content|safe }}
     </div>
     {% endif %}
 

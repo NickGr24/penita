@@ -19,7 +19,7 @@ class Article(models.Model):
     publication_date = models.DateField(auto_now_add=True, blank=True, null=True)
     author = models.CharField(max_length=256, choices=authors)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, null=True, blank=True)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     
     # SEO fields - текстовое содержимое для индексации Google
     seo_content = models.TextField(blank=True, null=True,

@@ -1,3 +1,6 @@
+// Mark page as JS-loaded so animations only apply when JS works
+document.documentElement.classList.add('js-loaded');
+
 // Intersection Observer for authors animations
 document.addEventListener('DOMContentLoaded', function() {
     const authorItems = document.querySelectorAll('.content-item');
