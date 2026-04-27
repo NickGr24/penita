@@ -74,10 +74,12 @@
         this.prefersReducedMotion = window.matchMedia &&
             window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        // Search state
-        this.findController = null;
-        this.eventBus = null;
-        this.pdfViewerComponents = null;  // pdfjsViewer module reference
+        // Search state (custom implementation — PDFFindController requires full
+        // PDFViewer setup which doesn't fit our custom canvas rendering)
+        this.searchIndex = null;        // [{pageNum, text}] across all pages
+        this.searchQuery = '';
+        this.searchMatches = [];        // [{pageNum, indexInPage}]
+        this.currentMatchIdx = -1;      // index into searchMatches
 
         // === Lazy-load PDF.js when viewer is visible ===
         this.setupLazyLoad();
@@ -189,7 +191,6 @@
     PdfViewer.prototype.initPdf = function () {
         var self = this;
         window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL;
-        this.pdfViewerComponents = window.pdfjsViewer;
 
         window.pdfjsLib.getDocument({
             url: this.config.url,
@@ -202,8 +203,8 @@
             if (self.pageNum < 1) self.pageNum = 1;
             // Clear loading message
             self.canvasContainer.innerHTML = '';
-            // Setup search controller
-            self.initSearch();
+            // Build search index in background (extract text from all pages)
+            self.buildSearchIndex();
             // Render first page
             self.renderPage(self.pageNum);
             self.updateNavButtons();
@@ -371,11 +372,16 @@
                 // Render text layer asynchronously (doesn't block UI)
                 return page.getTextContent().then(function (textContent) {
                     if (!window.pdfjsLib.renderTextLayer) return;
-                    window.pdfjsLib.renderTextLayer({
+                    var task = window.pdfjsLib.renderTextLayer({
                         textContent: textContent,
                         container: textLayerDiv,
                         viewport: viewport,
                         textDivs: [],
+                    });
+                    // After text layer is ready, re-apply search highlights for this page
+                    var promise = task && task.promise ? task.promise : Promise.resolve();
+                    return promise.then(function () {
+                        if (self.searchQuery) self.highlightMatchesOnCurrentPage();
                     });
                 }).catch(function (e) {
                     console.warn('[pdf-viewer] textLayer render failed:', e);
@@ -506,31 +512,45 @@
         }
     };
 
-    /* ---------- Search (PDFFindController) ---------- */
+    /* ---------- Search (custom implementation) ----------
+     * We don't use pdfjsViewer.PDFFindController because it's tightly coupled
+     * to PDFViewer (full pdf.js viewer), and we have custom canvas rendering.
+     * Our impl is simpler and works with our setup:
+     *   1. buildSearchIndex(): on PDF load, extract text from every page
+     *      (cached in this.searchIndex = [{pageNum, text}])
+     *   2. search(query): scan index for case-insensitive matches, build
+     *      this.searchMatches = [{pageNum, indexInPage}]
+     *   3. nextMatch / prevMatch: navigate this.currentMatchIdx, jump to
+     *      that page, then highlight on render
+     *   4. After each renderPage(): scan textLayer spans on the visible
+     *      page and mark matching spans with .highlight (and .selected
+     *      for current match)
+     */
 
-    PdfViewer.prototype.initSearch = function () {
-        if (!this.pdfViewerComponents || !this.searchInput) return;
+    PdfViewer.prototype.buildSearchIndex = function () {
         var self = this;
-        this.eventBus = new this.pdfViewerComponents.EventBus();
-        var linkService = new this.pdfViewerComponents.PDFLinkService({ eventBus: this.eventBus });
-        this.findController = new this.pdfViewerComponents.PDFFindController({
-            linkService: linkService,
-            eventBus: this.eventBus,
-        });
-        this.findController.setDocument(this.pdfDoc);
-
-        var handler = function (state) { self.handleFindResults(state); };
-        this.eventBus.on('updatefindmatchescount', handler);
-        this.eventBus.on('updatefindcontrolstate', handler);
-
-        // When search jumps to a different page, sync our viewer
-        this.eventBus.on('updatefindmatchescount', function (state) {
-            if (self.findController.pageMatches && self.findController.selected) {
-                var targetPage = self.findController.selected.pageIdx + 1;
-                if (targetPage && targetPage !== self.pageNum) {
-                    self.goToPage(targetPage);
-                }
-            }
+        if (!this.pdfDoc) return;
+        this.searchIndex = [];
+        var promises = [];
+        for (var i = 1; i <= this.pdfDoc.numPages; i++) {
+            (function (pageNum) {
+                promises.push(
+                    self.pdfDoc.getPage(pageNum)
+                        .then(function (page) { return page.getTextContent(); })
+                        .then(function (textContent) {
+                            var text = textContent.items.map(function (item) {
+                                return item.str;
+                            }).join(' ');
+                            self.searchIndex[pageNum - 1] = { pageNum: pageNum, text: text };
+                        })
+                );
+            })(i);
+        }
+        Promise.all(promises).then(function () {
+            // Index ready — if user already typed something while indexing, re-run search
+            if (self.searchQuery) self.search(self.searchQuery);
+        }).catch(function (e) {
+            console.warn('[pdf-viewer] Failed to build search index:', e);
         });
     };
 
@@ -548,18 +568,10 @@
         this.searchBar.classList.remove('is-open');
         if (this.searchInput) this.searchInput.value = '';
         if (this.matchCounter) this.matchCounter.textContent = '';
-        if (this.findController && this.eventBus) {
-            this.eventBus.dispatch('find', {
-                source: this,
-                type: '',
-                query: '',
-                phraseSearch: true,
-                caseSensitive: false,
-                entireWord: false,
-                highlightAll: false,
-                findPrevious: false,
-            });
-        }
+        this.searchQuery = '';
+        this.searchMatches = [];
+        this.currentMatchIdx = -1;
+        this.clearHighlights();
     };
 
     PdfViewer.prototype.isSearchOpen = function () {
@@ -567,60 +579,135 @@
     };
 
     PdfViewer.prototype.search = function (query) {
-        if (!this.findController || !this.eventBus) return;
-        this.eventBus.dispatch('find', {
-            source: this,
-            type: '',
-            query: query || '',
-            phraseSearch: true,
-            caseSensitive: false,
-            entireWord: false,
-            highlightAll: true,
-            findPrevious: false,
-        });
+        query = (query || '').trim();
+        this.searchQuery = query;
+        this.searchMatches = [];
+        this.currentMatchIdx = -1;
+        if (!query) {
+            this.updateMatchCounter();
+            this.clearHighlights();
+            return;
+        }
+        if (!this.searchIndex || !this.searchIndex.length) {
+            // Index not ready yet — show pending state
+            if (this.matchCounter) this.matchCounter.textContent = 'Caut...';
+            return;
+        }
+        var queryLower = query.toLowerCase();
+        for (var i = 0; i < this.searchIndex.length; i++) {
+            var entry = this.searchIndex[i];
+            if (!entry || !entry.text) continue;
+            var textLower = entry.text.toLowerCase();
+            var idx = 0;
+            while ((idx = textLower.indexOf(queryLower, idx)) !== -1) {
+                this.searchMatches.push({ pageNum: entry.pageNum, indexInPage: idx });
+                idx += queryLower.length;
+            }
+        }
+        if (this.searchMatches.length > 0) {
+            this.currentMatchIdx = 0;
+            this.jumpToCurrentMatch();
+        }
+        this.updateMatchCounter();
+        this.highlightMatchesOnCurrentPage();
     };
 
     PdfViewer.prototype.nextMatch = function () {
-        if (!this.eventBus) return;
-        this.eventBus.dispatch('findagain', {
-            source: this,
-            type: 'again',
-            query: this.searchInput ? this.searchInput.value : '',
-            phraseSearch: true,
-            caseSensitive: false,
-            entireWord: false,
-            highlightAll: true,
-            findPrevious: false,
-        });
+        if (!this.searchMatches.length) return;
+        this.currentMatchIdx = (this.currentMatchIdx + 1) % this.searchMatches.length;
+        this.jumpToCurrentMatch();
+        this.updateMatchCounter();
     };
 
     PdfViewer.prototype.prevMatch = function () {
-        if (!this.eventBus) return;
-        this.eventBus.dispatch('findagain', {
-            source: this,
-            type: 'again',
-            query: this.searchInput ? this.searchInput.value : '',
-            phraseSearch: true,
-            caseSensitive: false,
-            entireWord: false,
-            highlightAll: true,
-            findPrevious: true,
-        });
+        if (!this.searchMatches.length) return;
+        this.currentMatchIdx = (this.currentMatchIdx - 1 + this.searchMatches.length) % this.searchMatches.length;
+        this.jumpToCurrentMatch();
+        this.updateMatchCounter();
     };
 
-    PdfViewer.prototype.handleFindResults = function (state) {
+    PdfViewer.prototype.jumpToCurrentMatch = function () {
+        var match = this.searchMatches[this.currentMatchIdx];
+        if (!match) return;
+        if (match.pageNum !== this.pageNum) {
+            this.goToPage(match.pageNum);
+            // highlight will be applied after render via highlightMatchesOnCurrentPage()
+        } else {
+            this.highlightMatchesOnCurrentPage();
+        }
+    };
+
+    PdfViewer.prototype.updateMatchCounter = function () {
         if (!this.matchCounter) return;
-        // state.matchesCount = { current, total }
-        var mc = state && state.matchesCount;
-        if (mc && mc.total > 0) {
-            this.matchCounter.textContent = mc.current + ' / ' + mc.total;
+        if (!this.searchQuery) {
+            this.matchCounter.textContent = '';
             this.matchCounter.classList.remove('is-empty');
-        } else if (this.searchInput && this.searchInput.value.length > 0) {
+        } else if (this.searchMatches.length === 0) {
             this.matchCounter.textContent = 'Niciun rezultat';
             this.matchCounter.classList.add('is-empty');
         } else {
-            this.matchCounter.textContent = '';
+            this.matchCounter.textContent = (this.currentMatchIdx + 1) + ' / ' + this.searchMatches.length;
             this.matchCounter.classList.remove('is-empty');
+        }
+    };
+
+    PdfViewer.prototype.clearHighlights = function () {
+        var spans = this.canvasContainer.querySelectorAll('.textLayer .highlight');
+        spans.forEach(function (s) { s.classList.remove('highlight', 'selected'); });
+    };
+
+    PdfViewer.prototype.highlightMatchesOnCurrentPage = function () {
+        // Wait for textLayer to render (a few async frames)
+        var self = this;
+        setTimeout(function () { self._doHighlight(); }, 50);
+    };
+
+    PdfViewer.prototype._doHighlight = function () {
+        if (!this.searchQuery) return;
+        var queryLower = this.searchQuery.toLowerCase();
+        var textLayer = this.canvasContainer.querySelector('.textLayer');
+        if (!textLayer) return;
+
+        // Clear previous highlights
+        var oldHighlights = textLayer.querySelectorAll('.highlight');
+        oldHighlights.forEach(function (s) { s.classList.remove('highlight', 'selected'); });
+
+        // Find which match index is the "selected" one (if on current page)
+        var currentMatchOnPage = null;
+        if (this.searchMatches[this.currentMatchIdx] &&
+            this.searchMatches[this.currentMatchIdx].pageNum === this.pageNum) {
+            // Count which match-on-page index this is
+            var pageMatchCount = 0;
+            for (var i = 0; i <= this.currentMatchIdx; i++) {
+                if (this.searchMatches[i].pageNum === this.pageNum) {
+                    if (i === this.currentMatchIdx) {
+                        currentMatchOnPage = pageMatchCount;
+                    }
+                    pageMatchCount++;
+                }
+            }
+        }
+
+        // Highlight all matching spans on this page
+        var spans = textLayer.querySelectorAll('span');
+        var matchOnPageIdx = 0;
+        var firstSelectedSpan = null;
+        spans.forEach(function (span) {
+            var spanTextLower = (span.textContent || '').toLowerCase();
+            var idx = spanTextLower.indexOf(queryLower);
+            if (idx !== -1) {
+                span.classList.add('highlight');
+                if (matchOnPageIdx === currentMatchOnPage) {
+                    span.classList.add('selected');
+                    if (!firstSelectedSpan) firstSelectedSpan = span;
+                }
+                matchOnPageIdx++;
+            }
+        });
+
+        // Scroll selected match into view
+        if (firstSelectedSpan && firstSelectedSpan.scrollIntoView) {
+            firstSelectedSpan.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }
     };
 
