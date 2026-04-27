@@ -50,7 +50,9 @@
         this.viewer = wrapper.querySelector('[data-pdf-viewer]');
         this.canvasContainer = wrapper.querySelector('[data-pdf-canvas-container]');
         this.searchInput = wrapper.querySelector('[data-pdf-search-input]');
-        this.searchBar = wrapper.querySelector('[data-pdf-search-bar]');
+        // .pdf-search is the parent containing the toggle button + the inner [data-pdf-search-bar]
+        // We add `is-open` class here so CSS selectors like `.pdf-search.is-open [data-pdf-search-bar]` match
+        this.searchBar = wrapper.querySelector('.pdf-search');
         this.matchCounter = wrapper.querySelector('[data-pdf-match-counter]');
         this.currentPageEl = wrapper.querySelector('[data-pdf-current-page]');
         this.totalPagesEl = wrapper.querySelector('[data-pdf-total-pages]');
