@@ -4,7 +4,7 @@
 
 {% block title %}{{ article.name }} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}{% spaceless %}{% with cleaned=article.excerpt|clean_seo_description %}{% if cleaned %}{{ cleaned|truncatechars:160 }}{% else %}{% with cleaned2=article.description|clean_seo_description %}{% if cleaned2 %}{{ cleaned2|truncatechars:160 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }}. Analiză juridică pentru specialiști din Republica Moldova.{% endif %}{% endwith %}{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
+{% block meta_description %}{% spaceless %}{% with cleaned=article.excerpt|clean_seo_description %}{% if cleaned %}{{ cleaned|truncate_meta:160 }}{% else %}{% with cleaned2=article.description|clean_seo_description %}{% if cleaned2 %}{{ cleaned2|truncate_meta:160 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }}. Analiză juridică pentru specialiști din Republica Moldova.{% endif %}{% endwith %}{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
 
 {% block meta_keywords %}{{ article.name }}, {{ article.get_category_display }}, {{ article.author }}, drept procesual penal, procedura penală, criminalistică, Codul de procedură penală, Moldova{% endblock %}
 
@@ -12,10 +12,10 @@
 {% block og_url %}https://penitadreptului.md/articles/{{ article.slug }}/{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block og_title %}{{ article.name }}{% endblock %}
-{% block og_description %}{% spaceless %}{% with cleaned=article.description|clean_seo_description %}{% if cleaned %}{{ cleaned|truncatechars:200 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }} pe Penița Dreptului.{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
+{% block og_description %}{% spaceless %}{% with cleaned=article.description|clean_seo_description %}{% if cleaned %}{{ cleaned|truncate_meta:200 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }} pe Penița Dreptului.{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
 
 {% block twitter_title %}{{ article.name }}{% endblock %}
-{% block twitter_description %}{% spaceless %}{% with cleaned=article.description|clean_seo_description %}{% if cleaned %}{{ cleaned|truncatechars:200 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }}.{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
+{% block twitter_description %}{% spaceless %}{% with cleaned=article.description|clean_seo_description %}{% if cleaned %}{{ cleaned|truncate_meta:200 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }}.{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
 
 {% block structured_data %}
 {% with content_words=article.seo_content|default:article.description|default:article.name|striptags|wordcount %}

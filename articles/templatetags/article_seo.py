@@ -13,7 +13,23 @@ _GARBAGE_PATTERNS = [
     re.compile(r'(?i)https?://\S+'),
     re.compile(r'(?i)\bnr\.\s*\d+\s*\(\s*\d+\s*\)\s*[,/]?\s*\d{4}'),
     re.compile(r'(?i)pag(?:ina)?[\.\s]*\d+'),
-    re.compile(r'(?i)(?:LEGEA\s+[ȘŞ]I\s+VIA[ȚŢ]A|REVISTA\s+INSTITUTULUI(?:\s+NA[ȚŢ]IONAL)?(?:\s+AL\s+JUSTI[ȚŢ]IEI)?|STUDII\s+NA[ȚŢ]IONALE\s+DE\s+SECURITATE|[ȘŞ]tiin[țţ]e\s+juridice(?://\s*Legal\s+Sciences)?|Materialele\s+conferin[țţ]ei[^,.]*|Studii\s+[șş]i\s+comentarii|Publica[țţ]ie\s+[ștşşt]+iin[țţ]ifico-?practic[ăa]?|edi[țţ]ie\s+special[ăa]|SESIUNEA[^,.]*|mai-iunie|martie\s*-\s*aprilie|noiembrie-decembrie|Jurispru\s*de\s*n[țţ][ăa]?)\s*'),
+    re.compile(
+        r'(?i)(?:'
+        r'LEGEA\s+[ȘŞ]I\s+VIA[ȚŢ]A'
+        r'|REVISTA\s+INSTITUTULUI(?:\s+NA[ȚŢ]IONAL)?(?:\s+AL\s+JUSTI[ȚŢ]IEI)?'
+        r'|STUDII\s+NA[ȚŢ]IONALE\s+DE\s+SECURITATE'
+        r'|[ȘŞ]tiin[țţ]e\s+juridice(?://\s*Legal\s+Sciences)?'
+        r'|Materialele\s+conferin[țţ]ei[^,.]*'
+        r'|Studii\s+[șş]i\s+comentarii'
+        r'|Publica[țţ]ie\s+[ștşşt]+iin[țţ]ifico-?practic[ăa]?'
+        r'|edi[țţ]ie\s+special[ăa]'
+        r'|SESIUNEA[^,.]*'
+        r'|mai-iunie|martie\s*-\s*aprilie|noiembrie-decembrie'
+        # Word-boundary версия — обязательные пробелы между токенами + concrete окончания.
+        # Это matches только split-PDF "Jurispru de nță" (с пробелами), НЕ "jurisprudenței".
+        r'|Jurispru\s+de\s+n[țţ](?:[ăa])?(?=\s|$)'
+        r')\s*'
+    ),
     re.compile(r'\b(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)\s+\d{4}', re.IGNORECASE),
 ]
 
@@ -42,3 +58,28 @@ def clean_seo_description(text, min_length=60):
     if len(cleaned) < min_length:
         return ''
     return cleaned
+
+
+@register.filter(name='truncate_meta')
+def truncate_meta(text, max_length=160):
+    """
+    Обрезает text по словам в пределах max_length символов и добавляет '…'.
+    Используется для meta description / og:description — лучше чем
+    truncatechars (который рвёт слова) и truncatewords (который не
+    учитывает символьный лимит, важный для SERP-сниппетов).
+    """
+    if not text:
+        return ''
+    text = str(text).strip()
+    try:
+        max_length = int(max_length)
+    except (TypeError, ValueError):
+        max_length = 160
+    if len(text) <= max_length:
+        return text
+    # Резервируем 1 символ под '…'
+    cut = text[:max_length - 1]
+    last_space = cut.rfind(' ')
+    if last_space > max_length // 2:
+        cut = cut[:last_space]
+    return cut.rstrip(' ,.;:!?-—') + '…'
