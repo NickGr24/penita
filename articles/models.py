@@ -17,6 +17,8 @@ class Article(models.Model):
     description = models.TextField(max_length=500, blank=True, null=True)
     file = models.FileField(upload_to='files/articles')
     publication_date = models.DateField(auto_now_add=True, blank=True, null=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True,
+        help_text='Последнее обновление статьи (для sitemap lastmod, сигналит Google о recrawl)')
     author = models.CharField(max_length=256, choices=authors)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, null=True, blank=True)
     slug = models.SlugField(unique=True)

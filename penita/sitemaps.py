@@ -39,7 +39,10 @@ class ArticleSitemap(Sitemap):
         return reverse('article_detail', kwargs={'slug': obj.slug})
 
     def lastmod(self, obj):
-        return obj.publication_date
+        """Дата последнего обновления для Google.
+        Предпочитает updated_at (фактическое modification),
+        fallback к publication_date (если updated_at пустой)."""
+        return obj.updated_at or obj.publication_date
 
 
 class BookSitemap(Sitemap):
