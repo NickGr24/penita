@@ -1,13 +1,15 @@
 {% load static %}
-{# Shared PDF viewer (articles + books).
-   Caller must pass:
-     - pdf_url    (required) — URL to fetch the PDF file
-     - pdf_title  (required) — human-readable title (escapejs'd by caller if needed)
-     - pdf_type   (optional) — "article" | "book" | "document" (for analytics, default "document")
+{% comment %}
+Shared PDF viewer (articles + books).
+Caller must pass:
+  - pdf_url    (required) — URL to fetch the PDF file
+  - pdf_title  (required) — human-readable title (escapejs'd by caller if needed)
+  - pdf_type   (optional) — "article" | "book" | "document" (for analytics, default "document")
 
-   Usage:
-     {% include 'partials/pdf_viewer.html' with pdf_url=...|.../ pdf_title=... pdf_type='article' %}
-#}
+Usage:
+  {% url 'serve_article_pdf' article.slug as pdf_url %}
+  {% include 'partials/pdf_viewer.html' with pdf_url=pdf_url pdf_title=article.name pdf_type='article' only %}
+{% endcomment %}
 <link rel="stylesheet" href="{% static 'css/pdf-viewer.css' %}">
 
 <div class="reading-progress" id="reading-progress"></div>
