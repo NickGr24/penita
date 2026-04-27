@@ -4,10 +4,11 @@ from django.http import FileResponse, Http404, HttpResponse
 from django.views.decorators.http import require_http_methods
 import os
 from .models import Book
+from articles.models import Article
 
 def books_list(request):
     """Публичный список книг для SEO-индексации."""
-    books = Book.objects.all()
+    books = Book.objects.all().order_by("-id")
     return render(request, 'books/books_list.html', {'books': books})
 
 
@@ -29,11 +30,20 @@ def book_detail(request, slug):
         author=book.author
     ).exclude(id=book.id)[:4]
 
+    # Связанные статьи автора — кросс-перелинковка book→article
+    # и расширение HTML-контента страницы (борьба с thin content)
+    primary_author = book.author.split(',')[0].strip()
+    related_articles = Article.objects.filter(
+        author__icontains=primary_author
+    ).order_by('-publication_date')[:4]
+
     context = {
         'book': book,
         'user_has_access': user_has_access,
         'show_purchase_button': show_purchase_button,
         'other_books': other_books,
+        'related_articles': related_articles,
+        'primary_author': primary_author,
     }
 
     return render(request, 'books/book_detail.html', context)
@@ -70,15 +80,13 @@ def serve_book_pdf(request, slug):
             content_type='application/pdf'
         )
 
-        # Устанавливаем заголовки для корректного отображения в браузере
-        response['Content-Disposition'] = f'inline; filename="{book.title}.pdf"'
+        # Отображение в браузере без возможности скачивания
+        response['Content-Disposition'] = 'inline'
         response['Content-Length'] = os.path.getsize(file_path)
 
-        # Кеширование на стороне клиента (1 день)
-        response['Cache-Control'] = 'private, max-age=86400'
-
-        # Заголовки для поддержки Range requests (важно для больших PDF)
-        response['Accept-Ranges'] = 'bytes'
+        # Запрет кеширования для защиты контента
+        response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+        response['Pragma'] = 'no-cache'
 
         return response
 

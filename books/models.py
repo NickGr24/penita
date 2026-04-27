@@ -24,6 +24,12 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, help_text='Price in MDL (0 for free books)')
     preview_file = models.FileField(upload_to='books/previews/', null=True, blank=True, help_text='Optional preview file for paid books')
 
+    # SEO field — extended HTML description for indexing (защита от thin content)
+    seo_content = models.TextField(
+        blank=True, null=True,
+        help_text='Расширенное HTML-описание книги для SEO-индексации. Если пусто — рендерится generic-блок.'
+    )
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)

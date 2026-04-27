@@ -12,10 +12,8 @@
 {% block og_type %}article{% endblock %}
 {% block og_title %}{{ news.title }}{% endblock %}
 {% block og_description %}{{ news.content|truncatewords:25 }}{% endblock %}
-{% if news.image %}
-{% block og_image %}https://penitadreptului.md{{ news.image.url }}{% endblock %}
-{% block twitter_image %}https://penitadreptului.md{{ news.image.url }}{% endblock %}
-{% endif %}
+{% block og_image %}{% if news.image %}https://penitadreptului.md{{ news.image.url }}{% endif %}{% endblock %}
+{% block twitter_image %}{% if news.image %}https://penitadreptului.md{{ news.image.url }}{% endif %}{% endblock %}
 
 {% block twitter_title %}{{ news.title }}{% endblock %}
 {% block twitter_description %}{{ news.content|truncatewords:25 }}{% endblock %}
@@ -60,7 +58,7 @@
 
     {% if news.image %}
     <div class="news-image">
-        <img src="{{ news.image.url }}" alt="{{ news.title }}" loading="lazy">
+        <img src="{{ news.image.url }}" alt="{{ news.title }}" loading="lazy" width="1200" height="675">
     </div>
     {% endif %}
 
@@ -70,7 +68,7 @@
 
     {% for image in news.images.all %}
     <div class="news-image">
-        <img src="{{ image.image.url }}" alt="{{ news.title }} - imagine {{ forloop.counter }}" loading="lazy">
+        <img src="{{ image.image.url }}" alt="{{ news.title }} - imagine {{ forloop.counter }}" loading="lazy" width="1200" height="675">
     </div>
     {% endfor %}
 

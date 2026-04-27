@@ -23,6 +23,13 @@
     <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
     <link rel="canonical" href="{% block canonical %}https://penitadreptului.md{% endblock %}">
 
+    <!-- hreflang -->
+    {% block hreflang %}
+    <link rel="alternate" hreflang="ro-MD" href="{% block hreflang_ro %}https://penitadreptului.md{% endblock %}">
+    <link rel="alternate" hreflang="ro" href="{% block hreflang_ro_generic %}https://penitadreptului.md{% endblock %}">
+    <link rel="alternate" hreflang="x-default" href="{% block hreflang_default %}https://penitadreptului.md{% endblock %}">
+    {% endblock hreflang %}
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:url" content="{% block og_url %}https://penitadreptului.md{% endblock %}">
@@ -69,8 +76,10 @@
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Oswald:wght@200..700&family=Poppins:wght@400;500;600;700&display=swap">
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Oswald:wght@200..700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"></noscript>
 
     <!-- Временный фавикон (ожидается логотип) -->
     <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.webp' %}">
@@ -84,6 +93,30 @@
     
 {% endblock content %}
 <footer class="site-footer">
+    <nav class="footer-categories" aria-label="Categorii">
+        <div>
+            <h4>Categorii</h4>
+            <ul>
+                <li><a href="{% url 'articles' %}?category=procedura_penala">Drept procesual penal</a></li>
+                <li><a href="{% url 'articles' %}?category=criminalistica">Criminalistică</a></li>
+                <li><a href="{% url 'articles' %}?category=alte_stiinte">Alte științe juridice</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Resurse</h4>
+            <ul>
+                <li><a href="{% url 'articles' %}">Toate articolele</a></li>
+                <li><a href="{% url 'books_list' %}">Cărți juridice</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4>Autori</h4>
+            <ul>
+                <li><a href="{% url 'osoianu' %}">Tudor Osoianu</a></li>
+                <li><a href="{% url 'ostavciuc' %}">Dinu Ostavciuc</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="footer-content">
         <div class="payment-logos">
             <img src="{% static 'img/visa_logo.webp' %}" alt="Visa" loading="lazy" width="80" height="45">
@@ -99,6 +132,29 @@
         &copy; {% now "Y" %} Penița Dreptului. Toate drepturile rezervate.
     </div>
 </footer>
+{% if messages %}
+<div class="toast-container" role="status" aria-live="polite">
+    {% for message in messages %}
+    <div class="toast toast-{{ message.tags|default:'info' }}">
+        <span class="toast-message">{{ message }}</span>
+        <button type="button" class="toast-close" aria-label="Închide">&times;</button>
+    </div>
+    {% endfor %}
+</div>
+<script>
+(function(){
+    var toasts = document.querySelectorAll('.toast');
+    toasts.forEach(function(toast){
+        var hide = function(){
+            toast.classList.add('toast-hide');
+            setTimeout(function(){ toast.remove(); }, 400);
+        };
+        toast.querySelector('.toast-close').addEventListener('click', hide);
+        setTimeout(hide, 5000);
+    });
+})();
+</script>
+{% endif %}
 <script src="{% static 'js/navbar.js' %}" defer></script>
 </body>
 </html>

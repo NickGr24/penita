@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load article_seo %}
 
 {% block title %}{{ article.name }} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}{{ article.excerpt|default:article.description|default:article.name|truncatewords:25 }}{% endblock %}
+{% block meta_description %}{% spaceless %}{% with cleaned=article.excerpt|clean_seo_description %}{% if cleaned %}{{ cleaned|truncatechars:160 }}{% else %}{% with cleaned2=article.description|clean_seo_description %}{% if cleaned2 %}{{ cleaned2|truncatechars:160 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }}. Analiză juridică pentru specialiști din Republica Moldova.{% endif %}{% endwith %}{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
 
 {% block meta_keywords %}{{ article.name }}, {{ article.get_category_display }}, {{ article.author }}, drept procesual penal, procedura penală, criminalistică, Codul de procedură penală, Moldova{% endblock %}
 
@@ -11,23 +12,26 @@
 {% block og_url %}https://penitadreptului.md/articles/{{ article.slug }}/{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block og_title %}{{ article.name }}{% endblock %}
-{% block og_description %}{{ article.description|default:article.name|truncatewords:25 }}{% endblock %}
+{% block og_description %}{% spaceless %}{% with cleaned=article.description|clean_seo_description %}{% if cleaned %}{{ cleaned|truncatechars:200 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }} pe Penița Dreptului.{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
 
 {% block twitter_title %}{{ article.name }}{% endblock %}
-{% block twitter_description %}{{ article.description|default:article.name|truncatewords:25 }}{% endblock %}
+{% block twitter_description %}{% spaceless %}{% with cleaned=article.description|clean_seo_description %}{% if cleaned %}{{ cleaned|truncatechars:200 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }}.{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
 
 {% block structured_data %}
+{% with content_words=article.seo_content|default:article.description|default:article.name|striptags|wordcount %}
+{% widthratio content_words|add:200 200 1 as read_minutes_raw %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "ScholarlyArticle",
     "headline": "{{ article.name|escapejs }}",
-    "description": "{{ article.description|default:''|escapejs }}",
+    "description": "{% with cleaned=article.description|clean_seo_description %}{% if cleaned %}{{ cleaned|escapejs }}{% else %}{{ article.name|escapejs }} — articol despre {{ article.get_category_display|default:'drept'|escapejs }} de {{ article.author|escapejs }} pe Penița Dreptului.{% endif %}{% endwith %}",
     "author": {
         "@type": "Person",
         "name": "{{ article.author }}"
     },
     "datePublished": "{{ article.publication_date|date:'Y-m-d' }}",
+    "dateModified": "{{ article.publication_date|date:'Y-m-d' }}",
     "publisher": {
         "@type": "Organization",
         "name": "Penița Dreptului",
@@ -40,14 +44,19 @@
         "@type": "WebPage",
         "@id": "https://penitadreptului.md/articles/{{ article.slug }}/"
     },
-    {% if article.excerpt %}"abstract": "{{ article.excerpt|escapejs }}",{% endif %}
+    {% with cleaned_excerpt=article.excerpt|clean_seo_description %}{% if cleaned_excerpt %}"abstract": "{{ cleaned_excerpt|escapejs }}",{% endif %}{% endwith %}
+    "wordCount": {{ content_words|default:300 }},
+    "timeRequired": "PT{{ read_minutes_raw }}M",
+    "articleSection": "{{ article.get_category_display|default:'Drept'|escapejs }}",
     "inLanguage": "ro-RO",
+    "isAccessibleForFree": true,
     "about": {
         "@type": "Thing",
         "name": "{{ article.get_category_display }}"
     }
 }
 </script>
+{% endwith %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -368,30 +377,49 @@
         }
     }
 
-    /* Fullscreen button */
+    /* Fullscreen button (visible on all screens) */
     .fullscreen-btn {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 12px 16px;
+        bottom: 22px;
+        right: 22px;
+        width: 52px;
+        height: 52px;
+        padding: 0;
         background: #2c3e50;
         color: white;
         border: none;
         border-radius: 50%;
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        z-index: 1000;
-        display: none;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        transition: background .2s ease, transform .2s ease;
     }
+    .fullscreen-btn:hover { background: #34495e; transform: translateY(-2px); }
+    .fullscreen-btn:focus-visible { outline: 3px solid #6B8E23; outline-offset: 2px; }
 
-    .fullscreen-btn:hover {
-        background: #34495e;
+    /* Pseudo-fullscreen (iOS Safari fallback — real fullscreen API unreliable for <div>) */
+    .pdf-viewer-container.is-pseudo-fullscreen {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        z-index: 9998;
+        margin: 0;
+        padding: 0;
     }
+    body.pdf-fullscreen-open { overflow: hidden; }
 
-    @media (max-width: 768px) {
-        .fullscreen-btn {
-            display: block;
-        }
+    /* Native fullscreen (Chrome/Firefox/Edge): viewer takes full screen */
+    .pdf-viewer-container:fullscreen,
+    .pdf-viewer-container:-webkit-full-screen {
+        width: 100vw;
+        height: 100vh;
+        background: #1b2530;
     }
 
     /* Article Preview for SEO */
@@ -537,6 +565,99 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* SEO Full Text Accordion */
+    .seo-accordion {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 20px 20px;
+        background: #fafdf5;
+    }
+
+    .seo-accordion details {
+        border: 1px solid #d4dcc0;
+        border-radius: 8px;
+        background: #fff;
+        overflow: hidden;
+    }
+
+    .seo-accordion summary {
+        padding: 16px 24px;
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #2c3e50;
+        cursor: pointer;
+        background: #f0f4e4;
+        border-bottom: 1px solid transparent;
+        transition: background 0.2s, border-color 0.2s;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .seo-accordion summary::-webkit-details-marker { display: none; }
+
+    .seo-accordion summary::before {
+        content: '\25B6';
+        font-size: 0.75rem;
+        transition: transform 0.2s;
+        color: #6B8E23;
+    }
+
+    .seo-accordion details[open] summary::before {
+        transform: rotate(90deg);
+    }
+
+    .seo-accordion details[open] summary {
+        border-bottom-color: #d4dcc0;
+        background: #e8eeda;
+    }
+
+    .seo-accordion summary:hover {
+        background: #e8eeda;
+    }
+
+    .seo-accordion .seo-content-body {
+        padding: 24px 28px;
+        font-size: 1rem;
+        line-height: 1.75;
+        color: #333;
+        font-family: 'Georgia', 'Times New Roman', serif;
+    }
+
+    .seo-accordion .seo-content-body h2 {
+        font-size: 1.3rem;
+        color: #2c3e50;
+        margin: 28px 0 12px;
+        padding-bottom: 6px;
+        border-bottom: 2px solid #e8eeda;
+        font-family: 'Oswald', sans-serif;
+    }
+
+    .seo-accordion .seo-content-body p {
+        margin-bottom: 14px;
+        text-align: justify;
+        hyphens: auto;
+    }
+
+    @media (max-width: 768px) {
+        .seo-accordion {
+            padding: 0 10px 15px;
+        }
+
+        .seo-accordion .seo-content-body {
+            padding: 16px 14px;
+            font-size: 0.95rem;
+            line-height: 1.65;
+        }
+
+        .seo-accordion summary {
+            padding: 14px 16px;
+            font-size: 1rem;
+        }
+    }
+
 </style>
 {% endblock css_link %}
 
@@ -566,12 +687,31 @@
             {% if article.category %}
             <span><i class="fas fa-folder"></i> {{ article.get_category_display }}</span>
             {% endif %}
+            {% with words=article.seo_content|default:article.description|default:article.name|striptags|wordcount %}
+            {% widthratio words|add:200 200 1 as read_min %}
+            <span><i class="fas fa-clock"></i> {{ read_min }} min de citit</span>
+            {% endwith %}
+            {% if article.publication_date %}
+            <span><i class="fas fa-calendar-alt"></i> <time datetime="{{ article.publication_date|date:'Y-m-d' }}">{{ article.publication_date|date:'d M Y' }}</time></span>
+            {% endif %}
         </div>
     </div>
 
     {% if article.description %}
     <div class="article-preview">
         <p class="article-description">{{ article.description }}</p>
+    </div>
+    {% endif %}
+
+
+    {% if article.seo_content %}
+    <div class="seo-accordion">
+        <details>
+            <summary>Citește textul integral al articolului</summary>
+            <div class="seo-content-body">
+                {{ article.seo_content|safe }}
+            </div>
+        </details>
     </div>
     {% endif %}
 
@@ -612,10 +752,6 @@
                 <i class="fas fa-plus"></i>
             </button>
         </div>
-
-        <button onclick="downloadPDF()" title="Descarcă PDF">
-            <i class="fas fa-download"></i> Descarcă
-        </button>
     </div>
 
     <div class="pdf-viewer-container" id="pdf-viewer">
@@ -650,8 +786,26 @@
 </section>
 {% endif %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<!-- Recommended Books — кросс-перелинковка статья→книга (SEO + конверсия) -->
+{% if recommended_books %}
+<section class="related-articles" style="background: #fff; border-top: 1px solid #e0e5d1;">
+    <h3><i class="fas fa-book-open"></i> Cărți recomandate de {{ article.author }}</h3>
+    <div class="related-grid">
+        {% for book in recommended_books %}
+        <div class="related-card">
+            <h4><a href="{% url 'book_detail' book.slug %}">{{ book.title }}</a></h4>
+            <p>{{ book.description|default:book.title|truncatewords:18 }}</p>
+            <a href="{% url 'book_detail' book.slug %}" class="read-more">
+                {% if book.is_paid %}Vezi cartea <i class="fas fa-arrow-right"></i>{% else %}Citește gratuit <i class="fas fa-arrow-right"></i>{% endif %}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
 <script>
+function initPdfViewer() {
     // Configurare PDF.js
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
@@ -836,23 +990,74 @@
         }
     }
 
-    function downloadPDF() {
-        const link = document.createElement('a');
-        link.href = pdfUrl;
-        link.download = '{{ article.name }}.pdf';
-        link.click();
+    // Fullscreen with native API + iOS Safari pseudo-fullscreen fallback
+    function isNativeFSActive() {
+        return !!(document.fullscreenElement || document.webkitFullscreenElement);
     }
-
-    function toggleFullscreen() {
-        const viewer = document.getElementById('pdf-viewer');
-        if (!document.fullscreenElement) {
-            viewer.requestFullscreen().catch(err => {
-                console.log('Error attempting to enable fullscreen:', err);
-            });
+    function isPseudoFSActive() {
+        return document.body.classList.contains('pdf-fullscreen-open');
+    }
+    function updateFullscreenBtnIcon() {
+        const btn = document.querySelector('.fullscreen-btn i');
+        if (!btn) return;
+        if (isNativeFSActive() || isPseudoFSActive()) {
+            btn.className = 'fas fa-compress';
+            btn.parentElement.title = 'Ieșire din ecran complet';
         } else {
-            document.exitFullscreen();
+            btn.className = 'fas fa-expand';
+            btn.parentElement.title = 'Ecran complet';
         }
     }
+    function enterPseudoFullscreen(viewer) {
+        viewer.classList.add('is-pseudo-fullscreen');
+        document.body.classList.add('pdf-fullscreen-open');
+        updateFullscreenBtnIcon();
+        // Re-render current page to recalculate page-width for new viewport
+        setTimeout(() => queueRenderPage(pageNum), 60);
+    }
+    function exitPseudoFullscreen(viewer) {
+        viewer.classList.remove('is-pseudo-fullscreen');
+        document.body.classList.remove('pdf-fullscreen-open');
+        updateFullscreenBtnIcon();
+        setTimeout(() => queueRenderPage(pageNum), 60);
+    }
+    function toggleFullscreen() {
+        const viewer = document.getElementById('pdf-viewer');
+        // Currently in pseudo-fullscreen? Exit it.
+        if (isPseudoFSActive()) { exitPseudoFullscreen(viewer); return; }
+        // Currently in native fullscreen? Exit it.
+        if (isNativeFSActive()) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            return;
+        }
+        // Try native API (Chrome, Firefox, Edge, Safari desktop)
+        const req = viewer.requestFullscreen || viewer.webkitRequestFullscreen;
+        if (req) {
+            const p = req.call(viewer);
+            if (p && typeof p.catch === 'function') {
+                p.catch(() => enterPseudoFullscreen(viewer));
+            }
+            // Re-render after transition to match new viewport
+            setTimeout(() => queueRenderPage(pageNum), 250);
+        } else {
+            // iOS Safari — no fullscreen API on div → pseudo
+            enterPseudoFullscreen(viewer);
+        }
+    }
+    // React to native fullscreen change (user pressed ESC or swiped back)
+    ['fullscreenchange','webkitfullscreenchange'].forEach(ev =>
+        document.addEventListener(ev, () => {
+            updateFullscreenBtnIcon();
+            setTimeout(() => queueRenderPage(pageNum), 120);
+        })
+    );
+    // ESC also closes pseudo-fullscreen
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isPseudoFSActive()) {
+            exitPseudoFullscreen(document.getElementById('pdf-viewer'));
+        }
+    });
 
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
@@ -947,6 +1152,40 @@
             }
         }, 300);
     });
+
+    // Экспорт callbacks для inline-onclick атрибутов в HTML
+    window.previousPage = previousPage;
+    window.nextPage = nextPage;
+    window.setZoom = setZoom;
+    window.zoomIn = zoomIn;
+    window.zoomOut = zoomOut;
+    window.toggleFullscreen = toggleFullscreen;
+}
+
+// Lazy-loader: грузим pdf.min.js (~3 МБ) только когда viewer виден
+// Освобождает crawl budget Google + ускоряет TTI для пользователей
+(function(){
+    var loaded = false;
+    function loadPdfJs(){
+        if (loaded) return;
+        loaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+        s.onload = initPdfViewer;
+        document.head.appendChild(s);
+    }
+    var viewer = document.getElementById('pdf-viewer');
+    if (viewer && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+                if (e.isIntersecting) { loadPdfJs(); io.disconnect(); }
+            });
+        }, { rootMargin: '300px' });
+        io.observe(viewer);
+    } else {
+        loadPdfJs();
+    }
+})();
 </script>
 
 {% endblock content %}

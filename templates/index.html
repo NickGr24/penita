@@ -57,11 +57,74 @@
     "inLanguage": "ro"
 }
 </script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+        {
+            "@type": "Question",
+            "name": "Ce este Penița Dreptului?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Penița Dreptului este un portal juridic profesional dedicat dreptului procesual penal și criminalisticii din Republica Moldova. Oferă articole științifice și cărți de specialitate scrise de Tudor Osoianu și Dinu Ostavciuc."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Cum pot accesa cărțile și articolele?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Articolele sunt accesibile gratuit pentru toți vizitatorii. Cărțile pot fi gratuite sau cu plată; pentru cărțile cu plată este necesară crearea unui cont și efectuarea unei plăți securizate prin sistemul MAIB."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Ce subiecte juridice acoperă portalul?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Portalul acoperă trei direcții principale: drept procesual penal, criminalistică și alte științe juridice conexe, cu accent pe legislația și practica din Republica Moldova."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Cine sunt autorii materialelor?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Materialele sunt elaborate de Tudor Osoianu, expert în drept procesual penal, și Dinu Ostavciuc, doctor habilitat în drept, ambii având peste 20 de ani de experiență academică și practică."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Cum se efectuează plata pentru cărți?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Plata se face online prin sistemul securizat MAIB cu carduri Visa și Mastercard. După confirmarea plății primiți acces permanent la cartea achiziționată în contul personal."
+            }
+        },
+        {
+            "@type": "Question",
+            "name": "Cum pot citi cărțile achiziționate?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Cărțile se citesc direct online, în vizualizatorul integrat al portalului. Aveți acces permanent la conținut din contul dumneavoastră, oricând și de pe orice dispozitiv conectat la internet."
+            }
+        }
+    ]
+}
+</script>
 {% endblock %}
 
 {% block content %}
     <section class="video-section">
-        <video autoplay muted loop id="myVideo" poster="{% static 'img/bg-video-poster.webp' %}" preload="none">
+        <video id="myVideo"
+               autoplay muted loop playsinline webkit-playsinline
+               preload="auto"
+               poster="{% static 'img/bg-video-poster.webp' %}"
+               disablepictureinpicture
+               x5-playsinline>
+            <!-- mp4 first — iOS Safari requires H.264/AAC -->
+            <source src="{% static 'img/bg-video.mp4' %}" type="video/mp4">
             <source src="{% static 'img/bg-video.webm' %}" type="video/webm">
         </video>
         {% include 'navbar.html' %}
@@ -244,6 +307,37 @@
         </div>
 
   </section>
+
+  <section class="faq-section" aria-labelledby="faq-title">
+    <h2 id="faq-title" class="section-title">Întrebări frecvente</h2>
+    <div class="faq-container">
+      <details class="faq-item">
+        <summary>Ce este Penița Dreptului?</summary>
+        <p>Penița Dreptului este un portal juridic profesional dedicat dreptului procesual penal și criminalisticii din Republica Moldova. Oferă articole științifice și cărți de specialitate scrise de Tudor Osoianu și Dinu Ostavciuc.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Cum pot accesa cărțile și articolele?</summary>
+        <p>Articolele sunt accesibile gratuit pentru toți vizitatorii. Cărțile pot fi gratuite sau cu plată; pentru cărțile cu plată este necesară crearea unui cont și efectuarea unei plăți securizate prin sistemul MAIB.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Ce subiecte juridice acoperă portalul?</summary>
+        <p>Portalul acoperă trei direcții principale: <a href="{% url 'articles' %}?category=procedura_penala">drept procesual penal</a>, <a href="{% url 'articles' %}?category=criminalistica">criminalistică</a> și <a href="{% url 'articles' %}?category=alte_stiinte">alte științe juridice conexe</a>, cu accent pe legislația și practica din Republica Moldova.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Cine sunt autorii materialelor?</summary>
+        <p>Materialele sunt elaborate de <a href="{% url 'osoianu' %}">Tudor Osoianu</a>, expert în drept procesual penal, și <a href="{% url 'ostavciuc' %}">Dinu Ostavciuc</a>, doctor habilitat în drept, ambii având peste 20 de ani de experiență academică și practică.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Cum se efectuează plata pentru cărți?</summary>
+        <p>Plata se face online prin sistemul securizat MAIB cu carduri Visa și Mastercard. După confirmarea plății primiți acces permanent la cartea achiziționată în contul personal.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Cum pot citi cărțile achiziționate?</summary>
+        <p>Cărțile se citesc direct online, în vizualizatorul integrat al portalului. Aveți acces permanent la conținut din contul dumneavoastră, oricând și de pe orice dispozitiv conectat la internet.</p>
+      </details>
+    </div>
+  </section>
+
   <script src="{% static 'js/index.js' %}" defer></script>
 
 {% endblock content %}

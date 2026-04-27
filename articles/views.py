@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import FileResponse, Http404
 from django.views.decorators.http import require_http_methods
 from .models import Article
+from books.models import Book
 from django.db.models import Q
 import os
 
@@ -35,9 +36,15 @@ def article_detail(request, slug):
         category=article.category
     ).exclude(id=article.id).order_by('-publication_date')[:4]
 
+    # Книги того же автора — кросс-перелинковка статья→книга (конверсия + SEO)
+    recommended_books = Book.objects.filter(
+        author__icontains=article.author.split(',')[0].strip()
+    ).order_by('-created_at')[:3]
+
     return render(request, 'articles/article_detail.html', {
         'article': article,
         'related_articles': related_articles,
+        'recommended_books': recommended_books,
     })
 
 

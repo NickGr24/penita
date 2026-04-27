@@ -463,30 +463,49 @@
         }
     }
     
-    /* Fullscreen button */
+    /* Fullscreen button (visible on all screens) */
     .fullscreen-btn {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 12px 16px;
+        bottom: 22px;
+        right: 22px;
+        width: 52px;
+        height: 52px;
+        padding: 0;
         background: #2c3e50;
         color: white;
         border: none;
         border-radius: 50%;
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        z-index: 1000;
-        display: none;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        transition: background .2s ease, transform .2s ease;
     }
-    
-    .fullscreen-btn:hover {
-        background: #34495e;
+    .fullscreen-btn:hover { background: #34495e; transform: translateY(-2px); }
+    .fullscreen-btn:focus-visible { outline: 3px solid #6B8E23; outline-offset: 2px; }
+
+    /* Pseudo-fullscreen (iOS Safari fallback) */
+    .pdf-viewer-container.is-pseudo-fullscreen {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        height: 100dvh !important;
+        z-index: 9998;
+        margin: 0;
+        padding: 0;
     }
-    
-    @media (max-width: 768px) {
-        .fullscreen-btn {
-            display: block;
-        }
+    body.pdf-fullscreen-open { overflow: hidden; }
+
+    /* Native fullscreen */
+    .pdf-viewer-container:fullscreen,
+    .pdf-viewer-container:-webkit-full-screen {
+        width: 100vw;
+        height: 100vh;
+        background: #1b2530;
     }
 
     /* Breadcrumbs для SEO и навигации */
@@ -608,6 +627,40 @@
             grid-template-columns: 1fr;
         }
     }
+
+    /* SEO content block — расширенное описание книги для индексации */
+    .book-seo-content {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 30px 35px;
+        background: #fafdf5;
+        border: 1px solid #e0e5d1;
+        border-radius: 10px;
+        line-height: 1.75;
+        color: #333;
+    }
+    .book-seo-content h2 {
+        color: #556B2F;
+        font-size: 1.6rem;
+        margin-bottom: 18px;
+        font-family: 'Oswald', sans-serif;
+    }
+    .book-seo-content h3 {
+        color: #2c3e50;
+        font-size: 1.2rem;
+        margin: 24px 0 12px;
+        font-family: 'Poppins', sans-serif;
+    }
+    .book-seo-content p { margin-bottom: 14px; font-size: 1rem; }
+    .book-seo-content ul { padding-left: 22px; margin-bottom: 14px; }
+    .book-seo-content li { margin-bottom: 6px; }
+    .book-seo-content a { color: #556B2F; font-weight: 500; }
+    .book-seo-content a:hover { text-decoration: underline; }
+    @media (max-width: 600px) {
+        .book-seo-content { padding: 20px; margin: 20px 15px; }
+        .book-seo-content h2 { font-size: 1.3rem; }
+        .book-seo-content h3 { font-size: 1.05rem; }
+    }
 </style>
 {% endblock css_link %}
 
@@ -630,12 +683,58 @@
         <h1>{{ book.title }}</h1>
         <div class="book-meta">
             <span><i class="fas fa-user-edit"></i> {{ book.author }}</span>
+            {% if book.created_at %}
+            <span><i class="fas fa-calendar-alt"></i> <time datetime="{{ book.created_at|date:'Y-m-d' }}">{{ book.created_at|date:'Y' }}</time></span>
+            {% endif %}
+            {% if book.is_paid %}
+            <span><i class="fas fa-tag"></i> {{ book.price|floatformat:0 }} MDL</span>
+            {% else %}
+            <span><i class="fas fa-unlock"></i> Acces gratuit</span>
+            {% endif %}
         </div>
         {% if book.description %}
         <p class="book-description">{{ book.description }}</p>
         {% endif %}
     </div>
-    
+    {% if book.slug == "cai-de-atac-monografie-2026" %}
+    <div style="text-align:center; padding: 30px 15px 10px;">
+        <img src="/media/books/covers/cai_de_atac_cover.png" alt="{{ book.title }}" style="max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 8px;" loading="lazy">
+    </div>
+    {% endif %}
+
+    <!-- SEO content block: расширенное описание для индексации (борьба с thin content) -->
+    <section class="book-seo-content">
+        {% if book.seo_content %}
+            {{ book.seo_content|safe }}
+            {% if book.is_paid %}
+            <p><strong>Format și acces:</strong> ediție digitală, citire online direct în vizualizatorul integrat. După achiziție prin sistemul securizat MAIB, primiți acces permanent în contul personal — puteți reveni la lectură oricând și de pe orice dispozitiv conectat la internet.</p>
+            {% else %}
+            <p><strong>Acces:</strong> această carte este disponibilă gratuit. Citirea se face direct online, în vizualizatorul integrat al portalului — fără descărcare și fără instalare de software suplimentar.</p>
+            {% endif %}
+        {% else %}
+            <h2>Despre carte</h2>
+            {% if book.description %}
+            <p>{{ book.description }}</p>
+            {% endif %}
+            <p><strong>{{ book.title }}</strong> este o lucrare de specialitate semnată de <a href="{% if 'Osoianu' in book.author %}{% url 'osoianu' %}{% elif 'Ostavciuc' in book.author %}{% url 'ostavciuc' %}{% else %}{% url 'home' %}{% endif %}">{{ book.author }}</a>, dedicată profesioniștilor din domeniul juridic — judecători, procurori, avocați, ofițeri de urmărire penală, cadre didactice și studenți la facultățile de drept din Republica Moldova.</p>
+
+            <h3>Pentru cine este utilă această carte</h3>
+            <ul>
+                <li>Practicieni din sistemul judiciar care aplică zilnic normele dreptului procesual penal</li>
+                <li>Studenți și masteranzi la facultățile de drept ce studiază procedura penală și criminalistica</li>
+                <li>Cercetători în domeniul științelor juridice și politice</li>
+                <li>Ofițeri de urmărire penală și investigatori care doresc să își aprofundeze cunoștințele teoretice</li>
+                <li>Avocați specializați în cauze penale</li>
+            </ul>
+
+            {% if book.is_paid %}
+            <p><strong>Format de publicare:</strong> ediție digitală, citire online direct în vizualizatorul integrat. După achiziție prin sistemul securizat MAIB, primiți acces permanent în contul personal — puteți reveni la lectură oricând și de pe orice dispozitiv conectat la internet.</p>
+            {% else %}
+            <p><strong>Acces:</strong> această carte este disponibilă gratuit. Citirea se face direct online, în vizualizatorul integrat al portalului — nu necesită descărcare și nici instalare de software suplimentar.</p>
+            {% endif %}
+        {% endif %}
+    </section>
+
     <div class="gesture-hint">
         <i class="fas fa-info-circle"></i> Swipe stânga/dreapta pentru navigare • Pinch pentru zoom
     </div>
@@ -660,8 +759,8 @@
                 <span>Acces permanent</span>
             </div>
             <div class="feature-item">
-                <i class="fas fa-download"></i>
-                <span>Descarcă PDF</span>
+                <i class="fas fa-book-reader"></i>
+                <span>Citire online</span>
             </div>
             <div class="feature-item">
                 <i class="fas fa-shield-alt"></i>
@@ -713,9 +812,7 @@
             </button>
         </div>
         
-        <button onclick="downloadPDF()" title="Descarcă PDF">
-            <i class="fas fa-download"></i> Descarcă
-        </button>
+
     </div>
     
     <div class="pdf-viewer-container" id="pdf-viewer">
@@ -729,9 +826,43 @@
     {% endif %}
 </div>
 
+<!-- Despre autor — E-E-A-T сигнал + расширение контента -->
+<section class="other-books" style="background: #fff; border-top: 1px solid #e0e5d1;">
+    <h3><i class="fas fa-user-graduate"></i> Despre autor</h3>
+    <div style="max-width: 900px; margin: 0 auto; padding: 0 20px; line-height: 1.7; color: #444;">
+        <p><strong>{{ book.author }}</strong> este unul dintre experții recunoscuți din Republica Moldova în domeniul dreptului procesual penal și al criminalisticii, cu o activitate academică și practică susținută de decenii. Materialele publicate sunt rezultatul cercetărilor proprii, al participării la proiecte naționale și internaționale și al experienței în formarea profesioniștilor din sistemul judiciar.</p>
+        <p style="margin-top: 12px;">
+            {% if 'Osoianu' in book.author %}
+            <a href="{% url 'osoianu' %}" style="color: #6B8E23; font-weight: 600; text-decoration: none;">Citiți biografia completă a lui Tudor Osoianu →</a>
+            {% endif %}
+            {% if 'Ostavciuc' in book.author %}
+            <a href="{% url 'ostavciuc' %}" style="color: #6B8E23; font-weight: 600; text-decoration: none;">Citiți biografia completă a lui Dinu Ostavciuc →</a>
+            {% endif %}
+        </p>
+    </div>
+</section>
+
+<!-- Articole conexe — кросс-перелинковка book→article + расширение контента -->
+{% if related_articles %}
+<section class="other-books">
+    <h3><i class="fas fa-bookmark"></i> Articole de {{ primary_author }}</h3>
+    <div class="books-grid">
+        {% for article in related_articles %}
+        <div class="book-card-related">
+            <h4><a href="{% url 'article_detail' article.slug %}">{{ article.name }}</a></h4>
+            <p>{% if article.category %}<em style="color: #6B8E23;">{{ article.get_category_display }}</em><br>{% endif %}{{ article.description|default:article.name|truncatewords:18 }}</p>
+            <a href="{% url 'article_detail' article.slug %}" class="view-book">
+                Citește articolul <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
 <!-- Other Books для внутренней перелинковки (SEO) -->
 {% if other_books %}
-<section class="other-books">
+<section class="other-books" style="background: #fff;">
     <h3><i class="fas fa-book"></i> Alte cărți de {{ book.author }}</h3>
     <div class="books-grid">
         {% for other in other_books %}
@@ -938,23 +1069,66 @@
         }
     }
     
-    function downloadPDF() {
-        const link = document.createElement('a');
-        link.href = "{% url 'serve_book_pdf' book.slug %}";
-        link.download = '{{ book.title }}.pdf';
-        link.click();
+    // Fullscreen with native API + iOS Safari pseudo-fullscreen fallback
+    function isNativeFSActive() {
+        return !!(document.fullscreenElement || document.webkitFullscreenElement);
     }
-    
-    function toggleFullscreen() {
-        const viewer = document.getElementById('pdf-viewer');
-        if (!document.fullscreenElement) {
-            viewer.requestFullscreen().catch(err => {
-                console.log('Error attempting to enable fullscreen:', err);
-            });
+    function isPseudoFSActive() {
+        return document.body.classList.contains('pdf-fullscreen-open');
+    }
+    function updateFullscreenBtnIcon() {
+        const btn = document.querySelector('.fullscreen-btn i');
+        if (!btn) return;
+        if (isNativeFSActive() || isPseudoFSActive()) {
+            btn.className = 'fas fa-compress';
+            btn.parentElement.title = 'Ieșire din ecran complet';
         } else {
-            document.exitFullscreen();
+            btn.className = 'fas fa-expand';
+            btn.parentElement.title = 'Ecran complet';
         }
     }
+    function enterPseudoFullscreen(viewer) {
+        viewer.classList.add('is-pseudo-fullscreen');
+        document.body.classList.add('pdf-fullscreen-open');
+        updateFullscreenBtnIcon();
+        setTimeout(() => queueRenderPage(pageNum), 60);
+    }
+    function exitPseudoFullscreen(viewer) {
+        viewer.classList.remove('is-pseudo-fullscreen');
+        document.body.classList.remove('pdf-fullscreen-open');
+        updateFullscreenBtnIcon();
+        setTimeout(() => queueRenderPage(pageNum), 60);
+    }
+    function toggleFullscreen() {
+        const viewer = document.getElementById('pdf-viewer');
+        if (isPseudoFSActive()) { exitPseudoFullscreen(viewer); return; }
+        if (isNativeFSActive()) {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            return;
+        }
+        const req = viewer.requestFullscreen || viewer.webkitRequestFullscreen;
+        if (req) {
+            const p = req.call(viewer);
+            if (p && typeof p.catch === 'function') {
+                p.catch(() => enterPseudoFullscreen(viewer));
+            }
+            setTimeout(() => queueRenderPage(pageNum), 250);
+        } else {
+            enterPseudoFullscreen(viewer);
+        }
+    }
+    ['fullscreenchange','webkitfullscreenchange'].forEach(ev =>
+        document.addEventListener(ev, () => {
+            updateFullscreenBtnIcon();
+            setTimeout(() => queueRenderPage(pageNum), 120);
+        })
+    );
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && isPseudoFSActive()) {
+            exitPseudoFullscreen(document.getElementById('pdf-viewer'));
+        }
+    });
     
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
