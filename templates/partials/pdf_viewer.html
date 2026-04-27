@@ -1,0 +1,97 @@
+{% load static %}
+{# Shared PDF viewer (articles + books).
+   Caller must pass:
+     - pdf_url    (required) — URL to fetch the PDF file
+     - pdf_title  (required) — human-readable title (escapejs'd by caller if needed)
+     - pdf_type   (optional) — "article" | "book" | "document" (for analytics, default "document")
+
+   Usage:
+     {% include 'partials/pdf_viewer.html' with pdf_url=...|.../ pdf_title=... pdf_type='article' %}
+#}
+<link rel="stylesheet" href="{% static 'css/pdf-viewer.css' %}">
+
+<div class="reading-progress" id="reading-progress"></div>
+
+<div class="pdf-viewer-wrapper"
+     data-pdf-url="{{ pdf_url }}"
+     data-pdf-title="{{ pdf_title }}"
+     data-pdf-type="{{ pdf_type|default:'document' }}">
+
+    <div class="pdf-controls">
+        <div class="pdf-search">
+            <button type="button" data-action="toggle-search" aria-label="Căutare în document" title="Căutare (Ctrl+F)">
+                <i class="fas fa-search"></i>
+            </button>
+            <div data-pdf-search-bar>
+                <input type="search"
+                       data-pdf-search-input
+                       placeholder="Căutare în document..."
+                       aria-label="Câmp de căutare"
+                       autocomplete="off"
+                       spellcheck="false">
+                <span data-pdf-match-counter aria-live="polite"></span>
+                <button type="button" data-action="prev-match" aria-label="Match anterior" title="Anterior (Shift+Enter)">
+                    <i class="fas fa-chevron-up"></i>
+                </button>
+                <button type="button" data-action="next-match" aria-label="Match următor" title="Următor (Enter)">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <button type="button" data-action="close-search" aria-label="Închide căutare" title="Închide (Esc)">&times;</button>
+            </div>
+        </div>
+
+        <div class="page-navigation">
+            <button type="button" data-action="prev-page" aria-label="Pagina anterioară">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <span class="page-info">
+                <span data-pdf-current-page>1</span> / <span data-pdf-total-pages>-</span>
+            </span>
+            <button type="button" data-action="next-page" aria-label="Pagina următoare">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <div class="zoom-controls">
+            <button type="button" data-action="zoom-out" aria-label="Micșorează" title="Micșorează">
+                <i class="fas fa-minus"></i>
+            </button>
+            <select data-pdf-zoom-level aria-label="Nivel de zoom">
+                <option value="0.5">50%</option>
+                <option value="0.75">75%</option>
+                <option value="1">100%</option>
+                <option value="1.25">125%</option>
+                <option value="1.5">150%</option>
+                <option value="2">200%</option>
+                <option value="auto">Auto</option>
+                <option value="page-width" selected>Lățime pagină</option>
+            </select>
+            <button type="button" data-action="zoom-in" aria-label="Mărește" title="Mărește">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="gesture-hint">
+        <i class="fas fa-info-circle"></i> Swipe stânga/dreapta pentru navigare • Pinch pentru zoom
+    </div>
+
+    <div class="pdf-viewer-container" data-pdf-viewer>
+        <div data-pdf-canvas-container>
+            <div class="loading">
+                <div class="loading-spinner"></div>
+                Se încarcă documentul...
+            </div>
+        </div>
+    </div>
+
+    <button type="button"
+            class="fullscreen-btn"
+            data-action="toggle-fullscreen"
+            aria-label="Ecran complet"
+            title="Ecran complet">
+        <i class="fas fa-expand"></i>
+    </button>
+</div>
+
+<script src="{% static 'js/pdf-viewer.js' %}" defer></script>
