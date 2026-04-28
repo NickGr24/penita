@@ -612,6 +612,19 @@
             this.hideQuoteButton();
             return;
         }
+        // Capture spans NOW — на случай если click по button очистит selection.
+        // В fullscreen некоторые браузеры так делают; даже без этого capture здесь
+        // даёт быстрый путь без повторного getSelection в click handler.
+        var textLayer = this.canvasContainer.querySelector('.textLayer');
+        var capturedSpans = [];
+        if (textLayer) {
+            var allSpans = textLayer.querySelectorAll('span');
+            for (var i = 0; i < allSpans.length; i++) {
+                if (range.intersectsNode(allSpans[i])) capturedSpans.push(allSpans[i]);
+            }
+        }
+        this._lastSelectionText = text;
+        this._lastSelectionSpans = capturedSpans;
         this.showQuoteButton(range, text);
     };
 
@@ -772,22 +785,23 @@
 
     PdfViewer.prototype.createAnnotationFromSelection = function () {
         if (!this._canSync()) return;
-        var sel = window.getSelection();
-        if (!sel || sel.isCollapsed) return;
-        var text = sel.toString().trim();
-        if (text.length < 5) return;
-
-        // КРИТИЧНО: захватываем span'ы из Range ДО async fetch.
-        // На текущей странице мы знаем точные DOM-узлы, попавшие в selection —
-        // text-based matching (для page-reload) не нужен здесь, всё уже в руке.
-        var range = sel.getRangeAt(0);
-        var textLayer = this.canvasContainer.querySelector('.textLayer');
-        var spansToMark = [];
-        if (textLayer) {
-            var allSpans = textLayer.querySelectorAll('span');
-            for (var i = 0; i < allSpans.length; i++) {
-                if (range.intersectsNode(allSpans[i])) {
-                    spansToMark.push(allSpans[i]);
+        // Используем текст и span'ы, захваченные при показе quote-button (maybeShowQuoteButton).
+        // Это защищает от случая, когда click очищает selection до того, как мы прочитаем её.
+        var text = this._lastSelectionText || '';
+        var spansToMark = this._lastSelectionSpans || [];
+        if (!text || text.length < 5) {
+            // Fallback на live selection
+            var sel = window.getSelection();
+            if (!sel || sel.isCollapsed) return;
+            text = sel.toString().trim();
+            if (text.length < 5) return;
+            var range = sel.getRangeAt(0);
+            var textLayer = this.canvasContainer.querySelector('.textLayer');
+            spansToMark = [];
+            if (textLayer) {
+                var allSpans = textLayer.querySelectorAll('span');
+                for (var i = 0; i < allSpans.length; i++) {
+                    if (range.intersectsNode(allSpans[i])) spansToMark.push(allSpans[i]);
                 }
             }
         }

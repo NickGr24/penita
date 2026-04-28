@@ -493,7 +493,10 @@
     top: 0;
     left: 0;
     overflow: hidden;
-    opacity: 0.25;
+    /* opacity: 1 — раньше 0.25 убивало видимость annotation-highlight'ов
+     * (0.45 alpha × 0.25 opacity = ~11% — почти не видно). Spans остаются
+     * полностью прозрачными через color: transparent ниже. */
+    opacity: 1;
     line-height: 1.0;
     pointer-events: auto;
 }
