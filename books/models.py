@@ -13,6 +13,8 @@ class Book(models.Model):
     )
     author = models.CharField(max_length=200, choices=authors)
     file = models.FileField(upload_to='books/')
+    cover = models.ImageField(upload_to='books/covers/', null=True, blank=True,
+        help_text='Обложка книги (первая страница PDF или кастомное изображение).')
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     legacy_slug = models.SlugField(max_length=200, blank=True, null=True, db_index=True,
         help_text='Старый slug, если URL был изменён — используется для 301-редиректа со старого URL на новый (SEO).')

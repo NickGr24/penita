@@ -111,6 +111,22 @@
         align-items: center;
         gap: 5px;
     }
+    .book-cover-hero {
+        text-align: center;
+        padding: 30px 15px 10px;
+        background: #fff;
+    }
+    .book-cover-hero img {
+        max-width: 400px;
+        width: 90%;
+        height: auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+    }
+    @media (max-width: 480px) {
+        .book-cover-hero { padding: 20px 15px 5px; }
+        .book-cover-hero img { max-width: 280px; }
+    }
     .book-description {
         max-width: 800px;
         margin: 0 auto;
@@ -356,9 +372,9 @@
         <p class="book-description">{{ book.description }}</p>
         {% endif %}
     </div>
-    {% if book.slug == "cai-de-atac-monografie-2026" %}
-    <div style="text-align:center; padding: 30px 15px 10px;">
-        <img src="/media/books/covers/cai_de_atac_cover.png" alt="{{ book.title }}" style="max-width: 400px; width: 90%; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 8px;" loading="lazy">
+    {% if book.cover %}
+    <div class="book-cover-hero">
+        <img src="{{ book.cover.url }}" alt="Coperta {{ book.title }}" loading="lazy" width="400">
     </div>
     {% endif %}
 
