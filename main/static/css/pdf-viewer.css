@@ -179,12 +179,12 @@
  * Quote button (floating, on text selection)
  * ============================================================ */
 .pdf-quote-btn {
-    position: absolute;
+    position: fixed;            /* viewport-relative — работает в fullscreen */
     background: #2c3e50;
     color: white;
     border-radius: 6px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
+    z-index: 100001;            /* выше всего, в т.ч. red exit-btn (100000) */
     display: none;
     white-space: nowrap;
     overflow: hidden;

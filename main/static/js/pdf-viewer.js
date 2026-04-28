@@ -636,15 +636,18 @@
                 highlightAction.addEventListener('click', function () { self.createAnnotationFromSelection(); });
                 this.quoteBtn.appendChild(highlightAction);
             }
-            document.body.appendChild(this.quoteBtn);
+            // Append to wrapper (а не body) — иначе в native fullscreen будет невидим:
+            // браузер рендерит только fullscreen-элемент + его потомков, всё снаружи скрыто.
+            this.wrapper.appendChild(this.quoteBtn);
         }
+        // position: fixed → viewport-relative coords, без window.scrollY.
+        // Работает одинаково в обычном режиме, native fullscreen и pseudo-fullscreen.
         var rect = range.getBoundingClientRect();
-        // Position above selection, fall back below if no room
-        var top = rect.top + window.scrollY - 42;
-        if (top < window.scrollY + 10) top = rect.bottom + window.scrollY + 8;
-        var left = rect.left + (rect.width / 2) + window.scrollX - 50;
+        var top = rect.top - 46;
+        if (top < 10) top = rect.bottom + 8;
+        var left = rect.left + (rect.width / 2) - 60;
         this.quoteBtn.style.top = Math.max(10, top) + 'px';
-        this.quoteBtn.style.left = Math.max(10, left) + 'px';
+        this.quoteBtn.style.left = Math.max(10, Math.min(left, window.innerWidth - 220)) + 'px';
         this.quoteBtn.classList.add('is-visible');
         this.quoteBtn.dataset.selectedText = text;
     };
