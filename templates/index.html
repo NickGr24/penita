@@ -138,7 +138,9 @@
           {% for news in news_list %}
           <div class="news-item">
             {% if news.image %}
-            <img src="{{ news.image.url }}" alt="{{ news.title }}" loading="lazy" width="400" height="225">
+            <img src="{{ news.image.url }}"
+                 onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.webp' %}';"
+                 alt="{{ news.title }}" loading="lazy" width="400" height="225">
             {% else %}
             <img src="{% static 'img/news-placeholder.webp' %}" alt="{{ news.title }}" loading="lazy" width="800" height="450">
             {% endif %}

@@ -93,7 +93,7 @@
     
 {% endblock content %}
 <footer class="site-footer">
-    <nav class="footer-categories" aria-label="Categorii">
+    <div class="footer-categories" role="navigation" aria-label="Categorii">
         <div>
             <h4>Categorii</h4>
             <ul>
@@ -116,7 +116,7 @@
                 <li><a href="{% url 'ostavciuc' %}">Dinu Ostavciuc</a></li>
             </ul>
         </div>
-    </nav>
+    </div>
     <div class="footer-content">
         <div class="payment-logos">
             <img src="{% static 'img/visa_logo.webp' %}" alt="Visa" loading="lazy" width="80" height="45">

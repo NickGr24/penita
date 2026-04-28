@@ -58,7 +58,9 @@
 
     {% if news.image %}
     <div class="news-image">
-        <img src="{{ news.image.url }}" alt="{{ news.title }}" loading="lazy" width="1200" height="675">
+        <img src="{{ news.image.url }}"
+             onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.webp' %}';"
+             alt="{{ news.title }}" loading="lazy" width="1200" height="675">
     </div>
     {% endif %}
 
@@ -68,7 +70,9 @@
 
     {% for image in news.images.all %}
     <div class="news-image">
-        <img src="{{ image.image.url }}" alt="{{ news.title }} - imagine {{ forloop.counter }}" loading="lazy" width="1200" height="675">
+        <img src="{{ image.image.url }}"
+             onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.webp' %}';"
+             alt="{{ news.title }} - imagine {{ forloop.counter }}" loading="lazy" width="1200" height="675">
     </div>
     {% endfor %}
 
