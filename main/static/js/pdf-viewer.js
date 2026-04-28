@@ -812,9 +812,14 @@
                   // Применяем highlight на захваченные ранее span'ы — точное соответствие
                   // тому, что юзер реально выделил, без всякого text-matching.
                   spansToMark.forEach(function (span) {
-                      span.classList.add('annotation-highlight', 'annotation-color-' + data.color);
-                      span.dataset.annotationId = data.id;
+                      if (document.body.contains(span)) {  // re-render мог их detach'нуть
+                          span.classList.add('annotation-highlight', 'annotation-color-' + data.color);
+                          span.dataset.annotationId = data.id;
+                      }
                   });
+                  // Safety net: если span'ы успели переродиться во время fetch
+                  // (fullscreen toggle / resize), переприменяем по text-matching.
+                  self.applyAnnotationsToCurrentPage();
                   self.updateAnnotationButton();
                   // Clear selection so quote button hides
                   if (window.getSelection) window.getSelection().removeAllRanges();
@@ -953,46 +958,30 @@
             fullText += t;
         }
 
-        // Step 2: build normalized text + raw↔norm position maps for resilient matching
-        var rawToNorm = new Array(fullText.length);
-        var normToRaw = [];
-        var fullNorm = '';
-        var prevWasSpace = true;
+        // Step 2: ВСЕ пробелы стрипаются из обоих сторон. Это решает главный класс проблем:
+        // PDF.js часто рендерит соседние слова в одном span'е без пробелов между ними
+        // ("abcdef"), а selection.toString() возвращает с пробелами ("abc def") — без strip
+        // indexOf промахивается. noSpaceToRaw — позиционная карта обратно к raw тексту.
+        var fullNoSpace = '';
+        var noSpaceToRaw = [];
         for (var k = 0; k < fullText.length; k++) {
-            var c = fullText.charAt(k);
-            if (/\s/.test(c)) {
-                if (prevWasSpace) {
-                    rawToNorm[k] = -1;
-                } else {
-                    rawToNorm[k] = fullNorm.length;
-                    normToRaw[fullNorm.length] = k;
-                    fullNorm += ' ';
-                }
-                prevWasSpace = true;
-            } else {
-                rawToNorm[k] = fullNorm.length;
-                normToRaw[fullNorm.length] = k;
-                fullNorm += c;
-                prevWasSpace = false;
+            if (!/\s/.test(fullText.charAt(k))) {
+                noSpaceToRaw.push(k);
+                fullNoSpace += fullText.charAt(k);
             }
         }
-        var fullNormLower = fullNorm.toLowerCase();
+        var fullNoSpaceLower = fullNoSpace.toLowerCase();
 
+        var self = this;
         pageAnnotations.forEach(function (ann) {
-            var needleRaw = ann.text || '';
+            var needleRaw = (ann.text || '').replace(/\s/g, '');
             if (needleRaw.length < 3) return;
-            var needleNorm = needleRaw.replace(/\s+/g, ' ').trim();
-            if (!needleNorm) return;
-            var needleLower = needleNorm.toLowerCase();
-            var startNorm = fullNormLower.indexOf(needleLower);
-            if (startNorm === -1) {
-                // Не нашли точное совпадение — annotation остаётся в БД, просто не подсвечивается на этой странице
-                return;
-            }
-            var endNorm = startNorm + needleNorm.length - 1;  // inclusive
-            var startRaw = normToRaw[startNorm];
-            var endRaw = normToRaw[endNorm] !== undefined ? normToRaw[endNorm] : (fullText.length - 1);
-            // Highlight every span whose raw range overlaps [startRaw, endRaw]
+            var needleLower = needleRaw.toLowerCase();
+            var startNoSpace = fullNoSpaceLower.indexOf(needleLower);
+            if (startNoSpace === -1) return;  // не нашли — annotation остаётся в БД, без визуала
+            var endNoSpace = startNoSpace + needleRaw.length - 1;
+            var startRaw = noSpaceToRaw[startNoSpace];
+            var endRaw = noSpaceToRaw[endNoSpace] !== undefined ? noSpaceToRaw[endNoSpace] : (fullText.length - 1);
             spanRanges.forEach(function (sr) {
                 if (sr.end > startRaw && sr.start <= endRaw) {
                     sr.span.classList.add('annotation-highlight', 'annotation-color-' + ann.color);
