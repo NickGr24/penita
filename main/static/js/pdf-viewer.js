@@ -839,9 +839,28 @@
 
     PdfViewer.prototype.gotoAnnotation = function (id) {
         var ann = this.annotations.find(function (a) { return a.id === id; });
-        if (ann) this.goToPage(ann.page);
+        if (!ann) return;
         var panel = this.wrapper.querySelector('[data-annotations-panel]');
         if (panel) panel.classList.remove('is-open');
+        // Помним целевой annotationId — после рендера применяем scrollIntoView
+        // (см. _scrollToTargetAnnotation, вызывается в конце applyAnnotationsToCurrentPage)
+        this._pendingScrollAnnotationId = id;
+        if (ann.page === this.pageNum) {
+            // Уже на нужной странице — текстLayer уже в DOM, можно скроллить сразу
+            this._scrollToTargetAnnotation();
+        } else {
+            this.goToPage(ann.page);
+        }
+    };
+
+    PdfViewer.prototype._scrollToTargetAnnotation = function () {
+        var id = this._pendingScrollAnnotationId;
+        if (!id) return;
+        this._pendingScrollAnnotationId = null;
+        var span = this.canvasContainer.querySelector('[data-annotation-id="' + id + '"]');
+        if (span && span.scrollIntoView) {
+            span.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
     };
 
     PdfViewer.prototype.toggleAnnotationsPanel = function () {
@@ -978,6 +997,9 @@
                 }
             });
         });
+
+        // Если кликнули по аннотации в списке и навигировали на эту страницу — скроллим к ней
+        this._scrollToTargetAnnotation();
     };
 
     /* ---------- Persistence (last-read page + dark mode pref) ---------- */
