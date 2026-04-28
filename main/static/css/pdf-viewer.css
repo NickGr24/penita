@@ -603,14 +603,43 @@ body.menu-open .pdf-controls {
     display: none !important;
 }
 
-/* iOS Safari fallback — div can't request native fullscreen reliably */
-.pdf-viewer-container.is-pseudo-fullscreen {
+/* Fullscreen mode (native + iOS pseudo fallback).
+ * Применяется к ВСЕМУ wrapper (controls + viewer + dropdown panels),
+ * чтобы все фичи (bookmarks, annotations, dark mode, zoom, search) работали в fullscreen. */
+.pdf-viewer-wrapper.is-pseudo-fullscreen {
     position: fixed !important;
     inset: 0 !important;
     width: 100vw !important;
     height: 100vh !important;
     height: 100dvh !important;
+    margin: 0 !important;
     z-index: 9998;
+    background: #34495e;
+    display: flex;
+    flex-direction: column;
+}
+.pdf-viewer-wrapper:fullscreen,
+.pdf-viewer-wrapper:-webkit-full-screen {
+    margin: 0;
+    background: #34495e;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+/* В fullscreen контейнер с PDF растягивается на оставшееся место под controls */
+.pdf-viewer-wrapper.is-pseudo-fullscreen .pdf-viewer-container,
+.pdf-viewer-wrapper:fullscreen .pdf-viewer-container,
+.pdf-viewer-wrapper:-webkit-full-screen .pdf-viewer-container {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+}
+/* Dropdown-панели должны висеть выше viewer, но НИЖЕ красной exit-кнопки */
+.pdf-viewer-wrapper.is-pseudo-fullscreen .pdf-controls .bookmarks-panel,
+.pdf-viewer-wrapper:fullscreen .pdf-controls .bookmarks-panel,
+.pdf-viewer-wrapper:-webkit-full-screen .pdf-controls .bookmarks-panel {
+    z-index: 9999;
 }
 body.pdf-fullscreen-open {
     overflow: hidden;
@@ -641,10 +670,20 @@ body.pdf-fullscreen-open .fullscreen-btn i {
     font-size: 1.3rem !important;
 }
 
-/* Same for native fullscreen: ensure button is on top */
-.pdf-viewer-container:fullscreen .fullscreen-btn,
-.pdf-viewer-container:-webkit-full-screen .fullscreen-btn {
+/* Same for native fullscreen on wrapper: red exit button should be on top */
+.pdf-viewer-wrapper:fullscreen .fullscreen-btn,
+.pdf-viewer-wrapper:-webkit-full-screen .fullscreen-btn {
+    position: fixed !important;
+    top: max(18px, env(safe-area-inset-top, 18px)) !important;
+    right: max(18px, env(safe-area-inset-right, 18px)) !important;
+    bottom: auto !important;
+    width: 56px !important;
+    height: 56px !important;
+    background: #c0392b !important;
+    color: #fff !important;
     z-index: 100000 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55) !important;
+    border: 2px solid rgba(255, 255, 255, 0.9) !important;
 }
 
 /* ============================================================

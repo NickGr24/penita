@@ -1099,10 +1099,11 @@
     /* ---------- Fullscreen (native + iOS pseudo fallback) ---------- */
 
     PdfViewer.prototype.isNativeFSActive = function () {
-        return !!(document.fullscreenElement || document.webkitFullscreenElement);
+        var fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+        return !!fsEl && (fsEl === this.wrapper || this.wrapper.contains(fsEl));
     };
     PdfViewer.prototype.isPseudoFSActive = function () {
-        return document.body.classList.contains('pdf-fullscreen-open');
+        return this.wrapper.classList.contains('is-pseudo-fullscreen');
     };
     PdfViewer.prototype.updateFullscreenBtnIcon = function () {
         var btn = this.wrapper.querySelector('.fullscreen-btn i');
@@ -1117,14 +1118,16 @@
     };
     PdfViewer.prototype.enterPseudoFullscreen = function () {
         var self = this;
-        this.viewer.classList.add('is-pseudo-fullscreen');
+        // Класс на wrapper (а не на viewer) — потому что controls/bookmarks/dark-toggle
+        // живут ВНЕ pdf-viewer-container, в самом wrapper. Иначе в fullscreen они невидимы.
+        this.wrapper.classList.add('is-pseudo-fullscreen');
         document.body.classList.add('pdf-fullscreen-open');
         this.updateFullscreenBtnIcon();
         setTimeout(function () { self.queueRenderPage(self.pageNum); }, 60);
     };
     PdfViewer.prototype.exitPseudoFullscreen = function () {
         var self = this;
-        this.viewer.classList.remove('is-pseudo-fullscreen');
+        this.wrapper.classList.remove('is-pseudo-fullscreen');
         document.body.classList.remove('pdf-fullscreen-open');
         this.updateFullscreenBtnIcon();
         setTimeout(function () { self.queueRenderPage(self.pageNum); }, 60);
@@ -1136,9 +1139,11 @@
             (document.exitFullscreen || document.webkitExitFullscreen).call(document);
             return;
         }
-        var req = this.viewer.requestFullscreen || this.viewer.webkitRequestFullscreen;
+        // Запрашиваем fullscreen на wrapper, а не на pdf-viewer-container —
+        // чтобы pdf-controls (search/zoom/bookmarks/annotations/dark-mode) тоже попали внутрь.
+        var req = this.wrapper.requestFullscreen || this.wrapper.webkitRequestFullscreen;
         if (req) {
-            var p = req.call(this.viewer);
+            var p = req.call(this.wrapper);
             if (p && typeof p.catch === 'function') {
                 p.catch(function () { self.enterPseudoFullscreen(); });
             }
