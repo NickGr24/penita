@@ -138,6 +138,51 @@
         .article-header h1 { font-size: 1.5rem; }
     }
 
+    /* PDF unavailable fallback (file missing on disk) */
+    .pdf-unavailable {
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 50px 30px;
+        background: #fafdf5;
+        border: 2px dashed #d4dcc0;
+        border-radius: 12px;
+        text-align: center;
+        color: #555;
+    }
+    .pdf-unavailable i {
+        font-size: 4rem;
+        color: #c0392b;
+        margin-bottom: 20px;
+        display: block;
+    }
+    .pdf-unavailable h2 {
+        color: #2c3e50;
+        font-size: 1.6rem;
+        margin-bottom: 15px;
+        font-family: 'Oswald', sans-serif;
+    }
+    .pdf-unavailable p {
+        font-size: 1.05rem;
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+    .pdf-unavailable .btn-back-to-articles {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 28px;
+        background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .pdf-unavailable .btn-back-to-articles:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(107, 142, 35, 0.3);
+    }
+
     /* Article Preview for SEO */
     .article-preview {
         max-width: 900px;
@@ -366,9 +411,18 @@
     </div>
     {% endif %}
 
-    {# Shared PDF viewer (search + slide animation + lazy-load + fullscreen) #}
-    {% url 'serve_article_pdf' article.slug as pdf_url %}
-    {% include 'partials/pdf_viewer.html' with pdf_url=pdf_url pdf_title=article.name pdf_type='article' only %}
+    {% if pdf_available %}
+        {# Shared PDF viewer (search + slide animation + lazy-load + fullscreen) #}
+        {% url 'serve_article_pdf' article.slug as pdf_url %}
+        {% include 'partials/pdf_viewer.html' with pdf_url=pdf_url pdf_title=article.name pdf_type='article' only %}
+    {% else %}
+        <div class="pdf-unavailable">
+            <i class="fas fa-file-pdf"></i>
+            <h2>Documentul este temporar indisponibil</h2>
+            <p>Versiunea PDF a acestui articol este în curs de actualizare. Vă rugăm să reveniți mai târziu sau să consultați textul integral mai sus.</p>
+            <a href="{% url 'articles' %}" class="btn-back-to-articles"><i class="fas fa-arrow-left"></i> Înapoi la articole</a>
+        </div>
+    {% endif %}
 </div>
 
 <!-- Related Articles для внутренней перелинковки (SEO) -->

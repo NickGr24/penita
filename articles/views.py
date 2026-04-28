@@ -31,6 +31,10 @@ def articles(request):
 def article_detail(request, slug):
     article = get_object_or_404(Article, slug=slug)
 
+    # Проверяем, что PDF физически существует на диске
+    # (поле article.file в БД может ссылаться на удалённый файл)
+    pdf_available = bool(article.file) and os.path.exists(article.file.path) if article.file else False
+
     # Похожие статьи той же категории для внутренней перелинковки (SEO)
     related_articles = Article.objects.filter(
         category=article.category
@@ -43,6 +47,7 @@ def article_detail(request, slug):
 
     return render(request, 'articles/article_detail.html', {
         'article': article,
+        'pdf_available': pdf_available,
         'related_articles': related_articles,
         'recommended_books': recommended_books,
     })
