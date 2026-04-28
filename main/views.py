@@ -96,3 +96,14 @@ def robots_txt(request):
 def google_verification(request):
     """Google Search Console verification"""
     return HttpResponse("google-site-verification: google8a286773c4e6f9b1.html", content_type="text/html")
+
+
+# IndexNow protocol key (Bing/Yandex). См. https://www.indexnow.org/
+# Файл должен быть доступен по https://penitadreptului.md/<key>.txt и
+# содержать тот же ключ — это подтверждает, что мы владеем сайтом.
+INDEXNOW_KEY = "be563e094056a486e0ee315062904eff"
+
+
+def indexnow_key(request):
+    """Verifies site ownership for IndexNow protocol (Bing, Yandex)."""
+    return HttpResponse(INDEXNOW_KEY, content_type="text/plain")
