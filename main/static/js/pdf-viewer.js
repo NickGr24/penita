@@ -396,7 +396,12 @@
                 pageDiv.style.height = Math.floor(viewport.height) + 'px';
                 pageDiv.appendChild(canvas);
 
-                // Text layer for search + text selection
+                // Text layer for search + text selection.
+                // CRITICAL для PDF.js 3.x: --scale-factor CSS variable должна быть
+                // установлена ДО renderTextLayer. Без неё text-span позиции
+                // вычисляются с дефолтным scale=1, и реальные позиции дрейфуют
+                // вниз страницы кумулятивно — выделение в нижней части кликает
+                // спан, который "думает", что он выше → выделяется не тот текст.
                 var textLayerDiv = document.createElement('div');
                 textLayerDiv.className = 'textLayer';
                 textLayerDiv.style.position = 'absolute';
@@ -404,6 +409,7 @@
                 textLayerDiv.style.left = '0';
                 textLayerDiv.style.width = Math.floor(viewport.width) + 'px';
                 textLayerDiv.style.height = Math.floor(viewport.height) + 'px';
+                textLayerDiv.style.setProperty('--scale-factor', viewport.scale);
                 pageDiv.appendChild(textLayerDiv);
 
                 self.canvasContainer.appendChild(pageDiv);
@@ -872,9 +878,18 @@
     };
 
     /**
-     * After renderPage(): scan textLayer spans, mark spans containing annotation text
-     * with .annotation-highlight + .annotation-color-{color}.
-     * Best-effort match — multi-span text may only highlight the first matching span.
+     * After renderPage(): mark all textLayer spans that overlap the saved annotation
+     * text. Algorithm:
+     *   1. Build fullText = concatenation of all span textContents on the page.
+     *   2. Normalize whitespace (PDFs split text across spans with \n / extra spaces;
+     *      Selection.toString() does the same — without normalization, indexOf
+     *      misses real matches).
+     *   3. Find FULL annotation text in normalized fullText (not just first N chars
+     *      — short prefixes match similar phrases earlier on the page, so old impl
+     *      highlighted wrong content way above the actual selection).
+     *   4. Map matched [startNorm, endNorm] back to raw character offsets, then
+     *      highlight every span whose range overlaps [startRaw, endRaw].
+     * Avoids false positives + handles multi-span selections correctly.
      */
     PdfViewer.prototype.applyAnnotationsToCurrentPage = function () {
         if (!this.annotations || !this.annotations.length) return;
@@ -884,16 +899,63 @@
         if (!pageAnnotations.length) return;
 
         var spans = textLayer.querySelectorAll('span');
-        pageAnnotations.forEach(function (ann) {
-            var needle = ann.text.toLowerCase().slice(0, 60);  // первый кусок текста как key
-            for (var i = 0; i < spans.length; i++) {
-                var spanText = (spans[i].textContent || '').toLowerCase();
-                if (spanText && spanText.indexOf(needle.slice(0, Math.min(20, needle.length))) !== -1) {
-                    spans[i].classList.add('annotation-highlight', 'annotation-color-' + ann.color);
-                    spans[i].dataset.annotationId = ann.id;
-                    break;  // первый матч хватит — не дублируем
+        if (!spans.length) return;
+
+        // Step 1: concat per-span text + record each span's raw character range
+        var fullText = '';
+        var spanRanges = [];
+        for (var i = 0; i < spans.length; i++) {
+            var t = spans[i].textContent || '';
+            spanRanges.push({ span: spans[i], start: fullText.length, end: fullText.length + t.length });
+            fullText += t;
+        }
+
+        // Step 2: build normalized text + raw↔norm position maps for resilient matching
+        var rawToNorm = new Array(fullText.length);
+        var normToRaw = [];
+        var fullNorm = '';
+        var prevWasSpace = true;
+        for (var k = 0; k < fullText.length; k++) {
+            var c = fullText.charAt(k);
+            if (/\s/.test(c)) {
+                if (prevWasSpace) {
+                    rawToNorm[k] = -1;
+                } else {
+                    rawToNorm[k] = fullNorm.length;
+                    normToRaw[fullNorm.length] = k;
+                    fullNorm += ' ';
                 }
+                prevWasSpace = true;
+            } else {
+                rawToNorm[k] = fullNorm.length;
+                normToRaw[fullNorm.length] = k;
+                fullNorm += c;
+                prevWasSpace = false;
             }
+        }
+        var fullNormLower = fullNorm.toLowerCase();
+
+        pageAnnotations.forEach(function (ann) {
+            var needleRaw = ann.text || '';
+            if (needleRaw.length < 3) return;
+            var needleNorm = needleRaw.replace(/\s+/g, ' ').trim();
+            if (!needleNorm) return;
+            var needleLower = needleNorm.toLowerCase();
+            var startNorm = fullNormLower.indexOf(needleLower);
+            if (startNorm === -1) {
+                // Не нашли точное совпадение — annotation остаётся в БД, просто не подсвечивается на этой странице
+                return;
+            }
+            var endNorm = startNorm + needleNorm.length - 1;  // inclusive
+            var startRaw = normToRaw[startNorm];
+            var endRaw = normToRaw[endNorm] !== undefined ? normToRaw[endNorm] : (fullText.length - 1);
+            // Highlight every span whose raw range overlaps [startRaw, endRaw]
+            spanRanges.forEach(function (sr) {
+                if (sr.end > startRaw && sr.start <= endRaw) {
+                    sr.span.classList.add('annotation-highlight', 'annotation-color-' + ann.color);
+                    sr.span.dataset.annotationId = ann.id;
+                }
+            });
         });
     };
 
