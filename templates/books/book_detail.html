@@ -330,13 +330,13 @@
 {% include 'navbar.html' %}
 
 <!-- Breadcrumbs для SEO и навигации -->
-<nav class="breadcrumbs" aria-label="Breadcrumb">
+<div class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
     <a href="{% url 'home' %}">Acasă</a>
     <span class="separator">/</span>
     <a href="{% url 'books_list' %}">Cărți</a>
     <span class="separator">/</span>
     <span class="current">{{ book.title|truncatewords:8 }}</span>
-</nav>
+</div>
 
 <div class="book-container">
     <div class="book-header">

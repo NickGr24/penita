@@ -364,7 +364,7 @@
 {% include 'navbar.html' %}
 
 <!-- Breadcrumbs для SEO и навигации -->
-<nav class="breadcrumbs" aria-label="Breadcrumb">
+<div class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
     <a href="{% url 'home' %}">Acasă</a>
     <span class="separator">/</span>
     <a href="{% url 'articles' %}">Articole</a>
@@ -374,7 +374,7 @@
     {% endif %}
     <span class="separator">/</span>
     <span class="current">{{ article.name|truncatewords:8 }}</span>
-</nav>
+</div>
 
 <div class="article-container">
     <div class="article-header">

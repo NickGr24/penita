@@ -372,6 +372,13 @@
 .fullscreen-btn:hover { background: #34495e; transform: translateY(-2px); }
 .fullscreen-btn:focus-visible { outline: 3px solid #6B8E23; outline-offset: 2px; }
 
+/* Hide PDF fullscreen-btn (and sticky pdf-controls) while mobile nav menu
+ * is open, otherwise they sit above the menu due to their high z-index. */
+body.menu-open .fullscreen-btn,
+body.menu-open .pdf-controls {
+    display: none !important;
+}
+
 /* iOS Safari fallback — div can't request native fullscreen reliably */
 .pdf-viewer-container.is-pseudo-fullscreen {
     position: fixed !important;
