@@ -385,6 +385,37 @@ body.pdf-fullscreen-open {
     overflow: hidden;
 }
 
+/* === Exit button in pseudo-fullscreen mode (red, large, prominent) ===
+ * On mobile (esp. iOS) the regular .fullscreen-btn was hard to find/tap
+ * inside the immersive viewer. Make it impossible to miss. */
+body.pdf-fullscreen-open .fullscreen-btn {
+    position: fixed !important;
+    /* Top-right corner, away from thumb-zone toolbars */
+    top: max(18px, env(safe-area-inset-top, 18px)) !important;
+    right: max(18px, env(safe-area-inset-right, 18px)) !important;
+    bottom: auto !important;
+    width: 56px !important;
+    height: 56px !important;
+    background: #c0392b !important;        /* Red — universally recognized as "close/exit" */
+    color: #fff !important;
+    z-index: 100000 !important;             /* Above viewer (9998) and any other UI */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55) !important;
+    border: 2px solid rgba(255, 255, 255, 0.9) !important;
+}
+body.pdf-fullscreen-open .fullscreen-btn:hover {
+    background: #a82817 !important;
+    transform: scale(1.05) !important;
+}
+body.pdf-fullscreen-open .fullscreen-btn i {
+    font-size: 1.3rem !important;
+}
+
+/* Same for native fullscreen: ensure button is on top */
+.pdf-viewer-container:fullscreen .fullscreen-btn,
+.pdf-viewer-container:-webkit-full-screen .fullscreen-btn {
+    z-index: 100000 !important;
+}
+
 /* ============================================================
  * Mobile optimizations
  * ============================================================ */
