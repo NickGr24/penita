@@ -97,8 +97,20 @@
     padding: 10px 12px;
     border-bottom: 1px solid #e0e5d1;
 }
-/* Все кнопки внутри dropdown-панели с высокой специфичностью —
- * перебиваем глобальный .pdf-controls button (зелёный градиент + white text). */
+/* Все кнопки внутри dropdown-панели — перебиваем глобальный
+ * .pdf-controls button (зелёный градиент + white text + lift on hover).
+ * :hover у глобального правила имеет специфичность 0,0,2,1 — поэтому ниже
+ * нужны парные :hover-правила, иначе hover-state ломает читаемость. */
+.bookmarks-panel button,
+.bookmarks-panel button:hover,
+.bookmarks-panel button:focus,
+.bookmarks-panel button:focus-visible,
+.bookmarks-panel button:active {
+    transform: none;
+    box-shadow: none;
+    text-shadow: none;
+    outline: none;
+}
 .bookmarks-panel button {
     background: transparent;
     color: #333;
@@ -108,11 +120,10 @@
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 400;
-    box-shadow: none;
-    text-shadow: none;
     line-height: 1.4;
     transition: background 0.15s, color 0.15s;
 }
+.bookmarks-panel button:hover { background: transparent; color: #333; }
 .bookmarks-panel .bookmark-toggle {
     width: 100%;
     background: #6B8E23;
@@ -127,7 +138,7 @@
     gap: 8px;
 }
 .bookmarks-panel .bookmark-toggle.is-active { background: #c0392b; }
-.bookmarks-panel .bookmark-toggle:hover { opacity: 0.92; }
+.bookmarks-panel .bookmark-toggle:hover { background: #556B2F; color: #fff; opacity: 1; }
 .bookmarks-empty {
     padding: 18px 14px;
     color: #888;
