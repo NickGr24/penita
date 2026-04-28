@@ -66,9 +66,12 @@
             type: wrapper.dataset.pdfType || 'document',
         };
         this.pdfDoc = null;
-        this.pageNum = this.readPageFromHash() || 1;
+        // URL hash > localStorage > 1.
+        // localStorage позволяет вернуться на ту же страницу при повторном визите.
+        this.pageNum = this.readPageFromHash() || this.readSavedPage() || 1;
         this.scale = 1;
         this.currentZoomMode = 'page-width';
+        this.isDarkMode = this.readSavedDarkMode();
         this.isAnimating = false;
         this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         this.prefersReducedMotion = window.matchMedia &&
@@ -205,10 +208,13 @@
             self.canvasContainer.innerHTML = '';
             // Build search index in background (extract text from all pages)
             self.buildSearchIndex();
+            // Restore dark mode (if previously enabled)
+            if (self.isDarkMode) self.applyDarkMode(true);
             // Render first page
             self.renderPage(self.pageNum);
             self.updateNavButtons();
             self.updateProgress();
+            self.updateHash();
             // For mobile: page-width zoom
             if (self.isMobile && self.zoomSelect) {
                 self.zoomSelect.value = 'page-width';
@@ -231,6 +237,7 @@
             case 'zoom-in':         this.zoomIn(); break;
             case 'zoom-out':        this.zoomOut(); break;
             case 'toggle-fullscreen': this.toggleFullscreen(); break;
+            case 'toggle-dark':     this.toggleDarkMode(); break;
             case 'toggle-search':   this.openSearch(); break;
             case 'close-search':    this.closeSearch(); break;
             case 'next-match':      this.nextMatch(); break;
@@ -274,6 +281,7 @@
         this.updateNavButtons();
         this.updateProgress();
         this.updateHash();
+        this.savePage();
 
         if (this.prefersReducedMotion) {
             this.renderPage(newPageNum).then(function () { self.isAnimating = false; });
@@ -424,6 +432,56 @@
         if (window.location.hash !== newHash && window.history.replaceState) {
             window.history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
         }
+    };
+
+    /* ---------- Persistence (last-read page + dark mode pref) ---------- */
+
+    PdfViewer.prototype._storageKey = function (suffix) {
+        // Per-PDF key — different documents track their own last page.
+        // Падаем тихо если localStorage недоступен (Safari private, отключённые cookies).
+        return 'pdf:' + this.config.url + ':' + suffix;
+    };
+
+    PdfViewer.prototype.readSavedPage = function () {
+        try {
+            var v = window.localStorage.getItem(this._storageKey('page'));
+            return v ? parseInt(v, 10) : null;
+        } catch (e) { return null; }
+    };
+
+    PdfViewer.prototype.savePage = function () {
+        try {
+            window.localStorage.setItem(this._storageKey('page'), String(this.pageNum));
+        } catch (e) { /* ignore */ }
+    };
+
+    PdfViewer.prototype.readSavedDarkMode = function () {
+        // Dark mode — глобальная настройка (не per-PDF), чтобы пользователь
+        // выставил один раз и она работала для всех документов.
+        try {
+            return window.localStorage.getItem('pdf:dark-mode') === '1';
+        } catch (e) { return false; }
+    };
+
+    PdfViewer.prototype.saveDarkMode = function () {
+        try {
+            window.localStorage.setItem('pdf:dark-mode', this.isDarkMode ? '1' : '0');
+        } catch (e) { /* ignore */ }
+    };
+
+    PdfViewer.prototype.toggleDarkMode = function () {
+        this.isDarkMode = !this.isDarkMode;
+        this.applyDarkMode(this.isDarkMode);
+        this.saveDarkMode();
+    };
+
+    PdfViewer.prototype.applyDarkMode = function (isDark) {
+        this.viewer.classList.toggle('pdf-dark', !!isDark);
+        // Update icon (moon ↔ sun)
+        var icon = this.wrapper.querySelector('[data-action="toggle-dark"] i');
+        if (icon) icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        var btn = this.wrapper.querySelector('[data-action="toggle-dark"]');
+        if (btn) btn.title = isDark ? 'Mod luminos' : 'Mod întunecat';
     };
 
     /* ---------- Zoom ---------- */

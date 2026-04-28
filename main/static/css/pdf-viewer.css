@@ -18,11 +18,32 @@
     top: 0;
     left: 0;
     width: 0%;
-    height: 3px;
+    height: 4px;
     background: linear-gradient(90deg, #6B8E23, #2ecc71);
+    box-shadow: 0 0 8px rgba(107, 142, 35, 0.5);
     z-index: 1000;
-    transition: width 0.3s;
+    transition: width 0.35s ease-out;
 }
+
+/* ============================================================
+ * Dark mode (for PDF reader only — toggled via button)
+ * ============================================================ */
+.pdf-viewer-container.pdf-dark {
+    background: #1a1a1a;
+}
+.pdf-viewer-container.pdf-dark .pdf-page {
+    background: #1a1a1a;
+}
+/* Invert the canvas (PDF rendering) — keeps blacks/whites swapped, hue-rotate restores colors */
+.pdf-viewer-container.pdf-dark canvas {
+    filter: invert(0.92) hue-rotate(180deg);
+}
+/* Don't invert the text layer (it's transparent overlay for selection/search; inverting breaks selection visibility) */
+.pdf-viewer-container.pdf-dark .textLayer {
+    mix-blend-mode: normal;
+    color: transparent;
+}
+/* Dark-mode button stays in same place but toggles icon (moon ↔ sun) via JS */
 
 /* ============================================================
  * Controls bar
