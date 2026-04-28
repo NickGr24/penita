@@ -46,6 +46,128 @@
 /* Dark-mode button stays in same place but toggles icon (moon ↔ sun) via JS */
 
 /* ============================================================
+ * Bookmarks dropdown panel
+ * ============================================================ */
+.bookmarks-wrapper {
+    position: relative;
+}
+.bookmarks-btn {
+    position: relative;
+}
+.bookmark-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #e74c3c;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 5px;
+    line-height: 1;
+}
+.bookmarks-panel {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    min-width: 240px;
+    max-width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 200;
+    color: #333;
+}
+.bookmarks-panel.is-open { display: block; }
+.bookmarks-panel-header {
+    padding: 10px 12px;
+    border-bottom: 1px solid #e0e5d1;
+}
+.bookmark-toggle {
+    width: 100%;
+    background: #6B8E23;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: left;
+}
+.bookmark-toggle.is-active { background: #c0392b; }
+.bookmark-toggle:hover { opacity: 0.9; }
+.bookmarks-empty {
+    padding: 16px 12px;
+    color: #888;
+    font-size: 0.85rem;
+    text-align: center;
+    font-style: italic;
+}
+.bookmarks-list {
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+}
+.bookmarks-list li {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+}
+.bookmark-item {
+    flex: 1;
+    text-align: left;
+    background: transparent;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #333;
+    font-size: 0.9rem;
+}
+.bookmark-item:hover { background: #f0f5e0; color: #556B2F; }
+.bookmark-item i { color: #6B8E23; margin-right: 6px; }
+.bookmark-remove {
+    background: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+.bookmark-remove:hover { color: #c0392b; background: #fdecec; }
+
+/* ============================================================
+ * Quote button (floating, on text selection)
+ * ============================================================ */
+.pdf-quote-btn {
+    position: absolute;
+    background: #2c3e50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    display: none;
+    white-space: nowrap;
+}
+.pdf-quote-btn.is-visible { display: inline-flex; align-items: center; gap: 6px; }
+.pdf-quote-btn:hover { background: #34495e; }
+.pdf-quote-btn i { font-size: 0.9rem; }
+
+/* ============================================================
  * Controls bar
  * ============================================================ */
 .pdf-controls {

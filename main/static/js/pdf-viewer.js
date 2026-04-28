@@ -215,6 +215,8 @@
             self.updateNavButtons();
             self.updateProgress();
             self.updateHash();
+            self.updateBookmarkButton();
+            self.setupQuoteExport();
             // For mobile: page-width zoom
             if (self.isMobile && self.zoomSelect) {
                 self.zoomSelect.value = 'page-width';
@@ -242,6 +244,10 @@
             case 'close-search':    this.closeSearch(); break;
             case 'next-match':      this.nextMatch(); break;
             case 'prev-match':      this.prevMatch(); break;
+            case 'toggle-bookmarks': this.toggleBookmarksPanel(); break;
+            case 'bookmark-current': this.toggleBookmarkCurrentPage(); break;
+            case 'goto-bookmark':   this.gotoBookmark(parseInt(event.target.closest('[data-page]').dataset.page, 10)); break;
+            case 'remove-bookmark': this.removeBookmark(parseInt(event.target.closest('[data-page]').dataset.page, 10), event); break;
         }
     };
 
@@ -282,6 +288,9 @@
         this.updateProgress();
         this.updateHash();
         this.savePage();
+        // Refresh bookmarks panel header (so "Add/Remove bookmark for page X" reflects new page)
+        var panel = this.wrapper.querySelector('[data-bookmarks-panel]');
+        if (panel && panel.classList.contains('is-open')) this.renderBookmarksPanel();
 
         if (this.prefersReducedMotion) {
             this.renderPage(newPageNum).then(function () { self.isAnimating = false; });
@@ -431,6 +440,203 @@
         var newHash = '#page=' + this.pageNum;
         if (window.location.hash !== newHash && window.history.replaceState) {
             window.history.replaceState(null, '', window.location.pathname + window.location.search + newHash);
+        }
+    };
+
+    /* ---------- Bookmarks (localStorage per-PDF) ---------- */
+
+    PdfViewer.prototype.readBookmarks = function () {
+        try {
+            var v = window.localStorage.getItem(this._storageKey('bookmarks'));
+            return v ? JSON.parse(v) : [];
+        } catch (e) { return []; }
+    };
+
+    PdfViewer.prototype.saveBookmarks = function (bookmarks) {
+        try {
+            window.localStorage.setItem(this._storageKey('bookmarks'), JSON.stringify(bookmarks));
+        } catch (e) { /* ignore */ }
+    };
+
+    PdfViewer.prototype.toggleBookmarkCurrentPage = function () {
+        var bookmarks = this.readBookmarks();
+        var page = this.pageNum;
+        var existing = bookmarks.findIndex(function (b) { return b.page === page; });
+        if (existing >= 0) {
+            bookmarks.splice(existing, 1);
+        } else {
+            bookmarks.push({ page: page, addedAt: Date.now() });
+            bookmarks.sort(function (a, b) { return a.page - b.page; });
+        }
+        this.saveBookmarks(bookmarks);
+        this.renderBookmarksPanel();
+        this.updateBookmarkButton();
+    };
+
+    PdfViewer.prototype.removeBookmark = function (page, event) {
+        if (event) { event.stopPropagation(); }
+        var bookmarks = this.readBookmarks().filter(function (b) { return b.page !== page; });
+        this.saveBookmarks(bookmarks);
+        this.renderBookmarksPanel();
+        this.updateBookmarkButton();
+    };
+
+    PdfViewer.prototype.gotoBookmark = function (page) {
+        if (!isNaN(page)) this.goToPage(page);
+        // Закрываем панель после перехода, чтобы не мешала чтению
+        var panel = this.wrapper.querySelector('[data-bookmarks-panel]');
+        if (panel) panel.classList.remove('is-open');
+    };
+
+    PdfViewer.prototype.toggleBookmarksPanel = function () {
+        var panel = this.wrapper.querySelector('[data-bookmarks-panel]');
+        if (!panel) return;
+        var willOpen = !panel.classList.contains('is-open');
+        panel.classList.toggle('is-open', willOpen);
+        if (willOpen) this.renderBookmarksPanel();
+    };
+
+    PdfViewer.prototype.renderBookmarksPanel = function () {
+        var panel = this.wrapper.querySelector('[data-bookmarks-panel]');
+        if (!panel) return;
+        var bookmarks = this.readBookmarks();
+        var page = this.pageNum;
+        var isBookmarked = bookmarks.some(function (b) { return b.page === page; });
+
+        var html = '<div class="bookmarks-panel-header">' +
+            '<button type="button" data-action="bookmark-current" class="bookmark-toggle' + (isBookmarked ? ' is-active' : '') + '">' +
+            '<i class="fas ' + (isBookmarked ? 'fa-bookmark' : 'fa-bookmark') + '"></i> ' +
+            (isBookmarked ? 'Elimină marcaj de la pag. ' : 'Adaugă marcaj la pag. ') + page +
+            '</button></div>';
+
+        if (bookmarks.length === 0) {
+            html += '<div class="bookmarks-empty">Niciun marcaj salvat încă</div>';
+        } else {
+            html += '<ul class="bookmarks-list">';
+            bookmarks.forEach(function (b) {
+                html += '<li data-page="' + b.page + '">' +
+                    '<button type="button" data-action="goto-bookmark" class="bookmark-item">' +
+                    '<i class="fas fa-bookmark"></i> Pagina ' + b.page +
+                    '</button>' +
+                    '<button type="button" data-action="remove-bookmark" class="bookmark-remove" aria-label="Șterge marcaj" title="Șterge">' +
+                    '<i class="fas fa-times"></i>' +
+                    '</button>' +
+                    '</li>';
+            });
+            html += '</ul>';
+        }
+        panel.innerHTML = html;
+    };
+
+    PdfViewer.prototype.updateBookmarkButton = function () {
+        var bookmarks = this.readBookmarks();
+        var btn = this.wrapper.querySelector('[data-action="toggle-bookmarks"]');
+        if (!btn) return;
+        var count = bookmarks.length;
+        var badge = btn.querySelector('.bookmark-count');
+        if (count > 0) {
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'bookmark-count';
+                btn.appendChild(badge);
+            }
+            badge.textContent = count;
+        } else if (badge) {
+            badge.remove();
+        }
+    };
+
+    /* ---------- Quote export (text selection → copy with citation) ---------- */
+
+    PdfViewer.prototype.setupQuoteExport = function () {
+        var self = this;
+        // Используем mouseup на canvasContainer, чтобы поймать конец выделения
+        // (выделение происходит в textLayer внутри)
+        this.canvasContainer.addEventListener('mouseup', function () { self.maybeShowQuoteButton(); });
+        this.canvasContainer.addEventListener('touchend', function () {
+            // Mobile: чуть подождать, чтобы system selection menu появился
+            setTimeout(function () { self.maybeShowQuoteButton(); }, 200);
+        });
+        // Hide on click outside
+        document.addEventListener('mousedown', function (e) {
+            if (self.quoteBtn && !self.quoteBtn.contains(e.target)) self.hideQuoteButton();
+        });
+    };
+
+    PdfViewer.prototype.maybeShowQuoteButton = function () {
+        var sel = window.getSelection();
+        if (!sel || sel.isCollapsed) {
+            this.hideQuoteButton();
+            return;
+        }
+        var text = sel.toString().trim();
+        if (text.length < 5) { this.hideQuoteButton(); return; }
+        // Verify selection is inside our textLayer
+        var range = sel.getRangeAt(0);
+        var ancestor = range.commonAncestorContainer;
+        var node = ancestor.nodeType === 1 ? ancestor : ancestor.parentNode;
+        if (!node || !this.canvasContainer.contains(node)) {
+            this.hideQuoteButton();
+            return;
+        }
+        this.showQuoteButton(range, text);
+    };
+
+    PdfViewer.prototype.showQuoteButton = function (range, text) {
+        if (!this.quoteBtn) {
+            this.quoteBtn = document.createElement('button');
+            this.quoteBtn.type = 'button';
+            this.quoteBtn.className = 'pdf-quote-btn';
+            this.quoteBtn.innerHTML = '<i class="fas fa-quote-right"></i> Citează';
+            document.body.appendChild(this.quoteBtn);
+            var self = this;
+            this.quoteBtn.addEventListener('click', function () { self.copyCitation(); });
+        }
+        var rect = range.getBoundingClientRect();
+        // Position above selection, fall back below if no room
+        var top = rect.top + window.scrollY - 42;
+        if (top < window.scrollY + 10) top = rect.bottom + window.scrollY + 8;
+        var left = rect.left + (rect.width / 2) + window.scrollX - 50;
+        this.quoteBtn.style.top = Math.max(10, top) + 'px';
+        this.quoteBtn.style.left = Math.max(10, left) + 'px';
+        this.quoteBtn.classList.add('is-visible');
+        this.quoteBtn.dataset.selectedText = text;
+    };
+
+    PdfViewer.prototype.hideQuoteButton = function () {
+        if (this.quoteBtn) this.quoteBtn.classList.remove('is-visible');
+    };
+
+    PdfViewer.prototype.copyCitation = function () {
+        var text = this.quoteBtn ? this.quoteBtn.dataset.selectedText : '';
+        if (!text) return;
+        var citation = '"' + text + '"\n— ' + (this.config.title || 'Document') + ', pag. ' + this.pageNum;
+        var done = function (ok) {
+            if (!this.quoteBtn) return;
+            var orig = this.quoteBtn.innerHTML;
+            this.quoteBtn.innerHTML = ok
+                ? '<i class="fas fa-check"></i> Copiat'
+                : '<i class="fas fa-times"></i> Eroare';
+            var self = this;
+            setTimeout(function () {
+                if (self.quoteBtn) self.quoteBtn.innerHTML = orig;
+                self.hideQuoteButton();
+            }, 1500);
+        }.bind(this);
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(citation).then(function () { done(true); }).catch(function () { done(false); });
+        } else {
+            // Fallback for older browsers
+            var ta = document.createElement('textarea');
+            ta.value = citation;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); done(true); }
+            catch (e) { done(false); }
+            document.body.removeChild(ta);
         }
     };
 
