@@ -773,6 +773,22 @@
         if (!sel || sel.isCollapsed) return;
         var text = sel.toString().trim();
         if (text.length < 5) return;
+
+        // КРИТИЧНО: захватываем span'ы из Range ДО async fetch.
+        // На текущей странице мы знаем точные DOM-узлы, попавшие в selection —
+        // text-based matching (для page-reload) не нужен здесь, всё уже в руке.
+        var range = sel.getRangeAt(0);
+        var textLayer = this.canvasContainer.querySelector('.textLayer');
+        var spansToMark = [];
+        if (textLayer) {
+            var allSpans = textLayer.querySelectorAll('span');
+            for (var i = 0; i < allSpans.length; i++) {
+                if (range.intersectsNode(allSpans[i])) {
+                    spansToMark.push(allSpans[i]);
+                }
+            }
+        }
+
         var self = this;
         this._apiFetch('/api/annotations/save/', {
             method: 'POST',
@@ -790,7 +806,12 @@
                       id: data.id, page: data.page, text: data.text,
                       color: data.color, note: data.note || '',
                   });
-                  self.applyAnnotationsToCurrentPage();
+                  // Применяем highlight на захваченные ранее span'ы — точное соответствие
+                  // тому, что юзер реально выделил, без всякого text-matching.
+                  spansToMark.forEach(function (span) {
+                      span.classList.add('annotation-highlight', 'annotation-color-' + data.color);
+                      span.dataset.annotationId = data.id;
+                  });
                   self.updateAnnotationButton();
                   // Clear selection so quote button hides
                   if (window.getSelection) window.getSelection().removeAllRanges();
