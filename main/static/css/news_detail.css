@@ -26,8 +26,10 @@
 }
 
 .news-image img {
-    width: 100%;
-    max-width: 500px;
+    max-width: 100%;
+    width: auto;
+    height: auto;        /* preserve natural aspect ratio of the source image */
+    max-height: 70vh;    /* tall portrait-style images don't dominate the screen */
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;

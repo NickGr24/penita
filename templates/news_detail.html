@@ -58,9 +58,11 @@
 
     {% if news.image %}
     <div class="news-image">
+        {# Не задаём width/height — новости имеют разные пропорции (портрет/landscape),
+           hardcoded 1200x675 (16:9) искажал портретные фото в landscape. #}
         <img src="{{ news.image.url }}"
              onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.webp' %}';"
-             alt="{{ news.title }}" loading="lazy" width="1200" height="675">
+             alt="{{ news.title }}" loading="lazy">
     </div>
     {% endif %}
 
@@ -72,7 +74,7 @@
     <div class="news-image">
         <img src="{{ image.image.url }}"
              onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.webp' %}';"
-             alt="{{ news.title }} - imagine {{ forloop.counter }}" loading="lazy" width="1200" height="675">
+             alt="{{ news.title }} - imagine {{ forloop.counter }}" loading="lazy">
     </div>
     {% endfor %}
 
