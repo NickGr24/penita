@@ -13,13 +13,8 @@ CUMPĂRĂTOR
 {% endif %}
 
 TRANZACȚIE
-  Sumă plătită:        {{ amount_str }}
-  Comision MAIB ({{ commission_percent }}%):  {{ commission_str }}
-  Net (estimativ):     {{ net_str }}
-  ID tranzacție MAIB:  {{ payment.pay_id }}
-  Order ID:            {{ payment.order_id }}
-  Card (masked):       {{ payment.card_number|default:"—" }}
-  Data plății:         {{ paid_at|date:"d.m.Y H:i" }}
+  Sumă plătită:  {{ amount_str }}
+  Data plății:   {{ paid_at|date:"d.m.Y H:i" }}
 
 —
 Acest mesaj este generat automat de Penița Dreptului.

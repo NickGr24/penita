@@ -63,18 +63,9 @@
                 <td style="color:#2c3e50; font-weight:700; font-size:16px;">{{ amount_str }}</td>
               </tr>
               <tr>
-                <td style="color:#7a8a5c; vertical-align:top;">Comision MAIB ({{ commission_percent }}%)</td>
-                <td style="color:#c0392b;">−{{ commission_str }}</td>
+                <td style="color:#7a8a5c; vertical-align:top;">Data plății</td>
+                <td style="color:#2c3e50;">{{ paid_at|date:"d.m.Y H:i" }}</td>
               </tr>
-              <tr>
-                <td style="color:#7a8a5c; vertical-align:top; padding-top:6px;">Net (estimativ)</td>
-                <td style="color:#2c3e50; font-weight:700; padding-top:6px; border-top:1px dashed #eef0e3;">{{ net_str }}</td>
-              </tr>
-              <tr><td colspan="2" style="height:14px;"></td></tr>
-              <tr><td style="color:#7a8a5c; vertical-align:top;">ID tranzacție MAIB</td><td style="color:#2c3e50; font-family: 'Courier New', monospace; font-size:13px;">{{ payment.pay_id }}</td></tr>
-              <tr><td style="color:#7a8a5c; vertical-align:top;">Order ID</td><td style="color:#2c3e50; font-family: 'Courier New', monospace; font-size:13px;">{{ payment.order_id }}</td></tr>
-              <tr><td style="color:#7a8a5c; vertical-align:top;">Card</td><td style="color:#2c3e50; font-family: 'Courier New', monospace; font-size:13px;">{{ payment.card_number|default:"—" }}</td></tr>
-              <tr><td style="color:#7a8a5c; vertical-align:top;">Data plății</td><td style="color:#2c3e50;">{{ paid_at|date:"d.m.Y H:i" }}</td></tr>
             </table>
           </td>
         </tr>
