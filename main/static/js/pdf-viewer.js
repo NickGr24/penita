@@ -228,10 +228,10 @@
                 self.updateAnnotationButton();
                 self.setupQuoteExport();
             });
-            // For mobile: page-width zoom
+            // For mobile: 100% (fit-width)
             if (self.isMobile && self.zoomSelect) {
-                self.zoomSelect.value = 'page-width';
-                self.setZoom('page-width');
+                self.zoomSelect.value = '1';
+                self.setZoom('1');
             }
         }).catch(function (error) {
             self.canvasContainer.innerHTML = '<div class="pdf-error-message">' +
@@ -347,18 +347,28 @@
             var ctx = canvas.getContext('2d');
             var outputScale = window.devicePixelRatio || 1;
 
-            // Calculate viewport
+            // Calculate viewport.
+            // baseScale = scale at which page exactly fits container width — used as 100% reference
+            // for percentage-based zoom (so "150%" means 1.5× fit-width, not 1.5× PDF native).
+            var containerWidth = self.canvasContainer.clientWidth - 4;
+            var tempViewport = page.getViewport({ scale: 1 });
+            var fitWidthScale = containerWidth / tempViewport.width;
+            self.baseScale = fitWidthScale;
+
             var viewport;
-            if (self.currentZoomMode === 'auto' || self.currentZoomMode === 'page-width') {
-                var containerWidth = self.canvasContainer.clientWidth - 10;
-                var tempViewport = page.getViewport({ scale: 1 });
-                var desiredScale = self.currentZoomMode === 'page-width'
-                    ? (containerWidth * 0.98) / tempViewport.width
-                    : Math.min(containerWidth / tempViewport.width,
-                              (window.innerHeight - 200) / tempViewport.height);
-                viewport = page.getViewport({ scale: desiredScale });
-                self.scale = desiredScale;
+            if (self.currentZoomMode === 'page-width') {
+                viewport = page.getViewport({ scale: fitWidthScale });
+                self.scale = fitWidthScale;
+            } else if (self.currentZoomMode === 'auto') {
+                var fitHeightScale = (window.innerHeight - 200) / tempViewport.height;
+                var autoScale = Math.min(fitWidthScale, fitHeightScale);
+                viewport = page.getViewport({ scale: autoScale });
+                self.scale = autoScale;
             } else {
+                // Numeric zoom: % relative to fit-width baseline (1 = fits container; 1.5 = 1.5×)
+                var pct = parseFloat(self.currentZoomMode);
+                if (isNaN(pct) || pct <= 0) pct = 1;
+                self.scale = fitWidthScale * pct;
                 viewport = page.getViewport({ scale: self.scale });
             }
 
@@ -941,34 +951,44 @@
 
     PdfViewer.prototype.setZoom = function (value) {
         this.currentZoomMode = value;
-        if (value !== 'auto' && value !== 'page-width') {
-            this.scale = parseFloat(value);
-        }
+        // Числовые значения интерпретируются как множитель fit-width (см. renderPage).
         this.queueRenderPage(this.pageNum);
+    };
+
+    PdfViewer.prototype._currentZoomNumeric = function () {
+        // Возвращает текущий зум как число (множитель fit-width).
+        // Для page-width / auto возвращает 1 (это и есть 100% fit).
+        var v = parseFloat(this.currentZoomMode);
+        return isNaN(v) ? 1 : v;
     };
 
     PdfViewer.prototype.zoomIn = function () {
         if (!this.zoomSelect) return;
-        var current = parseFloat(this.zoomSelect.value);
-        if (!isNaN(current) && current < 3) {
-            var newScale = Math.min(current + 0.25, 3);
-            this.scale = newScale;
-            this.currentZoomMode = newScale.toString();
-            this.zoomSelect.value = newScale.toString();
-            this.queueRenderPage(this.pageNum);
+        var current = this._currentZoomNumeric();
+        var newPct = Math.min(current + 0.25, 3);
+        var newStr = newPct.toString();
+        this.currentZoomMode = newStr;
+        // Sync select if value matches an option, otherwise select stays at current selection
+        var matched = false;
+        for (var i = 0; i < this.zoomSelect.options.length; i++) {
+            if (this.zoomSelect.options[i].value === newStr) { matched = true; break; }
         }
+        if (matched) this.zoomSelect.value = newStr;
+        this.queueRenderPage(this.pageNum);
     };
 
     PdfViewer.prototype.zoomOut = function () {
         if (!this.zoomSelect) return;
-        var current = parseFloat(this.zoomSelect.value);
-        if (!isNaN(current) && current > 0.25) {
-            var newScale = Math.max(current - 0.25, 0.25);
-            this.scale = newScale;
-            this.currentZoomMode = newScale.toString();
-            this.zoomSelect.value = newScale.toString();
-            this.queueRenderPage(this.pageNum);
+        var current = this._currentZoomNumeric();
+        var newPct = Math.max(current - 0.25, 0.25);
+        var newStr = newPct.toString();
+        this.currentZoomMode = newStr;
+        var matched = false;
+        for (var i = 0; i < this.zoomSelect.options.length; i++) {
+            if (this.zoomSelect.options[i].value === newStr) { matched = true; break; }
         }
+        if (matched) this.zoomSelect.value = newStr;
+        this.queueRenderPage(this.pageNum);
     };
 
     /* ---------- Fullscreen (native + iOS pseudo fallback) ---------- */

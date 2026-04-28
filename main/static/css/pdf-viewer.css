@@ -7,7 +7,13 @@
  * Wrapper
  * ============================================================ */
 .pdf-viewer-wrapper {
-    width: 100%;
+    /* Full-bleed: вырываем PDF viewer на полную ширину viewport,
+     * игнорируя max-width родительского article-container/book-container.
+     * Это даёт пользователю реально полную ширину для чтения. */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    position: relative;
 }
 
 /* ============================================================
@@ -387,9 +393,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 5px;
+    padding: 10px 0;
     gap: 15px;
-    max-width: 100%;
+    width: 100%;
     /* Slide animation transitions (prefers-reduced-motion respected below) */
     transition: transform 0.25s ease-out, opacity 0.25s ease-out;
     will-change: transform, opacity;

@@ -86,31 +86,57 @@
     }
 
     .book-header {
-        background: linear-gradient(135deg, #6B8E23 0%, #556B2F 100%);
+        background: linear-gradient(135deg, #7a9d2f 0%, #556B2F 100%);
         color: white;
-        padding: 20px 15px;
+        padding: 38px 30px;
         text-align: center;
+        border-radius: 16px;
+        margin: 16px;
+        box-shadow: 0 8px 24px rgba(85, 107, 47, 0.18);
+        position: relative;
+        overflow: hidden;
+    }
+    .book-header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+        pointer-events: none;
     }
     .book-header h1 {
-        font-size: 1.8rem;
-        margin-bottom: 10px;
+        font-size: 2rem;
+        margin-bottom: 18px;
         font-family: 'Oswald', sans-serif;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+        line-height: 1.25;
+        letter-spacing: 0.3px;
+        position: relative;
+        z-index: 1;
     }
     .book-meta {
         display: flex;
         justify-content: center;
-        gap: 20px;
+        gap: 26px;
         flex-wrap: wrap;
         font-size: 0.95rem;
         opacity: 0.95;
-        margin-bottom: 15px;
+        margin-bottom: 18px;
+        position: relative;
+        z-index: 1;
     }
     .book-meta span {
         display: flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
+        background: rgba(255,255,255,0.1);
+        padding: 6px 12px;
+        border-radius: 20px;
+        backdrop-filter: blur(4px);
     }
+    .book-meta span i { font-size: 0.85rem; opacity: 0.85; }
     .book-cover-hero {
         text-align: center;
         padding: 30px 15px 10px;
@@ -135,13 +161,15 @@
         opacity: 0.9;
     }
     @media (max-width: 768px) {
-        .book-header { padding: 25px 15px; }
-        .book-header h1 { font-size: 1.8rem; }
-        .book-meta { font-size: 0.9rem; gap: 15px; }
+        .book-header { padding: 28px 20px; margin: 12px; border-radius: 12px; }
+        .book-header h1 { font-size: 1.6rem; }
+        .book-meta { font-size: 0.88rem; gap: 10px; }
+        .book-meta span { padding: 5px 10px; }
         .book-description { font-size: 0.9rem; padding: 0 15px; }
     }
     @media (max-width: 480px) {
-        .book-header h1 { font-size: 1.5rem; }
+        .book-header { padding: 24px 16px; margin: 8px; }
+        .book-header h1 { font-size: 1.35rem; margin-bottom: 14px; }
     }
 
     /* Purchase section for paid books */
@@ -247,19 +275,23 @@
         }
     }
 
-    /* Other Books секция */
+    /* Sections at the bottom (despre autor / articole conexe / alte cărți) — все унифицированы:
+     * белый фон, тонкий divider сверху, одинаковые отступы — даёт cohesive look. */
     .other-books {
-        background: #f8f9f0;
-        padding: 40px 20px;
-        margin-top: 30px;
+        background: #fff;
+        padding: 50px 20px;
+        border-top: 1px solid #eef0e3;
     }
     .other-books h3 {
         text-align: center;
         color: #2c3e50;
-        font-size: 1.5rem;
-        margin-bottom: 30px;
+        font-size: 1.6rem;
+        margin-bottom: 35px;
         font-family: 'Oswald', sans-serif;
+        font-weight: 600;
+        letter-spacing: 0.3px;
     }
+    .other-books h3 i { color: #6B8E23; margin-right: 8px; }
     .books-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -466,7 +498,7 @@
 </div>
 
 <!-- Despre autor — E-E-A-T сигнал + расширение контента -->
-<section class="other-books" style="background: #fff; border-top: 1px solid #e0e5d1;">
+<section class="other-books">
     <h3><i class="fas fa-user-graduate"></i> Despre autor</h3>
     <div style="max-width: 900px; margin: 0 auto; padding: 0 20px; line-height: 1.7; color: #444;">
         <p><strong>{{ book.author }}</strong> este unul dintre experții recunoscuți din Republica Moldova în domeniul dreptului procesual penal și al criminalisticii, cu o activitate academică și practică susținută de decenii. Materialele publicate sunt rezultatul cercetărilor proprii, al participării la proiecte naționale și internaționale și al experienței în formarea profesioniștilor din sistemul judiciar.</p>
@@ -501,7 +533,7 @@
 
 <!-- Other Books для внутренней перелинковки (SEO) -->
 {% if other_books %}
-<section class="other-books" style="background: #fff;">
+<section class="other-books">
     <h3><i class="fas fa-book"></i> Alte cărți de {{ book.author }}</h3>
     <div class="books-grid">
         {% for other in other_books %}
