@@ -33,12 +33,26 @@ def send_purchase_notification(payment):
     )
     net = (amount - commission).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 
+    # Allauth часто ставит username == email и оставляет first/last_name пустыми →
+    # показываем имя/cont только если они отличаются от email, чтобы не было 3
+    # одинаковых строк подряд.
+    full_name = (payment.user.get_full_name() or '').strip()
+    username = (payment.user.username or '').strip()
+    email_addr = (payment.user.email or '').strip()
+    email_lower = email_addr.lower()
+
+    show_full_name = bool(full_name) and full_name.lower() != email_lower
+    show_username = bool(username) and username.lower() != email_lower
+
     ctx = {
         'payment': payment,
         'book': payment.book,
         'user': payment.user,
-        'user_email': payment.user.email or '—',
-        'user_full_name': payment.user.get_full_name() or payment.user.username,
+        'user_email': email_addr or '—',
+        'user_full_name': full_name,
+        'user_username': username,
+        'show_full_name': show_full_name,
+        'show_username': show_username,
         'amount_str': _format_money(amount),
         'commission_str': _format_money(commission),
         'commission_percent': (settings.MAIB_COMMISSION_RATE * 100).quantize(Decimal('0.01')),

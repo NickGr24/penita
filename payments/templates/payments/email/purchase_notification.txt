@@ -7,9 +7,10 @@ CARTE
   Preț:    {{ amount_str }}
 
 CUMPĂRĂTOR
-  Nume:    {{ user_full_name }}
-  Email:   {{ user_email }}
-  Cont:    @{{ user.username }}
+{% if show_full_name %}  Nume:    {{ user_full_name }}
+{% endif %}  Email:   {{ user_email }}
+{% if show_username %}  Cont:    @{{ user_username }}
+{% endif %}
 
 TRANZACȚIE
   Sumă plătită:        {{ amount_str }}
