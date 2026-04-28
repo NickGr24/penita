@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Vânzare nouă</title>
+</head>
+<body style="margin:0; padding:0; background:#f4f6ee; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color:#2c3e50;">
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f4f6ee; padding:24px 12px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg, #7a9d2f 0%, #556B2F 100%); padding:28px 32px; color:#ffffff;">
+            <div style="font-size:13px; letter-spacing:1.5px; text-transform:uppercase; opacity:0.85;">Penița Dreptului</div>
+            <div style="font-size:24px; font-weight:700; margin-top:6px; line-height:1.25;">Vânzare nouă</div>
+            <div style="font-size:14px; margin-top:4px; opacity:0.9;">{{ amount_str }} • {{ paid_at|date:"d.m.Y H:i" }}</div>
+          </td>
+        </tr>
+
+        <!-- CARTE -->
+        <tr>
+          <td style="padding:24px 32px 8px 32px;">
+            <div style="font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:#6B8E23; font-weight:700;">Carte</div>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:10px; font-size:14px; line-height:1.6;">
+              <tr><td style="color:#7a8a5c; width:120px; vertical-align:top;">Titlu</td><td style="color:#2c3e50; font-weight:600;">{{ book.title }}</td></tr>
+              <tr><td style="color:#7a8a5c; vertical-align:top;">Autor</td><td style="color:#2c3e50;">{{ book.author }}</td></tr>
+              <tr><td style="color:#7a8a5c; vertical-align:top;">Preț listă</td><td style="color:#2c3e50;">{{ amount_str }}</td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- divider -->
+        <tr><td style="padding:0 32px;"><hr style="border:none; border-top:1px solid #eef0e3; margin:18px 0 0 0;"></td></tr>
+
+        <!-- CUMPĂRĂTOR -->
+        <tr>
+          <td style="padding:18px 32px 8px 32px;">
+            <div style="font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:#6B8E23; font-weight:700;">Cumpărător</div>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:10px; font-size:14px; line-height:1.6;">
+              <tr><td style="color:#7a8a5c; width:120px; vertical-align:top;">Nume</td><td style="color:#2c3e50; font-weight:600;">{{ user_full_name }}</td></tr>
+              <tr><td style="color:#7a8a5c; vertical-align:top;">Email</td><td style="color:#2c3e50;"><a href="mailto:{{ user_email }}" style="color:#556B2F; text-decoration:none;">{{ user_email }}</a></td></tr>
+              <tr><td style="color:#7a8a5c; vertical-align:top;">Cont</td><td style="color:#2c3e50;">@{{ user.username }}</td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- divider -->
+        <tr><td style="padding:0 32px;"><hr style="border:none; border-top:1px solid #eef0e3; margin:18px 0 0 0;"></td></tr>
+
+        <!-- TRANZACȚIE -->
+        <tr>
+          <td style="padding:18px 32px 28px 32px;">
+            <div style="font-size:11px; letter-spacing:1.2px; text-transform:uppercase; color:#6B8E23; font-weight:700;">Tranzacție</div>
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-top:10px; font-size:14px; line-height:1.6;">
+              <tr>
+                <td style="color:#7a8a5c; width:200px; vertical-align:top;">Sumă plătită</td>
+                <td style="color:#2c3e50; font-weight:700; font-size:16px;">{{ amount_str }}</td>
+              </tr>
+              <tr>
+                <td style="color:#7a8a5c; vertical-align:top;">Comision MAIB ({{ commission_percent }}%)</td>
+                <td style="color:#c0392b;">−{{ commission_str }}</td>
+              </tr>
+              <tr>
+                <td style="color:#7a8a5c; vertical-align:top; padding-top:6px;">Net (estimativ)</td>
+                <td style="color:#2c3e50; font-weight:700; padding-top:6px; border-top:1px dashed #eef0e3;">{{ net_str }}</td>
+              </tr>
+              <tr><td colspan="2" style="height:14px;"></td></tr>
+              <tr><td style="color:#7a8a5c; vertical-align:top;">ID tranzacție MAIB</td><td style="color:#2c3e50; font-family: 'Courier New', monospace; font-size:13px;">{{ payment.pay_id }}</td></tr>
+              <tr><td style="color:#7a8a5c; vertical-align:top;">Order ID</td><td style="color:#2c3e50; font-family: 'Courier New', monospace; font-size:13px;">{{ payment.order_id }}</td></tr>
+              <tr><td style="color:#7a8a5c; vertical-align:top;">Card</td><td style="color:#2c3e50; font-family: 'Courier New', monospace; font-size:13px;">{{ payment.card_number|default:"—" }}</td></tr>
+              <tr><td style="color:#7a8a5c; vertical-align:top;">Data plății</td><td style="color:#2c3e50;">{{ paid_at|date:"d.m.Y H:i" }}</td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background:#fafdf5; padding:18px 32px; border-top:1px solid #eef0e3; text-align:center;">
+            <div style="font-size:12px; color:#7a8a5c; line-height:1.5;">
+              Acest mesaj este generat automat de <strong style="color:#556B2F;">Penița Dreptului</strong>.<br>
+              <a href="https://penitadreptului.md/" style="color:#6B8E23; text-decoration:none;">penitadreptului.md</a>
+            </div>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,3 +1,4 @@
+from decimal import Decimal
 from pathlib import Path
 from decouple import config
 
@@ -166,3 +167,24 @@ MAIB_TEST_MODE = config('MAIB_TEST_MODE', default=True, cast=bool)
 SITE_URL = 'https://penitadreptului.md'
 SITE_NAME = 'Penița Dreptului'
 SITE_DESCRIPTION = 'Blog juridic despre dreptul procesual penal și criminalistică din Republica Moldova. Articole, cărți și resurse de Tudor Osoianu și Dinu Ostavciuc.'
+
+# Email (SMTP for transactional notifications)
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False, cast=bool)
+EMAIL_TIMEOUT = 10  # сек, чтобы MAIB callback не висел при медленном SMTP
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='Penița Dreptului <info@applexium.com>')
+
+# Purchase notifications — список email-адресов админов через запятую.
+# Тест: только nikitagriu04@gmail.com. Прод: добавить tosoianu@gmail.com через запятую.
+PURCHASE_NOTIFICATION_RECIPIENTS = config(
+    'PURCHASE_NOTIFICATION_RECIPIENTS',
+    default='nikitagriu04@gmail.com',
+    cast=lambda v: [s.strip() for s in v.split(',') if s.strip()],
+)
+# Расчётная комиссия MAIB (фактическая инвойсится отдельно). Дефолт 2.5%.
+MAIB_COMMISSION_RATE = config('MAIB_COMMISSION_RATE', default='0.025', cast=Decimal)

@@ -8,6 +8,7 @@ from django.conf import settings
 from django.urls import reverse
 from django.utils import timezone
 from .models import Payment, MAIBSettings, PaymentLog
+from .notifications import send_purchase_notification
 
 logger = logging.getLogger(__name__)
 
@@ -245,6 +246,11 @@ class MAIBPaymentService:
             self._log(payment, 'callback', f'Callback processed: {payment.status}', callback_data)
 
             logger.error(f"✅ Payment {pay_id} updated successfully!")
+
+            # Email админам — только при успехе. Функция никогда не raise,
+            # так что MAIB callback всегда вернёт 200 (нет ретраев).
+            if payment.status == 'OK':
+                send_purchase_notification(payment)
 
             return True
 
