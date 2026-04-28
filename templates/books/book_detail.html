@@ -453,7 +453,7 @@
         {% if pdf_available %}
             {# Shared PDF viewer (search + slide animation + lazy-load + fullscreen) #}
             {% url 'serve_book_pdf' book.slug as pdf_url %}
-            {% include 'partials/pdf_viewer.html' with pdf_url=pdf_url pdf_title=book.title pdf_type='book' only %}
+            {% include 'partials/pdf_viewer.html' with pdf_url=pdf_url pdf_title=book.title pdf_type='book' content_id=book.id user_authenticated=user.is_authenticated only %}
         {% else %}
             <div class="pdf-unavailable">
                 <i class="fas fa-file-pdf"></i>

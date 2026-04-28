@@ -17,7 +17,9 @@ Usage:
 <div class="pdf-viewer-wrapper"
      data-pdf-url="{{ pdf_url }}"
      data-pdf-title="{{ pdf_title }}"
-     data-pdf-type="{{ pdf_type|default:'document' }}">
+     data-pdf-type="{{ pdf_type|default:'document' }}"
+     data-pdf-content-id="{{ content_id|default:'' }}"
+     data-pdf-user-authenticated="{% if user_authenticated %}1{% else %}0{% endif %}">
 
     <div class="pdf-controls">
         <div class="pdf-search">
@@ -83,6 +85,19 @@ Usage:
             </button>
             <div class="bookmarks-panel" data-bookmarks-panel></div>
         </div>
+
+        {% if user_authenticated %}
+        <div class="bookmarks-wrapper">
+            <button type="button"
+                    class="bookmarks-btn"
+                    data-action="toggle-annotations"
+                    aria-label="Evidențieri sincronizate"
+                    title="Evidențieri (sincronizate cu contul)">
+                <i class="fas fa-highlighter"></i>
+            </button>
+            <div class="bookmarks-panel" data-annotations-panel></div>
+        </div>
+        {% endif %}
 
         <button type="button"
                 class="dark-mode-btn"

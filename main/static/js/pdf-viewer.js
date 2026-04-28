@@ -64,7 +64,14 @@
             url: wrapper.dataset.pdfUrl,
             title: wrapper.dataset.pdfTitle || '',
             type: wrapper.dataset.pdfType || 'document',
+            // Phase 3: server-side sync — нужны для API endpoints
+            contentId: wrapper.dataset.pdfContentId || null,
+            userAuthenticated: wrapper.dataset.pdfUserAuthenticated === '1',
         };
+        // Annotations cached at init (1 fetch for whole document)
+        this.annotations = [];
+        // Debounce timer для save reading-progress
+        this._syncProgressTimer = null;
         this.pdfDoc = null;
         // URL hash > localStorage > 1.
         // localStorage позволяет вернуться на ту же страницу при повторном визите.
@@ -210,13 +217,17 @@
             self.buildSearchIndex();
             // Restore dark mode (if previously enabled)
             if (self.isDarkMode) self.applyDarkMode(true);
-            // Render first page
-            self.renderPage(self.pageNum);
-            self.updateNavButtons();
-            self.updateProgress();
-            self.updateHash();
-            self.updateBookmarkButton();
-            self.setupQuoteExport();
+            // Phase 3: server-side sync — server progress overrides local if newer
+            self.syncFromServer().then(function () {
+                // Render with possibly-updated pageNum
+                self.renderPage(self.pageNum);
+                self.updateNavButtons();
+                self.updateProgress();
+                self.updateHash();
+                self.updateBookmarkButton();
+                self.updateAnnotationButton();
+                self.setupQuoteExport();
+            });
             // For mobile: page-width zoom
             if (self.isMobile && self.zoomSelect) {
                 self.zoomSelect.value = 'page-width';
@@ -248,6 +259,10 @@
             case 'bookmark-current': this.toggleBookmarkCurrentPage(); break;
             case 'goto-bookmark':   this.gotoBookmark(parseInt(event.target.closest('[data-page]').dataset.page, 10)); break;
             case 'remove-bookmark': this.removeBookmark(parseInt(event.target.closest('[data-page]').dataset.page, 10), event); break;
+            case 'highlight-selection': this.createAnnotationFromSelection(); break;
+            case 'toggle-annotations': this.toggleAnnotationsPanel(); break;
+            case 'goto-annotation':    this.gotoAnnotation(parseInt(event.target.closest('[data-annotation-id]').dataset.annotationId, 10)); break;
+            case 'remove-annotation':  this.removeAnnotation(parseInt(event.target.closest('[data-annotation-id]').dataset.annotationId, 10), event); break;
         }
     };
 
@@ -288,6 +303,7 @@
         this.updateProgress();
         this.updateHash();
         this.savePage();
+        this.syncProgressDebounced();
         // Refresh bookmarks panel header (so "Add/Remove bookmark for page X" reflects new page)
         var panel = this.wrapper.querySelector('[data-bookmarks-panel]');
         if (panel && panel.classList.contains('is-open')) this.renderBookmarksPanel();
@@ -395,10 +411,11 @@
                         viewport: viewport,
                         textDivs: [],
                     });
-                    // After text layer is ready, re-apply search highlights for this page
+                    // After text layer is ready, re-apply search highlights AND user annotations
                     var promise = task && task.promise ? task.promise : Promise.resolve();
                     return promise.then(function () {
                         if (self.searchQuery) self.highlightMatchesOnCurrentPage();
+                        self.applyAnnotationsToCurrentPage();
                     });
                 }).catch(function (e) {
                     console.warn('[pdf-viewer] textLayer render failed:', e);
@@ -584,13 +601,26 @@
 
     PdfViewer.prototype.showQuoteButton = function (range, text) {
         if (!this.quoteBtn) {
-            this.quoteBtn = document.createElement('button');
-            this.quoteBtn.type = 'button';
+            // Контейнер с двумя действиями: Citează (всегда) + Subliniază (только auth)
+            this.quoteBtn = document.createElement('div');
             this.quoteBtn.className = 'pdf-quote-btn';
-            this.quoteBtn.innerHTML = '<i class="fas fa-quote-right"></i> Citează';
-            document.body.appendChild(this.quoteBtn);
+            var quoteAction = document.createElement('button');
+            quoteAction.type = 'button';
+            quoteAction.className = 'pdf-quote-btn-action';
+            quoteAction.innerHTML = '<i class="fas fa-quote-right"></i> Citează';
+            this.quoteBtn.appendChild(quoteAction);
             var self = this;
-            this.quoteBtn.addEventListener('click', function () { self.copyCitation(); });
+            quoteAction.addEventListener('click', function () { self.copyCitation(); });
+            // Subliniază (highlight) — только для авторизованных
+            if (this.config.userAuthenticated && this.config.contentId) {
+                var highlightAction = document.createElement('button');
+                highlightAction.type = 'button';
+                highlightAction.className = 'pdf-quote-btn-action';
+                highlightAction.innerHTML = '<i class="fas fa-highlighter"></i> Subliniază';
+                highlightAction.addEventListener('click', function () { self.createAnnotationFromSelection(); });
+                this.quoteBtn.appendChild(highlightAction);
+            }
+            document.body.appendChild(this.quoteBtn);
         }
         var rect = range.getBoundingClientRect();
         // Position above selection, fall back below if no room
@@ -607,37 +637,254 @@
         if (this.quoteBtn) this.quoteBtn.classList.remove('is-visible');
     };
 
-    PdfViewer.prototype.copyCitation = function () {
-        var text = this.quoteBtn ? this.quoteBtn.dataset.selectedText : '';
-        if (!text) return;
-        var citation = '"' + text + '"\n— ' + (this.config.title || 'Document') + ', pag. ' + this.pageNum;
-        var done = function (ok) {
-            if (!this.quoteBtn) return;
-            var orig = this.quoteBtn.innerHTML;
-            this.quoteBtn.innerHTML = ok
-                ? '<i class="fas fa-check"></i> Copiat'
-                : '<i class="fas fa-times"></i> Eroare';
-            var self = this;
-            setTimeout(function () {
-                if (self.quoteBtn) self.quoteBtn.innerHTML = orig;
-                self.hideQuoteButton();
-            }, 1500);
-        }.bind(this);
-
+    PdfViewer.prototype._copyToClipboard = function (text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(citation).then(function () { done(true); }).catch(function () { done(false); });
-        } else {
-            // Fallback for older browsers
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function (resolve, reject) {
             var ta = document.createElement('textarea');
-            ta.value = citation;
+            ta.value = text;
             ta.style.position = 'fixed';
             ta.style.opacity = '0';
             document.body.appendChild(ta);
             ta.select();
-            try { document.execCommand('copy'); done(true); }
-            catch (e) { done(false); }
+            try { document.execCommand('copy'); resolve(); } catch (e) { reject(e); }
             document.body.removeChild(ta);
+        });
+    };
+
+    PdfViewer.prototype._flashQuoteBtn = function (label, ok) {
+        if (!this.quoteBtn) return;
+        var firstBtn = this.quoteBtn.querySelector('.pdf-quote-btn-action');
+        if (!firstBtn) return;
+        var orig = firstBtn.innerHTML;
+        firstBtn.innerHTML = (ok ? '<i class="fas fa-check"></i> ' : '<i class="fas fa-times"></i> ') + label;
+        var self = this;
+        setTimeout(function () {
+            if (firstBtn) firstBtn.innerHTML = orig;
+            self.hideQuoteButton();
+        }, 1500);
+    };
+
+    PdfViewer.prototype.copyCitation = function () {
+        var text = this.quoteBtn ? this.quoteBtn.dataset.selectedText : '';
+        if (!text) return;
+        var citation = '"' + text + '"\n— ' + (this.config.title || 'Document') + ', pag. ' + this.pageNum;
+        var self = this;
+        this._copyToClipboard(citation)
+            .then(function () { self._flashQuoteBtn('Copiat', true); })
+            .catch(function () { self._flashQuoteBtn('Eroare', false); });
+    };
+
+    /* ---------- Server sync (Phase 3 — cross-device + annotations) ---------- */
+
+    PdfViewer.prototype._getCsrfToken = function () {
+        var match = document.cookie.match(/(?:^|; )csrftoken=([^;]+)/);
+        return match ? decodeURIComponent(match[1]) : '';
+    };
+
+    PdfViewer.prototype._apiFetch = function (url, options) {
+        options = options || {};
+        options.credentials = 'same-origin';
+        options.headers = options.headers || {};
+        if (options.method && options.method !== 'GET') {
+            options.headers['Content-Type'] = 'application/json';
+            options.headers['X-CSRFToken'] = this._getCsrfToken();
         }
+        return fetch(url, options).then(function (resp) {
+            if (resp.status === 401) {
+                // User вышел из системы — fall back на localStorage без шума
+                return Promise.reject({ silent: true, status: 401 });
+            }
+            return resp;
+        });
+    };
+
+    PdfViewer.prototype._canSync = function () {
+        return this.config.userAuthenticated && this.config.contentId &&
+               (this.config.type === 'article' || this.config.type === 'book');
+    };
+
+    /**
+     * On init: fetch server progress + annotations.
+     * Server progress overrides local pageNum if present (cross-device source of truth),
+     * unless URL hash is explicitly set (user shared a deep link).
+     */
+    PdfViewer.prototype.syncFromServer = function () {
+        var self = this;
+        if (!this._canSync()) return Promise.resolve();
+        var hashPage = this.readPageFromHash();
+        var url = '/api/reading-progress/' + this.config.type + '/' + this.config.contentId + '/';
+        var p1 = this._apiFetch(url).then(function (resp) {
+            if (!resp.ok) return null;
+            return resp.json();
+        }).then(function (data) {
+            if (data && data.page && !hashPage) {
+                // Только если URL hash не задан — иначе hash имеет приоритет
+                self.pageNum = Math.max(1, Math.min(data.page, self.pdfDoc.numPages));
+            }
+        }).catch(function () { /* silent — fall back to local */ });
+
+        var p2 = this._apiFetch('/api/annotations/' + this.config.type + '/' + this.config.contentId + '/')
+            .then(function (resp) { return resp.ok ? resp.json() : { annotations: [] }; })
+            .then(function (data) { self.annotations = (data && data.annotations) || []; })
+            .catch(function () { self.annotations = []; });
+
+        return Promise.all([p1, p2]);
+    };
+
+    PdfViewer.prototype.syncProgressDebounced = function () {
+        if (!this._canSync()) return;
+        var self = this;
+        clearTimeout(this._syncProgressTimer);
+        this._syncProgressTimer = setTimeout(function () {
+            self._apiFetch('/api/reading-progress/save/', {
+                method: 'POST',
+                body: JSON.stringify({
+                    type: self.config.type,
+                    id: parseInt(self.config.contentId, 10),
+                    page: self.pageNum,
+                }),
+            }).catch(function () { /* silent */ });
+        }, 500);
+    };
+
+    /* ---------- Annotations (highlights, server-backed) ---------- */
+
+    PdfViewer.prototype.createAnnotationFromSelection = function () {
+        if (!this._canSync()) return;
+        var sel = window.getSelection();
+        if (!sel || sel.isCollapsed) return;
+        var text = sel.toString().trim();
+        if (text.length < 5) return;
+        var self = this;
+        this._apiFetch('/api/annotations/save/', {
+            method: 'POST',
+            body: JSON.stringify({
+                type: this.config.type,
+                id: parseInt(this.config.contentId, 10),
+                page: this.pageNum,
+                text: text,
+                color: 'yellow',
+            }),
+        }).then(function (resp) { return resp.json(); })
+          .then(function (data) {
+              if (data && data.ok && data.id) {
+                  self.annotations.push({
+                      id: data.id, page: data.page, text: data.text,
+                      color: data.color, note: data.note || '',
+                  });
+                  self.applyAnnotationsToCurrentPage();
+                  self.updateAnnotationButton();
+                  // Clear selection so quote button hides
+                  if (window.getSelection) window.getSelection().removeAllRanges();
+                  self._flashQuoteBtn('Salvat', true);
+              } else {
+                  self._flashQuoteBtn('Eroare', false);
+              }
+          }).catch(function () { self._flashQuoteBtn('Eroare', false); });
+    };
+
+    PdfViewer.prototype.removeAnnotation = function (id, event) {
+        if (event) event.stopPropagation();
+        if (!this._canSync()) return;
+        var self = this;
+        this._apiFetch('/api/annotations/' + id + '/', { method: 'DELETE' })
+            .then(function (resp) {
+                if (resp.ok) {
+                    self.annotations = self.annotations.filter(function (a) { return a.id !== id; });
+                    self.applyAnnotationsToCurrentPage();
+                    self.renderAnnotationsPanel();
+                    self.updateAnnotationButton();
+                }
+            }).catch(function () { /* silent */ });
+    };
+
+    PdfViewer.prototype.gotoAnnotation = function (id) {
+        var ann = this.annotations.find(function (a) { return a.id === id; });
+        if (ann) this.goToPage(ann.page);
+        var panel = this.wrapper.querySelector('[data-annotations-panel]');
+        if (panel) panel.classList.remove('is-open');
+    };
+
+    PdfViewer.prototype.toggleAnnotationsPanel = function () {
+        var panel = this.wrapper.querySelector('[data-annotations-panel]');
+        if (!panel) return;
+        var willOpen = !panel.classList.contains('is-open');
+        panel.classList.toggle('is-open', willOpen);
+        if (willOpen) this.renderAnnotationsPanel();
+    };
+
+    PdfViewer.prototype.renderAnnotationsPanel = function () {
+        var panel = this.wrapper.querySelector('[data-annotations-panel]');
+        if (!panel) return;
+        if (!this._canSync()) {
+            panel.innerHTML = '<div class="bookmarks-empty">Conectează-te pentru a folosi evidențieri sincronizate.</div>';
+            return;
+        }
+        var html = '';
+        if (this.annotations.length === 0) {
+            html = '<div class="bookmarks-empty">Nicio evidențiere salvată. Selectează text și apasă "Subliniază".</div>';
+        } else {
+            html = '<ul class="bookmarks-list">';
+            this.annotations.forEach(function (a) {
+                var snippet = a.text.length > 80 ? a.text.slice(0, 77) + '...' : a.text;
+                html += '<li data-annotation-id="' + a.id + '">' +
+                    '<button type="button" data-action="goto-annotation" class="bookmark-item annotation-item annotation-color-' + a.color + '">' +
+                    '<i class="fas fa-highlighter"></i> Pag. ' + a.page +
+                    '<span class="annotation-snippet">' + escapeHtml(snippet) + '</span>' +
+                    '</button>' +
+                    '<button type="button" data-action="remove-annotation" class="bookmark-remove" aria-label="Șterge" title="Șterge">' +
+                    '<i class="fas fa-times"></i>' +
+                    '</button>' +
+                    '</li>';
+            });
+            html += '</ul>';
+        }
+        panel.innerHTML = html;
+    };
+
+    PdfViewer.prototype.updateAnnotationButton = function () {
+        var btn = this.wrapper.querySelector('[data-action="toggle-annotations"]');
+        if (!btn) return;
+        var count = this.annotations.length;
+        var badge = btn.querySelector('.bookmark-count');
+        if (count > 0) {
+            if (!badge) {
+                badge = document.createElement('span');
+                badge.className = 'bookmark-count';
+                btn.appendChild(badge);
+            }
+            badge.textContent = count;
+        } else if (badge) {
+            badge.remove();
+        }
+    };
+
+    /**
+     * After renderPage(): scan textLayer spans, mark spans containing annotation text
+     * with .annotation-highlight + .annotation-color-{color}.
+     * Best-effort match — multi-span text may only highlight the first matching span.
+     */
+    PdfViewer.prototype.applyAnnotationsToCurrentPage = function () {
+        if (!this.annotations || !this.annotations.length) return;
+        var textLayer = this.canvasContainer.querySelector('.textLayer');
+        if (!textLayer) return;
+        var pageAnnotations = this.annotations.filter(function (a) { return a.page === this.pageNum; }, this);
+        if (!pageAnnotations.length) return;
+
+        var spans = textLayer.querySelectorAll('span');
+        pageAnnotations.forEach(function (ann) {
+            var needle = ann.text.toLowerCase().slice(0, 60);  // первый кусок текста как key
+            for (var i = 0; i < spans.length; i++) {
+                var spanText = (spans[i].textContent || '').toLowerCase();
+                if (spanText && spanText.indexOf(needle.slice(0, Math.min(20, needle.length))) !== -1) {
+                    spans[i].classList.add('annotation-highlight', 'annotation-color-' + ann.color);
+                    spans[i].dataset.annotationId = ann.id;
+                    break;  // первый матч хватит — не дублируем
+                }
+            }
+        });
     };
 
     /* ---------- Persistence (last-read page + dark mode pref) ---------- */
@@ -1114,6 +1361,15 @@
             el.addEventListener('animationend', finish, { once: true });
             setTimeout(finish, fallbackMs);
         });
+    }
+
+    function escapeHtml(s) {
+        return String(s)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     }
 
     /* ===================================================

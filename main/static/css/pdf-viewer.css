@@ -152,20 +152,67 @@
     position: absolute;
     background: #2c3e50;
     color: white;
-    border: none;
     border-radius: 6px;
-    padding: 8px 14px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     z-index: 9999;
     display: none;
     white-space: nowrap;
+    overflow: hidden;
 }
-.pdf-quote-btn.is-visible { display: inline-flex; align-items: center; gap: 6px; }
-.pdf-quote-btn:hover { background: #34495e; }
-.pdf-quote-btn i { font-size: 0.9rem; }
+.pdf-quote-btn.is-visible { display: inline-flex; }
+.pdf-quote-btn-action {
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.pdf-quote-btn-action:hover { background: #34495e; }
+.pdf-quote-btn-action + .pdf-quote-btn-action { border-left: 1px solid rgba(255, 255, 255, 0.2); }
+.pdf-quote-btn-action i { font-size: 0.9rem; }
+
+/* ============================================================
+ * Annotations (highlights on textLayer spans + panel items)
+ * ============================================================ */
+.textLayer .annotation-highlight {
+    background: rgba(255, 235, 59, 0.45);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.textLayer .annotation-highlight.annotation-color-yellow { background: rgba(255, 235, 59, 0.45); }
+.textLayer .annotation-highlight.annotation-color-green  { background: rgba(46, 204, 113, 0.45); }
+.textLayer .annotation-highlight.annotation-color-blue   { background: rgba(52, 152, 219, 0.45); }
+.textLayer .annotation-highlight.annotation-color-pink   { background: rgba(233, 30, 99, 0.45); }
+.textLayer .annotation-highlight:hover { background: rgba(255, 193, 7, 0.65); }
+/* In dark mode, pump the saturation so highlights remain visible after invert */
+.pdf-viewer-container.pdf-dark .textLayer .annotation-highlight { mix-blend-mode: difference; }
+
+.annotation-item {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 4px !important;
+}
+.annotation-item .annotation-snippet {
+    display: block;
+    width: 100%;
+    color: #888;
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+.annotation-item.annotation-color-yellow i { color: #f1c40f; }
+.annotation-item.annotation-color-green  i { color: #2ecc71; }
+.annotation-item.annotation-color-blue   i { color: #3498db; }
+.annotation-item.annotation-color-pink   i { color: #e91e63; }
 
 /* ============================================================
  * Controls bar
