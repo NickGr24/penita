@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import FileResponse, Http404
 from django.views.decorators.http import require_http_methods
 from .models import Article
@@ -29,7 +29,14 @@ def articles(request):
 
 
 def article_detail(request, slug):
-    article = get_object_or_404(Article, slug=slug)
+    try:
+        article = Article.objects.get(slug=slug)
+    except Article.DoesNotExist:
+        # 301-редирект со старого (обрезанного) URL на новый — для сохранения SEO-веса
+        legacy = Article.objects.filter(legacy_slug=slug).first()
+        if legacy:
+            return redirect('article_detail', slug=legacy.slug, permanent=True)
+        raise Http404("Articolul nu a fost găsit")
 
     # Проверяем, что PDF физически существует на диске
     # (поле article.file в БД может ссылаться на удалённый файл)
@@ -59,16 +66,22 @@ def serve_article_pdf(request, slug):
     Публичная отдача PDF файлов статей.
     Статьи доступны всем без авторизации.
     """
-    article = get_object_or_404(Article, slug=slug)
+    try:
+        article = Article.objects.get(slug=slug)
+    except Article.DoesNotExist:
+        legacy = Article.objects.filter(legacy_slug=slug).first()
+        if legacy:
+            return redirect('serve_article_pdf', slug=legacy.slug, permanent=True)
+        raise Http404("Fișierul articolului nu a fost găsit")
 
     # Проверка существования файла
     if not article.file:
-        raise Http404("Файл статьи не найден")
+        raise Http404("Fișierul articolului nu a fost găsit")
 
     file_path = article.file.path
 
     if not os.path.exists(file_path):
-        raise Http404("Файл статьи не найден на сервере")
+        raise Http404("Fișierul articolului nu a fost găsit pe server")
 
     try:
         # Открываем файл в бинарном режиме
@@ -90,4 +103,4 @@ def serve_article_pdf(request, slug):
         return response
 
     except IOError:
-        raise Http404("Ошибка при чтении файла статьи")
+        raise Http404("Eroare la citirea fișierului articolului")

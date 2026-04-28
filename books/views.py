@@ -14,7 +14,14 @@ def books_list(request):
 
 def book_detail(request, slug):
     """Публичная страница книги для SEO-индексации. PDF защищён отдельно."""
-    book = get_object_or_404(Book, slug=slug)
+    try:
+        book = Book.objects.get(slug=slug)
+    except Book.DoesNotExist:
+        # 301-редирект со старого (обрезанного) URL на новый — для сохранения SEO-веса
+        legacy = Book.objects.filter(legacy_slug=slug).first()
+        if legacy:
+            return redirect('book_detail', slug=legacy.slug, permanent=True)
+        raise Http404("Cartea nu a fost găsită")
 
     # Для анонимных пользователей - показываем страницу без доступа к PDF
     if request.user.is_authenticated:
@@ -24,6 +31,10 @@ def book_detail(request, slug):
 
     # Show purchase button if book is paid and user doesn't have access
     show_purchase_button = book.is_paid and not user_has_access
+
+    # Проверяем, что PDF физически существует на диске
+    # (поле book.file в БД может ссылаться на удалённый файл)
+    pdf_available = bool(book.file) and os.path.exists(book.file.path) if book.file else False
 
     # Другие книги того же автора для внутренней перелинковки (SEO)
     other_books = Book.objects.filter(
@@ -41,6 +52,7 @@ def book_detail(request, slug):
         'book': book,
         'user_has_access': user_has_access,
         'show_purchase_button': show_purchase_button,
+        'pdf_available': pdf_available,
         'other_books': other_books,
         'related_articles': related_articles,
         'primary_author': primary_author,
@@ -56,22 +68,28 @@ def serve_book_pdf(request, slug):
     Проверяет права доступа пользователя перед отдачей файла.
     Бесплатные книги доступны всем, платные — только авторизованным покупателям.
     """
-    book = get_object_or_404(Book, slug=slug)
+    try:
+        book = Book.objects.get(slug=slug)
+    except Book.DoesNotExist:
+        legacy = Book.objects.filter(legacy_slug=slug).first()
+        if legacy:
+            return redirect('serve_book_pdf', slug=legacy.slug, permanent=True)
+        raise Http404("Fișierul cărții nu a fost găsit")
 
     # Проверка прав доступа
     if not book.has_user_purchased(request.user):
         if not request.user.is_authenticated:
             return redirect('account_login')
-        raise Http404("У вас нет доступа к этой книге")
+        raise Http404("Nu aveți acces la această carte")
 
     # Проверка существования файла
     if not book.file:
-        raise Http404("Файл книги не найден")
+        raise Http404("Fișierul cărții nu a fost găsit")
 
     file_path = book.file.path
 
     if not os.path.exists(file_path):
-        raise Http404("Файл книги не найден на сервере")
+        raise Http404("Fișierul cărții nu a fost găsit pe server")
 
     try:
         # Открываем файл в бинарном режиме
@@ -91,4 +109,4 @@ def serve_book_pdf(request, slug):
         return response
 
     except IOError:
-        raise Http404("Ошибка при чтении файла книги")
+        raise Http404("Eroare la citirea fișierului cărții")

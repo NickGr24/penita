@@ -13,7 +13,9 @@ class Book(models.Model):
     )
     author = models.CharField(max_length=200, choices=authors)
     file = models.FileField(upload_to='books/')
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
+    legacy_slug = models.SlugField(max_length=200, blank=True, null=True, db_index=True,
+        help_text='Старый slug, если URL был изменён — используется для 301-редиректа со старого URL на новый (SEO).')
 
     # Timestamps for SEO (lastmod in sitemap)
     created_at = models.DateTimeField(auto_now_add=True, null=True)

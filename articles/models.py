@@ -21,7 +21,9 @@ class Article(models.Model):
         help_text='Последнее обновление статьи (для sitemap lastmod, сигналит Google о recrawl)')
     author = models.CharField(max_length=256, choices=authors)
     category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, null=True, blank=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    legacy_slug = models.SlugField(max_length=200, blank=True, null=True, db_index=True,
+        help_text='Старый slug, если URL был изменён — используется для 301-редиректа со старого URL на новый (SEO).')
     
     # SEO fields - текстовое содержимое для индексации Google
     seo_content = models.TextField(blank=True, null=True,

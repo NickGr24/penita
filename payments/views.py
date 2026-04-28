@@ -72,7 +72,7 @@ def initiate_payment(request, book_id):
         else:
             error_msg = result.get('error', 'Payment initiation failed')
             logger.error(f"Payment initiation failed: {error_msg}")
-            messages.error(request, f"Ошибка оплаты: {error_msg}")
+            messages.error(request, f"Eroare la plată: {error_msg}")
             payment.status = 'FAIL'
             payment.save()
 

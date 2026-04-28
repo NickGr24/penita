@@ -434,9 +434,18 @@
     {% endif %}
 
     {% if user_has_access %}
-        {# Shared PDF viewer (search + slide animation + lazy-load + fullscreen) #}
-        {% url 'serve_book_pdf' book.slug as pdf_url %}
-        {% include 'partials/pdf_viewer.html' with pdf_url=pdf_url pdf_title=book.title pdf_type='book' only %}
+        {% if pdf_available %}
+            {# Shared PDF viewer (search + slide animation + lazy-load + fullscreen) #}
+            {% url 'serve_book_pdf' book.slug as pdf_url %}
+            {% include 'partials/pdf_viewer.html' with pdf_url=pdf_url pdf_title=book.title pdf_type='book' only %}
+        {% else %}
+            <div class="pdf-unavailable">
+                <i class="fas fa-file-pdf"></i>
+                <h2>Documentul este temporar indisponibil</h2>
+                <p>Versiunea PDF a acestei cărți este în curs de actualizare. Vă rugăm să reveniți mai târziu sau să consultați descrierea de mai sus.</p>
+                <a href="{% url 'books_list' %}" class="btn-back-to-articles"><i class="fas fa-arrow-left"></i> Înapoi la cărți</a>
+            </div>
+        {% endif %}
     {% endif %}
 </div>
 
