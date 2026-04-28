@@ -440,7 +440,8 @@ body.pdf-fullscreen-open .fullscreen-btn i {
     .pdf-controls {
         flex-direction: column;
         position: relative;
-        padding: 15px;
+        padding: 12px 10px;
+        gap: 10px;
     }
     .page-navigation,
     .zoom-controls,
@@ -448,8 +449,41 @@ body.pdf-fullscreen-open .fullscreen-btn i {
         width: 100%;
         justify-content: center;
     }
-    .pdf-search [data-pdf-search-input] {
-        flex: 1;
-        width: auto;
+    /* Search bar opens as a vertical stack on narrow screens so the
+       close button (×) doesn't get cut off the right edge of viewport. */
+    .pdf-search.is-open {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+    .pdf-search.is-open [data-pdf-search-bar] {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+    }
+    .pdf-search.is-open [data-pdf-search-input] {
+        flex: 1 1 100%;            /* Input takes full width on its own row */
+        width: 100%;
+        min-width: 0;
+        font-size: 16px;            /* Prevents iOS zoom-on-focus */
+    }
+    .pdf-search.is-open [data-pdf-match-counter] {
+        flex: 1 1 auto;
+        min-width: 70px;
+        font-size: 12px;
+    }
+    .pdf-search.is-open [data-action="prev-match"],
+    .pdf-search.is-open [data-action="next-match"],
+    .pdf-search.is-open [data-action="close-search"] {
+        flex: 0 0 auto;
+        padding: 8px 14px;
+        min-width: 44px;            /* WCAG min tap target size */
+        min-height: 44px;
+    }
+    .pdf-search.is-open [data-action="close-search"] {
+        background: rgba(192, 57, 43, 0.85);   /* Reddish — clearly "close" */
+        border-color: rgba(255, 255, 255, 0.6);
     }
 }
