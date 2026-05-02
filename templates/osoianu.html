@@ -141,6 +141,26 @@
     margin: -8px 0 18px;
     line-height: 1.45;
 }
+.image-container {
+    align-self: flex-start;
+}
+.profile-image {
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    object-position: center top;
+    height: auto;
+    max-height: 420px;
+}
+.publications-list li::before {
+    content: none !important;
+}
+.publications-list li {
+    padding-left: 0 !important;
+    transform: none !important;
+}
+.publications-list li:hover {
+    transform: none !important;
+}
 .publications-section {
     max-width: 900px;
     margin: 30px auto;
