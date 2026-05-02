@@ -1,0 +1,1661 @@
+# Romanian translation for penitadreptului.
+# Copyright (C) 2026
+# This file is distributed under the same license as the PACKAGE package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: penitadreptului 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-01 16:33+0300\n"
+"PO-Revision-Date: 2026-05-01 16:45+0300\n"
+"Last-Translator: \n"
+"Language-Team: Romanian <ro@li.org>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+
+#: articles/models.py:7 templates/articles/articles.html:49
+msgid "Criminal procedure"
+msgstr "Procedura penală"
+
+#: articles/models.py:8 templates/articles/articles.html:50
+#: templates/base.html:104
+msgid "Forensics"
+msgstr "Criminalistică"
+
+#: articles/models.py:9 templates/articles/articles.html:51
+msgid "Other sciences"
+msgstr "Alte științe"
+
+#: main/views.py:44
+#, python-format
+msgid "Account created for %(username)s!"
+msgstr "Contul creat pentru %(username)s!"
+
+#: payments/views.py:27
+msgid "This book is free!"
+msgstr "Această carte este gratuită!"
+
+#: payments/views.py:32
+msgid "You already have access to this book!"
+msgstr "Aveți deja acces la această carte!"
+
+#: payments/views.py:39
+msgid "You must accept the Terms and Conditions to continue."
+msgstr "Trebuie să acceptați Termenii și Condițiile pentru a continua."
+
+#: payments/views.py:70
+msgid "Failed to get payment URL from MAIB"
+msgstr "Nu s-a putut obține URL-ul de plată de la MAIB"
+
+#: payments/views.py:76
+#, python-format
+msgid "Payment error: %(error)s"
+msgstr "Eroare la plată: %(error)s"
+
+#: payments/views.py:150 payments/views.py:163
+#, python-format
+msgid "Payment successful! You can now access %(title)s"
+msgstr "Plată reușită! Puteți accesa acum %(title)s"
+
+#: payments/views.py:165
+msgid "Payment is being processed. Please check back later."
+msgstr "Plata este în procesare. Vă rugăm să reveniți mai târziu."
+
+#: payments/views.py:183
+msgid "Payment failed or was cancelled. Please try again."
+msgstr "Plata a eșuat sau a fost anulată. Vă rugăm să încercați din nou."
+
+#: penita/settings.py:115
+msgid "Română"
+msgstr "Română"
+
+#: penita/settings.py:116
+msgid "English"
+msgstr "Engleză"
+
+#: templates/404.html:9 templates/404.html:96
+msgid "Page not found"
+msgstr "Pagina nu a fost găsită"
+
+#: templates/404.html:97
+msgid ""
+"We're sorry, the page you are looking for does not exist or has been moved. "
+"You are invited to explore our legal resources."
+msgstr "Ne pare rău, pagina pe care o căutați nu există sau a fost mutată. Vă invităm să explorați resursele noastre juridice."
+
+#: templates/404.html:99 templates/500.html:99
+#: templates/articles/article_detail.html:404
+#: templates/books/book_detail.html:383 templates/navbar.html:12
+#: templates/news_detail.html:83
+msgid "Home"
+msgstr "Acasă"
+
+#: templates/404.html:100 templates/500.html:100
+#: templates/articles/article_detail.html:406
+#: templates/articles/articles.html:42 templates/navbar.html:13
+msgid "Articles"
+msgstr "Articole"
+
+#: templates/404.html:101 templates/500.html:101
+#: templates/books/book_detail.html:385 templates/navbar.html:14
+msgid "Books"
+msgstr "Cărți"
+
+#: templates/500.html:9
+msgid "Server error"
+msgstr "Eroare de server"
+
+#: templates/500.html:96
+msgid "A server error occurred"
+msgstr "A apărut o eroare de server"
+
+#: templates/500.html:97
+msgid ""
+"We're sorry, something went wrong. Our team has been notified and is working "
+"on the issue. Please try again in a few minutes."
+msgstr "Ne pare rău, ceva nu a funcționat cum trebuie. Echipa noastră a fost notificată și lucrează la rezolvarea problemei. Vă rugăm să încercați din nou peste câteva minute."
+
+#: templates/account/base.html:21
+msgid "Messages:"
+msgstr "Mesaje:"
+
+#: templates/account/base.html:32
+msgid "Men"
+msgstr "Meniu"
+
+#: templates/account/base.html:42
+msgid "Change Email"
+msgstr "Schimbă email"
+
+#: templates/account/base.html:48
+msgid "Change Password"
+msgstr "Schimbă parola"
+
+#: templates/account/base.html:54
+msgid "Account Connections"
+msgstr "Conturi conectate"
+
+#: templates/account/base.html:60
+msgid "Two-Factor Authentication"
+msgstr "Autentificare în doi pași"
+
+#: templates/account/base.html:66
+msgid "Sessions"
+msgstr "Sesiuni"
+
+#: templates/account/base.html:72
+msgid "Sign Out"
+msgstr "Ieși din cont"
+
+#: templates/account/base.html:79
+msgid "Sign In"
+msgstr "Logare"
+
+#: templates/account/base.html:85
+msgid "Sign Up"
+msgstr "Înregistrare"
+
+#: templates/account/login.html:18
+msgid "Welcome back!"
+msgstr "Bun venit înapoi!"
+
+#: templates/account/login.html:19
+msgid "Sign in to your account"
+msgstr "Conectează-te la contul tău"
+
+#: templates/account/login.html:28 templates/account/register.html:40
+#: templates/socialaccount/signup.html:51
+msgid "Username"
+msgstr "Nume de utilizator"
+
+#: templates/account/login.html:36 templates/account/register.html:60
+msgid "Password"
+msgstr "Parolă"
+
+#: templates/account/login.html:44
+msgid "Remember me"
+msgstr "Ține-mă minte"
+
+#: templates/account/login.html:46
+msgid "Forgot password?"
+msgstr "Ai uitat parola?"
+
+#: templates/account/login.html:50 templates/account/register.html:103
+#: templates/navbar.html:23 templates/socialaccount/signup.html:77
+msgid "Sign in"
+msgstr "Logare"
+
+#: templates/account/login.html:57
+msgid "or"
+msgstr "sau"
+
+#: templates/account/login.html:64
+msgid "Continue with Google"
+msgstr "Continuă cu Google"
+
+#: templates/account/login.html:72
+msgid "Don't have an account?"
+msgstr "Nu ai cont?"
+
+#: templates/account/login.html:72 templates/account/register.html:97
+msgid "Sign up"
+msgstr "Înregistrează-te"
+
+#: templates/account/logout.html:6
+msgid "You have been logged out."
+msgstr "Ai fost deconectat."
+
+#: templates/account/logout.html:7
+msgid "Log in again"
+msgstr "Conectează-te din nou"
+
+#: templates/account/register.html:16
+msgid "Create a new account!"
+msgstr "Creează un cont nou!"
+
+#: templates/account/register.html:17
+msgid "Sign up to continue"
+msgstr "Înregistrează-te pentru a continua"
+
+#: templates/account/register.html:70
+msgid "Confirm password"
+msgstr "Confirmă parola"
+
+#: templates/account/register.html:103 templates/socialaccount/signup.html:77
+msgid "Already have an account?"
+msgstr "Ai deja cont?"
+
+#: templates/articles/article_detail.html:425
+#, python-format
+msgid "%(read_min)s min read"
+msgstr "%(read_min)s min de citit"
+
+#: templates/articles/article_detail.html:442
+msgid "Read the full article text"
+msgstr "Citește textul integral al articolului"
+
+#: templates/articles/article_detail.html:457
+#: templates/books/book_detail.html:494
+msgid "The document is temporarily unavailable"
+msgstr "Documentul este temporar indisponibil"
+
+#: templates/articles/article_detail.html:458
+msgid ""
+"The PDF version of this article is currently being updated. Please check "
+"back later or consult the full text above."
+msgstr "Versiunea PDF a acestui articol este în curs de actualizare. Vă rugăm să reveniți mai târziu sau să consultați textul integral mai sus."
+
+#: templates/articles/article_detail.html:459
+msgid "Back to articles"
+msgstr "Înapoi la articole"
+
+#: templates/articles/article_detail.html:467
+msgid "Similar articles"
+msgstr "Articole similare"
+
+#: templates/articles/article_detail.html:474
+#: templates/books/book_detail.html:528
+msgid "Read the article"
+msgstr "Citește articolul"
+
+#: templates/articles/article_detail.html:485
+#, python-format
+msgid "Books recommended by %(author)s"
+msgstr "Cărți recomandate de %(author)s"
+
+#: templates/articles/article_detail.html:492
+#: templates/books/book_detail.html:546
+msgid "View book"
+msgstr "Vezi cartea"
+
+#: templates/articles/article_detail.html:492
+msgid "Read for free"
+msgstr "Citește gratuit"
+
+#: templates/articles/articles.html:5
+msgid "Legal articles - criminal procedural law and forensics"
+msgstr "Articole juridice - drept procesual penal și criminalistică"
+
+#: templates/articles/articles.html:7
+msgid ""
+"Collection of scientific articles on criminal procedure, forensics and other "
+"legal sciences. Written by experts Tudor Osoianu and Dinu Ostavciuc."
+msgstr "Colecție de articole științifice despre procedura penală, criminalistică și alte științe juridice. Scrise de experții Tudor Osoianu și Dinu Ostavciuc."
+
+#: templates/articles/articles.html:9
+msgid ""
+"legal articles, criminal procedural law, criminal procedure, forensics, "
+"scientific publications, criminal law Moldova, Tudor Osoianu, Dinu Ostavciuc"
+msgstr "articole juridice, drept procesual penal, procedura penală, criminalistică, publicații științifice, drept penal Moldova, Tudor Osoianu, Dinu Ostavciuc"
+
+#: templates/articles/articles.html:13
+msgid "Legal articles"
+msgstr "Articole juridice"
+
+#: templates/articles/articles.html:14
+msgid ""
+"Scientific articles on criminal procedural law and forensics from Moldova."
+msgstr "Articole științifice despre dreptul procesual penal și criminalistică din Moldova."
+
+#: templates/articles/articles.html:45
+msgid "Search articles..."
+msgstr "Căutați în articole..."
+
+#: templates/articles/articles.html:48
+msgid "All categories"
+msgstr "Toate categoriile"
+
+#: templates/articles/articles.html:54
+msgid "Filter"
+msgstr "Filtrați"
+
+#: templates/articles/articles.html:67 templates/books/books_list.html:101
+#: templates/payments/payment_success.html:289
+msgid "Author:"
+msgstr "Autor:"
+
+#: templates/articles/articles.html:68
+msgid "Category:"
+msgstr "Categorie:"
+
+#: templates/articles/articles.html:72
+msgid "Read article"
+msgstr "Citește articolul"
+
+#: templates/articles/articles.html:77
+msgid "No articles found"
+msgstr "Niciun articol găsit"
+
+#: templates/articles/articles.html:93
+#, python-format
+msgid "Page %(current)s of %(total)s"
+msgstr "Pagina %(current)s din %(total)s"
+
+#: templates/articles/articles.html:109
+#, python-format
+msgid ""
+"Also consult <a href=\"%(books_url)s\">our collection of legal books</a>"
+msgstr "Consultați și <a href=\"%(books_url)s\">colecția noastră de cărți juridice</a>"
+
+#: templates/base.html:21 templates/base.html:39 templates/base.html:47
+msgid "Penița Dreptului - Legal Blog"
+msgstr "Penița Dreptului - Blog Juridic"
+
+#: templates/base.html:22
+msgid ""
+"Legal blog about criminal procedural law and forensics from the Republic of "
+"Moldova. Articles, books and resources by Tudor Osoianu and Dinu Ostavciuc."
+msgstr "Blog juridic despre dreptul procesual penal și criminalistica din Republica Moldova. Articole, cărți și resurse de Tudor Osoianu și Dinu Ostavciuc."
+
+#: templates/base.html:23
+msgid ""
+"criminal procedural law, forensics, Moldova, legal articles, legal books, "
+"Tudor Osoianu, Dinu Ostavciuc"
+msgstr "drept procesual penal, criminalistică, Moldova, articole juridice, cărți juridice, Tudor Osoianu, Dinu Ostavciuc"
+
+#: templates/base.html:40 templates/base.html:48
+msgid ""
+"Legal blog about criminal procedural law and forensics from the Republic of "
+"Moldova."
+msgstr "Blog juridic despre dreptul procesual penal și criminalistica din Republica Moldova."
+
+#: templates/base.html:59
+msgid "Legal blog about criminal procedural law and forensics"
+msgstr "Blog juridic despre dreptul procesual penal și criminalistica"
+
+#: templates/base.html:99 templates/base.html:101
+msgid "Categories"
+msgstr "Categorii"
+
+#: templates/base.html:103
+msgid "Criminal procedural law"
+msgstr "Drept procesual penal"
+
+#: templates/base.html:105
+msgid "Other legal sciences"
+msgstr "Alte științe juridice"
+
+#: templates/base.html:109
+msgid "Resources"
+msgstr "Resurse"
+
+#: templates/base.html:111 templates/index.html:192
+msgid "All articles"
+msgstr "Toate articolele"
+
+#: templates/base.html:112 templates/books/book_detail.html:5
+#: templates/books/books_list.html:13 templates/news_detail.html:82
+msgid "Legal books"
+msgstr "Cărți juridice"
+
+#: templates/base.html:116
+msgid "Authors"
+msgstr "Autori"
+
+#: templates/base.html:129 templates/policies/terms.html:6
+#: templates/policies/terms.html:15 templates/policies/terms.html:139
+msgid "Terms and conditions"
+msgstr "Termeni și condiții"
+
+#: templates/base.html:131 templates/policies/privacy.html:6
+#: templates/policies/privacy.html:15 templates/policies/privacy.html:148
+msgid "Privacy policy"
+msgstr "Politica de confidențialitate"
+
+#: templates/base.html:135
+msgid "All rights reserved."
+msgstr "Toate drepturile rezervate."
+
+#: templates/base.html:143
+msgid "Close"
+msgstr "Închide"
+
+#: templates/books/book_detail.html:401
+msgid "Free access"
+msgstr "Acces gratuit"
+
+#: templates/books/book_detail.html:410
+#, python-format
+msgid "Cover of %(title)s"
+msgstr "Coperta %(title)s"
+
+#: templates/books/book_detail.html:419
+msgid ""
+"<strong>Format and access:</strong> digital edition, online reading directly "
+"in the integrated viewer. After purchase through the secure MAIB system, you "
+"receive permanent access in your personal account — you can return to "
+"reading anytime and from any internet-connected device."
+msgstr "<strong>Format și acces:</strong> ediție digitală, citire online direct în vizualizatorul integrat. După achiziție prin sistemul securizat MAIB, primiți acces permanent în contul personal — puteți reveni la lectură oricând și de pe orice dispozitiv conectat la internet."
+
+#: templates/books/book_detail.html:421
+msgid ""
+"<strong>Access:</strong> this book is available for free. Reading is done "
+"directly online in the portal's integrated viewer — without download and "
+"without installing additional software."
+msgstr "<strong>Acces:</strong> această carte este disponibilă gratuit. Citirea se face direct online, în vizualizatorul integrat al portalului — fără descărcare și fără instalare de software suplimentar."
+
+#: templates/books/book_detail.html:424
+msgid "About the book"
+msgstr "Despre carte"
+
+#: templates/books/book_detail.html:429
+#, python-format
+msgid ""
+"<strong>%(title)s</strong> is a specialty work signed by <a "
+"href=\"%(author_url)s\">%(author)s</a>, dedicated to professionals in the "
+"legal field — judges, prosecutors, lawyers, criminal investigation officers, "
+"teachers and students at law faculties in the Republic of Moldova."
+msgstr "<strong>%(title)s</strong> este o lucrare de specialitate semnată de <a href=\"%(author_url)s\">%(author)s</a>, dedicată profesioniștilor din domeniul juridic — judecători, procurori, avocați, ofițeri de urmărire penală, cadre didactice și studenți la facultățile de drept din Republica Moldova."
+
+#: templates/books/book_detail.html:431
+msgid "Who this book is useful for"
+msgstr "Pentru cine este utilă această carte"
+
+#: templates/books/book_detail.html:433
+msgid ""
+"Practitioners in the judicial system who apply criminal procedural law daily"
+msgstr "Practicieni din sistemul judiciar care aplică zilnic normele dreptului procesual penal"
+
+#: templates/books/book_detail.html:434
+msgid ""
+"Students and master's students at law faculties studying criminal procedure "
+"and forensics"
+msgstr "Studenți și masteranzi la facultățile de drept ce studiază procedura penală și criminalistica"
+
+#: templates/books/book_detail.html:435
+msgid "Researchers in legal and political sciences"
+msgstr "Cercetători în domeniul științelor juridice și politice"
+
+#: templates/books/book_detail.html:436
+msgid ""
+"Criminal investigation officers and investigators wishing to deepen their "
+"theoretical knowledge"
+msgstr "Ofițeri de urmărire penală și investigatori care doresc să își aprofundeze cunoștințele teoretice"
+
+#: templates/books/book_detail.html:437
+msgid "Lawyers specialized in criminal cases"
+msgstr "Avocați specializați în cauze penale"
+
+#: templates/books/book_detail.html:441
+msgid ""
+"<strong>Publication format:</strong> digital edition, online reading "
+"directly in the integrated viewer. After purchase through the secure MAIB "
+"system, you receive permanent access in your personal account — you can "
+"return to reading anytime and from any internet-connected device."
+msgstr "<strong>Format de publicare:</strong> ediție digitală, citire online direct în vizualizatorul integrat. După achiziție prin sistemul securizat MAIB, primiți acces permanent în contul personal — puteți reveni la lectură oricând și de pe orice dispozitiv conectat la internet."
+
+#: templates/books/book_detail.html:443
+msgid ""
+"<strong>Access:</strong> this book is available for free. Reading is done "
+"directly online in the portal's integrated viewer — does not require "
+"download or installation of additional software."
+msgstr "<strong>Acces:</strong> această carte este disponibilă gratuit. Citirea se face direct online, în vizualizatorul integrat al portalului — nu necesită descărcare și nici instalare de software suplimentar."
+
+#: templates/books/book_detail.html:451
+msgid "This book is paid"
+msgstr "Această carte este cu plată"
+
+#: templates/books/book_detail.html:452
+msgid "Purchase the book to read it in full"
+msgstr "Achiziționați cartea pentru a o putea citi complet"
+
+#: templates/books/book_detail.html:459
+msgid "Buy now"
+msgstr "Cumpără acum"
+
+#: templates/books/book_detail.html:465
+msgid "Permanent access"
+msgstr "Acces permanent"
+
+#: templates/books/book_detail.html:469
+msgid "Online reading"
+msgstr "Citire online"
+
+#: templates/books/book_detail.html:473
+msgid "Secure payment"
+msgstr "Plată securizată"
+
+#: templates/books/book_detail.html:480
+msgid "Purchased"
+msgstr "Achiziționat"
+
+#: templates/books/book_detail.html:481
+msgid "You have access to this book"
+msgstr "Aveți acces la această carte"
+
+#: templates/books/book_detail.html:482
+msgid "The book has been purchased previously. Enjoy your reading!"
+msgstr "Cartea a fost achiziționată anterior. Bucurați-vă de lectură!"
+
+#: templates/books/book_detail.html:495
+msgid ""
+"The PDF version of this book is currently being updated. Please check back "
+"later or consult the description above."
+msgstr "Versiunea PDF a acestei cărți este în curs de actualizare. Vă rugăm să reveniți mai târziu sau să consultați descrierea de mai sus."
+
+#: templates/books/book_detail.html:496
+#: templates/payments/payment_fail.html:292
+msgid "Back to books"
+msgstr "Înapoi la cărți"
+
+#: templates/books/book_detail.html:504 templates/osoianu.html:79
+#: templates/ostavciuc.html:83
+msgid "About the author"
+msgstr "Despre autor"
+
+#: templates/books/book_detail.html:506
+#, python-format
+msgid ""
+"<strong>%(author)s</strong> is one of the recognized experts from the "
+"Republic of Moldova in criminal procedural law and forensics, with sustained "
+"academic and practical activity over decades. The published materials are "
+"the result of his own research, participation in national and international "
+"projects, and experience in training professionals in the judicial system."
+msgstr "<strong>%(author)s</strong> este unul dintre experții recunoscuți din Republica Moldova în domeniul dreptului procesual penal și al criminalisticii, cu o activitate academică și practică susținută de decenii. Materialele publicate sunt rezultatul cercetărilor proprii, al participării la proiecte naționale și internaționale și al experienței în formarea profesioniștilor din sistemul judiciar."
+
+#: templates/books/book_detail.html:509
+msgid "Read the full biography of Tudor Osoianu →"
+msgstr "Citiți biografia completă a lui Tudor Osoianu →"
+
+#: templates/books/book_detail.html:512
+msgid "Read the full biography of Dinu Ostavciuc →"
+msgstr "Citiți biografia completă a lui Dinu Ostavciuc →"
+
+#: templates/books/book_detail.html:521
+#, python-format
+msgid "Articles by %(author)s"
+msgstr "Articole de %(author)s"
+
+#: templates/books/book_detail.html:539
+#, python-format
+msgid "Other books by %(author)s"
+msgstr "Alte cărți de %(author)s"
+
+#: templates/books/books_list.html:5
+msgid "Legal books - criminal procedural law and forensics"
+msgstr "Cărți juridice - drept procesual penal și criminalistică"
+
+#: templates/books/books_list.html:7
+msgid ""
+"Collection of professional legal books on criminal procedural law and "
+"forensics. Available in PDF format from Tudor Osoianu and Dinu Ostavciuc."
+msgstr "Colecție de cărți juridice profesionale despre dreptul procesual penal și criminalistică. Disponibile în format PDF de la Tudor Osoianu și Dinu Ostavciuc."
+
+#: templates/books/books_list.html:9
+msgid ""
+"legal books, criminal procedural law, criminal procedure, forensics, legal "
+"manuals Moldova, PDF law books, Tudor Osoianu, Dinu Ostavciuc"
+msgstr "cărți juridice, drept procesual penal, procedura penală, criminalistică, manuale juridice Moldova, cărți PDF drept, Tudor Osoianu, Dinu Ostavciuc"
+
+#: templates/books/books_list.html:14
+msgid ""
+"Professional books on criminal procedural law and forensics from Moldova."
+msgstr "Cărți profesionale despre dreptul procesual penal și criminalistică din Moldova."
+
+#: templates/books/books_list.html:94 templates/index.html:210
+msgid "All books"
+msgstr "Toate cărțile"
+
+#: templates/books/books_list.html:111
+msgid "View details"
+msgstr "Vezi detalii"
+
+#: templates/books/books_list.html:113
+msgid "Read now"
+msgstr "Citește acum"
+
+#: templates/books/books_list.html:124
+#, python-format
+msgid "Also read <a href=\"%(articles_url)s\">our scientific articles</a>"
+msgstr "Citiți și <a href=\"%(articles_url)s\">articolele noastre științifice</a>"
+
+#: templates/index.html:5
+msgid "Penița Dreptului - legal blog on criminal procedural law and forensics"
+msgstr "Penița Dreptului - blog juridic despre dreptul procesual penal și criminalistica"
+
+#: templates/index.html:7
+msgid ""
+"Discover legal articles and books on criminal procedural law and forensics. "
+"Professional resources by Tudor Osoianu and Dinu Ostavciuc for specialists "
+"in Moldova."
+msgstr "Descoperiți articole și cărți juridice despre dreptul procesual penal și criminalistica. Resurse profesionale de Tudor Osoianu și Dinu Ostavciuc pentru specialiști din Moldova."
+
+#: templates/index.html:11
+msgid "Penița Dreptului - legal blog on criminal procedural law"
+msgstr "Penița Dreptului - blog juridic despre dreptul procesual penal"
+
+#: templates/index.html:12
+msgid ""
+"Legal blog with articles and books on criminal procedural law and forensics "
+"from Moldova."
+msgstr "Blog juridic cu articole și cărți despre dreptul procesual penal și criminalistica din Moldova."
+
+#: templates/index.html:132
+msgid "Welcome to Penița Dreptului"
+msgstr "Bine ați venit la Penița Dreptului"
+
+#: templates/index.html:133
+msgid "Clarity in law, confidence in action"
+msgstr "Claritate în drept, încredere în acțiune"
+
+#: templates/index.html:137
+msgid "Latest news"
+msgstr "Ultimele știri"
+
+#: templates/index.html:151 templates/index.html:168 templates/index.html:175
+msgid "Read more"
+msgstr "Citește mai mult"
+
+#: templates/index.html:159
+msgid "Meet the authors"
+msgstr "Întâlniți autorii"
+
+#: templates/index.html:160
+msgid ""
+"Our mission is to provide insightful, in-depth legal books that help you "
+"navigate the complexities of law with ease. Explore our expertise and learn "
+"more about the work we do."
+msgstr "Misiunea noastră este să oferim cărți juridice aprofundate și pline de înțeles, care vă ajută să navigați cu ușurință prin complexitățile legii. Explorați experiența noastră și aflați mai multe despre activitatea pe care o desfășurăm."
+
+#: templates/index.html:167
+msgid ""
+"Dinu Ostavciuc has over 20 years of experience in public law and has "
+"authored several books on the subject."
+msgstr "Dinu Ostavciuc are peste 20 de ani de experiență în drept public și a scris mai multe cărți pe acest subiect."
+
+#: templates/index.html:174
+msgid ""
+"Tudor Osoianu specializes in criminal procedure and has been recognized for "
+"his work in legal education."
+msgstr "Tudor Osoianu se specializează în procedura penală și a fost recunoscut pentru activitatea sa în domeniul educației juridice."
+
+#: templates/index.html:181
+msgid "Latest articles"
+msgstr "Ultimele articole"
+
+#: templates/index.html:199
+msgid "Our books"
+msgstr "Cărțile noastre"
+
+#: templates/index.html:216
+msgid "Why choose us?"
+msgstr "De ce să ne alegi?"
+
+#: templates/index.html:220
+msgid "Top quality"
+msgstr "Calitate superioară"
+
+#: templates/index.html:221
+msgid ""
+"Our books are written by renowned legal experts, guaranteeing precise and "
+"relevant information."
+msgstr "Cărțile noastre sunt scrise de experți renumiți în domeniul dreptului, garantând informații precise și relevante."
+
+#: templates/index.html:225
+msgid "Over 25 years of experience"
+msgstr "Experiență de peste 25 de ani"
+
+#: templates/index.html:226
+msgid ""
+"We have more than two decades of experience publishing high-quality "
+"scientific materials."
+msgstr "Avem mai bine de două decenii de experiență în publicarea materialelor științifice de calitate."
+
+#: templates/index.html:230
+msgid "Easy and convenient access"
+msgstr "Acces ușor și convenabil"
+
+#: templates/index.html:231
+msgid ""
+"Our books are available online in PDF format, accessible anytime and "
+"anywhere."
+msgstr "Cărțile noastre sunt disponibile online în format PDF, accesibile oricând și oriunde."
+
+#: templates/index.html:237
+msgid "What our readers say:"
+msgstr "Ce spun cititorii noștri:"
+
+#: templates/index.html:241
+msgid "Professor"
+msgstr "Profesor"
+
+#: templates/index.html:249
+msgid ""
+"\"This book gave me a deep insight into modern legal practices. It is a must-"
+"read for anyone in the field.\""
+msgstr "\"Această carte mi-a oferit o perspectivă profundă asupra practicilor juridice moderne. Este o lectură obligatorie pentru oricine din domeniu.\""
+
+#: templates/index.html:253
+msgid "Lawyer"
+msgstr "Avocat"
+
+#: templates/index.html:261
+msgid ""
+"\"A comprehensive guide that covers the essential elements of public law. It "
+"has been a valuable resource in my practice.\""
+msgstr "\"Un ghid cuprinzător care acoperă elementele esențiale ale dreptului public. A fost o resursă valoroasă în practica mea.\""
+
+#: templates/index.html:265
+msgid "Student"
+msgstr "Student"
+
+#: templates/index.html:273
+msgid ""
+"\"As someone new to the legal field, I found this book extremely useful for "
+"understanding the fundamentals.\""
+msgstr "\"Fiind nou în domeniul juridic, am găsit această carte extrem de utilă pentru a înțelege elementele fundamentale.\""
+
+#: templates/index.html:277
+msgid "Prosecutor"
+msgstr "Procuror"
+
+#: templates/index.html:285
+msgid ""
+"\"Clear, engaging and incredibly informative. I confidently recommend it to "
+"both students and professionals.\""
+msgstr "\"Clară, interesantă și incredibil de informativă. O recomand cu certitudine atât studenților, cât și profesioniștilor.\""
+
+#: templates/index.html:289
+msgid "Judge"
+msgstr "Judecător"
+
+#: templates/index.html:297
+msgid ""
+"\"The authors have simplified complex legal concepts without sacrificing "
+"depth.\""
+msgstr "\"Autorii au simplificat conceptele juridice complexe fără a sacrifica profunzimea.\""
+
+#: templates/index.html:301
+msgid "Director, CNAI Romania"
+msgstr "Director CNAI România"
+
+#: templates/index.html:309
+msgid ""
+"\"The information and real-world examples in this book are invaluable for "
+"anyone involved in legal research.\""
+msgstr "\"Informațiile și exemplele din lumea reală din această carte sunt inestimabile pentru oricine implicat în cercetarea juridică.\""
+
+#: templates/index.html:315
+msgid "Frequently asked questions"
+msgstr "Întrebări frecvente"
+
+#: templates/index.html:318
+msgid "What is Penița Dreptului?"
+msgstr "Ce este Penița Dreptului?"
+
+#: templates/index.html:319
+msgid ""
+"Penița Dreptului is a professional legal portal dedicated to criminal "
+"procedural law and forensics from the Republic of Moldova. It offers "
+"scientific articles and specialty books written by Tudor Osoianu and Dinu "
+"Ostavciuc."
+msgstr "Penița Dreptului este un portal juridic profesional dedicat dreptului procesual penal și criminalisticii din Republica Moldova. Oferă articole științifice și cărți de specialitate scrise de Tudor Osoianu și Dinu Ostavciuc."
+
+#: templates/index.html:322
+msgid "How can I access the books and articles?"
+msgstr "Cum pot accesa cărțile și articolele?"
+
+#: templates/index.html:323
+msgid ""
+"Articles are freely accessible to all visitors. Books may be free or paid; "
+"for paid books an account and a secure payment via the MAIB system are "
+"required."
+msgstr "Articolele sunt accesibile gratuit pentru toți vizitatorii. Cărțile pot fi gratuite sau cu plată; pentru cărțile cu plată este necesară crearea unui cont și efectuarea unei plăți securizate prin sistemul MAIB."
+
+#: templates/index.html:326
+msgid "What legal topics does the portal cover?"
+msgstr "Ce subiecte juridice acoperă portalul?"
+
+#: templates/index.html:328
+#, python-format
+msgid ""
+"The portal covers three main directions: <a href=\"%(articles_url)s?"
+"category=procedura_penala\">criminal procedural law</a>, <a "
+"href=\"%(articles_url)s?category=criminalistica\">forensics</a> and <a "
+"href=\"%(articles_url)s?category=alte_stiinte\">other related legal "
+"sciences</a>, with a focus on the legislation and practice of the Republic "
+"of Moldova."
+msgstr "Portalul acoperă trei direcții principale: <a href=\"%(articles_url)s?category=procedura_penala\">drept procesual penal</a>, <a href=\"%(articles_url)s?category=criminalistica\">criminalistică</a> și <a href=\"%(articles_url)s?category=alte_stiinte\">alte științe juridice conexe</a>, cu accent pe legislația și practica din Republica Moldova."
+
+#: templates/index.html:331
+msgid "Who are the authors of the materials?"
+msgstr "Cine sunt autorii materialelor?"
+
+#: templates/index.html:333
+#, python-format
+msgid ""
+"The materials are written by <a href=\"%(osoianu_url)s\">Tudor Osoianu</a>, "
+"expert in criminal procedural law, and <a href=\"%(ostavciuc_url)s\">Dinu "
+"Ostavciuc</a>, doctor habilitat in law, both with over 20 years of academic "
+"and practical experience."
+msgstr "Materialele sunt elaborate de <a href=\"%(osoianu_url)s\">Tudor Osoianu</a>, expert în drept procesual penal, și <a href=\"%(ostavciuc_url)s\">Dinu Ostavciuc</a>, doctor habilitat în drept, ambii având peste 20 de ani de experiență academică și practică."
+
+#: templates/index.html:336
+msgid "How is payment for the books made?"
+msgstr "Cum se efectuează plata pentru cărți?"
+
+#: templates/index.html:337
+msgid ""
+"Payment is made online through the secure MAIB system with Visa and "
+"Mastercard cards. After payment confirmation you get permanent access to the "
+"purchased book in your personal account."
+msgstr "Plata se face online prin sistemul securizat MAIB cu carduri Visa și Mastercard. După confirmarea plății primiți acces permanent la cartea achiziționată în contul personal."
+
+#: templates/index.html:340
+msgid "How can I read the purchased books?"
+msgstr "Cum pot citi cărțile achiziționate?"
+
+#: templates/index.html:341
+msgid ""
+"Books are read directly online in the portal's integrated viewer. You have "
+"permanent access to the content from your account, anytime and from any "
+"internet-connected device."
+msgstr "Cărțile se citesc direct online, în vizualizatorul integrat al portalului. Aveți acces permanent la conținut din contul dumneavoastră, oricând și de pe orice dispozitiv conectat la internet."
+
+#: templates/navbar.html:19
+msgid "Sign out"
+msgstr "Ieși din cont"
+
+#: templates/news_detail.html:5
+msgid "News"
+msgstr "Știri"
+
+#: templates/news_detail.html:81
+msgid "Scientific articles"
+msgstr "Articole științifice"
+
+#: templates/osoianu.html:5
+msgid "Tudor Osoianu - expert in criminal procedural law"
+msgstr "Tudor Osoianu - expert în drept procesual penal"
+
+#: templates/osoianu.html:7
+msgid ""
+"Tudor Osoianu - expert in criminal procedural law and forensics with over 25 "
+"years of experience. Author of legal articles and books from Moldova."
+msgstr "Tudor Osoianu - expert în dreptul procesual penal și criminalistică cu peste 25 de ani experiență. Autor de articole și cărți juridice din Moldova."
+
+#: templates/osoianu.html:61 templates/ostavciuc.html:60
+msgid "Professional experience"
+msgstr "Experiența profesională"
+
+#: templates/osoianu.html:63
+msgid ""
+"<strong>Member of the Experts Commission</strong>: attestation field in "
+"legal and political sciences (2020 - present)."
+msgstr "<strong>Membru al Comisiei de experți</strong>: domeniul atestării în științele juridice și politice (2020 - prezent)."
+
+#: templates/osoianu.html:64
+msgid ""
+"<strong>Expert</strong> in the project „Procedural guarantees in the "
+"criminal investigation phase\" (2016)."
+msgstr "<strong>Expert</strong> în proiectul „Garanții procedurale în faza urmăririi penale” (2016)."
+
+#: templates/osoianu.html:65
+msgid ""
+"<strong>Trainer</strong> at training seminars for police officers "
+"(2012-2013)."
+msgstr "<strong>Formator</strong> la seminarele de instruire pentru ofițerii de poliție (2012-2013)."
+
+#: templates/osoianu.html:66
+msgid ""
+"<strong>Member of the Scientific Advisory Council</strong> of the Supreme "
+"Court of Justice (2014-2018)."
+msgstr "<strong>Membru al Consiliului Științific Consultativ</strong> al Curții Supreme de Justiție (2014-2018)."
+
+#: templates/osoianu.html:69 templates/ostavciuc.html:70
+msgid "Education and training"
+msgstr "Educație și formare"
+
+#: templates/osoianu.html:71
+msgid ""
+"<strong>Specialization internship</strong> in criminal law and forensics, "
+"Central European University (2014)."
+msgstr "<strong>Stagiu de perfecționare</strong> în domeniul dreptului penal și criminalisticii, Universitatea Central Europeană (2014)."
+
+#: templates/osoianu.html:72
+msgid ""
+"<strong>Diploma of merit</strong> at the „Ștefan cel Mare\" National Police "
+"Academy (1999)."
+msgstr "<strong>Diploma de merit</strong> la Academia Națională de Poliție „Ștefan cel Mare” (1999)."
+
+#: templates/osoianu.html:73
+msgid "<strong>Associate professor certification</strong> (2012)."
+msgstr "<strong>Atestat de conferențiar universitar</strong> (2012)."
+
+#: templates/osoianu.html:76 templates/ostavciuc.html:80
+msgid "Personal skills"
+msgstr "Competențe personale"
+
+#: templates/osoianu.html:77
+msgid ""
+"<strong>Languages:</strong> Romanian (native), Russian (advanced), French "
+"(beginner), English (beginner)."
+msgstr "<strong>Limbi vorbite:</strong> Română (maternă), Rusă (avansat), Franceză (începător), Engleză (începător)."
+
+#: templates/osoianu.html:80
+msgid ""
+"Tudor Osoianu is a renowned expert in criminal law and forensics, with "
+"extensive experience of over 25 years in research, professional training and "
+"legal practice. He has been active in numerous international and national "
+"projects to improve justice reform in Moldova."
+msgstr "Tudor Osoianu este un expert renumit în domeniul dreptului penal și al criminalisticii, cu o experiență vastă de peste 25 de ani în cercetare, formare profesională și practică juridică. A fost activ în multiple proiecte internaționale și naționale pentru îmbunătățirea reformei justiției în Moldova."
+
+#: templates/osoianu.html:82
+msgid ""
+"He is also the author and co-author of multiple scientific works in criminal "
+"and procedural law, as well as an active supporter of legal education in "
+"academic and professional institutions."
+msgstr "Este, de asemenea, autor și coautor al mai multor lucrări științifice în domeniul dreptului penal și procesual, precum și un susținător activ al educației juridice în cadrul instituțiilor academice și profesionale."
+
+#: templates/osoianu.html:88 templates/ostavciuc.html:92
+msgid "Author's articles"
+msgstr "Articolele autorului"
+
+#: templates/osoianu.html:101 templates/ostavciuc.html:105
+msgid "Author's books"
+msgstr "Cărțile autorului"
+
+#: templates/ostavciuc.html:5
+msgid "Dinu Ostavciuc - doctor habilitat in law"
+msgstr "Dinu Ostavciuc - doctor habilitat în drept"
+
+#: templates/ostavciuc.html:7
+msgid ""
+"Dinu Ostavciuc - Doctor habilitat in law, Rector of the Ștefan cel Mare "
+"Academy. Author of over 100 legal publications."
+msgstr "Dinu Ostavciuc - Doctor habilitat în drept, Rector al Academiei Ștefan cel Mare. Autor a peste 100 de publicații juridice."
+
+#: templates/ostavciuc.html:62
+msgid ""
+"<strong>Rector</strong> of the „Ștefan cel Mare\" Academy of MIA (2019 - "
+"present)."
+msgstr "<strong>Rector</strong> al Academiei „Ștefan cel Mare” a MAI (2019 - prezent)."
+
+#: templates/ostavciuc.html:63
+msgid ""
+"<strong>University lecturer</strong> at the Cross-Border Faculty of „Dunărea "
+"de Jos\" University, Galați, Romania (2022 - present)."
+msgstr "<strong>Lector universitar</strong> la Facultatea Transfrontalieră a Universității „Dunărea de Jos” din Galați, România (2022 - prezent)."
+
+#: templates/ostavciuc.html:64
+msgid ""
+"<strong>Emeritus professor</strong> at the State University of MIA of "
+"Ukraine in Odessa (2020)."
+msgstr "<strong>Profesor emerit</strong> la Universitatea de Stat al MAI al Ucrainei din Odessa (2020)."
+
+#: templates/ostavciuc.html:65
+msgid "<strong>Lawyer</strong> (2017-2019)."
+msgstr "<strong>Avocat</strong> (2017-2019)."
+
+#: templates/ostavciuc.html:66
+msgid ""
+"<strong>Head of department</strong>, criminal investigation, Border Police "
+"of MIA (2012-2017)."
+msgstr "<strong>Șef direcție</strong> urmărire penală, Poliția de Frontieră a MAI (2012-2017)."
+
+#: templates/ostavciuc.html:67
+msgid ""
+"<strong>Senior officer</strong>, criminal investigation, MIA (2003-2015)."
+msgstr "<strong>Ofițer</strong> superior de urmărire penală, MAI (2003-2015)."
+
+#: templates/ostavciuc.html:72
+msgid "<strong>Doctor habilitat in law</strong> (2024)."
+msgstr "<strong>Doctor habilitat în drept</strong> (2024)."
+
+#: templates/ostavciuc.html:73
+msgid ""
+"<strong>Postdoctoral studies</strong>, „Ștefan cel Mare\" Academy of MIA "
+"(2022-2023)."
+msgstr "<strong>Studii postdoctorale</strong>, Academia „Ștefan cel Mare” a MAI (2022-2023)."
+
+#: templates/ostavciuc.html:74
+msgid ""
+"<strong>PhD in law</strong>, „Ștefan cel Mare\" Academy of MIA (2005-2008)."
+msgstr "<strong>Doctorat în drept</strong>, Academia „Ștefan cel Mare” a MAI (2005-2008)."
+
+#: templates/ostavciuc.html:75
+msgid ""
+"<strong>Studies in law enforcement management</strong>, ILEA, Budapest "
+"(2014)."
+msgstr "<strong>Studii în managementul organelor de drept</strong>, ILEA, Budapesta (2014)."
+
+#: templates/ostavciuc.html:76
+msgid ""
+"<strong>Master's degree</strong>, „Ștefan cel Mare\" Academy of MIA "
+"(2004-2005)."
+msgstr "<strong>Masterat</strong>, Academia „Ștefan cel Mare” a MAI (2004-2005)."
+
+#: templates/ostavciuc.html:77
+msgid ""
+"<strong>Bachelor's degree</strong>, „Ștefan cel Mare\" Academy of MIA "
+"(1999-2003)."
+msgstr "<strong>Licență</strong>, Academia „Ștefan cel Mare” a MAI (1999-2003)."
+
+#: templates/ostavciuc.html:81
+msgid ""
+"<strong>Languages:</strong> Romanian (native), Russian (advanced), English "
+"(beginner)."
+msgstr "<strong>Limbi vorbite:</strong> Română (maternă), Rusă (avansat), Engleză (începător)."
+
+#: templates/ostavciuc.html:84
+msgid ""
+"Dinu Ostavciuc is a prominent figure in criminal law and forensics, with "
+"extensive experience in both the academic and legal practice domains. Author "
+"of over 100 publications, including monographs, articles and university "
+"courses, he is known for his significant contributions to justice reform and "
+"legal education."
+msgstr "Dinu Ostavciuc este o personalitate proeminentă în domeniul dreptului penal și al criminalisticii, cu o experiență vastă atât în domeniul academic, cât și în practica juridică. Autor a peste 100 de publicații, inclusiv monografii, articole și cursuri universitare, este cunoscut pentru contribuțiile sale semnificative la reforma justiției și la educația juridică."
+
+#: templates/ostavciuc.html:86
+msgid ""
+"He has been decorated with numerous distinctions, including the Order "
+"„Credință Patriei\" first class and the Cross „For Merit\", for his "
+"remarkable activity in public service."
+msgstr "A fost decorat cu numeroase distincții, printre care Ordinul Credință Patriei clasa I și Crucea „Pentru Merit”, pentru activitatea sa remarcabilă în serviciul public."
+
+#: templates/partials/pdf_viewer.html:27
+msgid "Search in document"
+msgstr "Căutare în document"
+
+#: templates/partials/pdf_viewer.html:27
+msgid "Search (Ctrl+F)"
+msgstr "Căutare (Ctrl+F)"
+
+#: templates/partials/pdf_viewer.html:33
+msgid "Search in document..."
+msgstr "Căutare în document..."
+
+#: templates/partials/pdf_viewer.html:34
+msgid "Search field"
+msgstr "Câmp de căutare"
+
+#: templates/partials/pdf_viewer.html:38
+msgid "Previous match"
+msgstr "Match anterior"
+
+#: templates/partials/pdf_viewer.html:38
+msgid "Previous (Shift+Enter)"
+msgstr "Anterior (Shift+Enter)"
+
+#: templates/partials/pdf_viewer.html:41
+msgid "Next match"
+msgstr "Match următor"
+
+#: templates/partials/pdf_viewer.html:41
+msgid "Next (Enter)"
+msgstr "Următor (Enter)"
+
+#: templates/partials/pdf_viewer.html:44
+msgid "Close search"
+msgstr "Închide căutarea"
+
+#: templates/partials/pdf_viewer.html:44
+msgid "Close (Esc)"
+msgstr "Închide (Esc)"
+
+#: templates/partials/pdf_viewer.html:49
+msgid "Previous page"
+msgstr "Pagina anterioară"
+
+#: templates/partials/pdf_viewer.html:55
+msgid "Next page"
+msgstr "Pagina următoare"
+
+#: templates/partials/pdf_viewer.html:61
+msgid "Zoom out"
+msgstr "Micșorează"
+
+#: templates/partials/pdf_viewer.html:64
+msgid "Zoom level"
+msgstr "Nivel de zoom"
+
+#: templates/partials/pdf_viewer.html:67
+#, python-format
+msgid "100%% (width)"
+msgstr "100%% (lățime)"
+
+#: templates/partials/pdf_viewer.html:71
+msgid "Full page"
+msgstr "Pagina întreagă"
+
+#: templates/partials/pdf_viewer.html:73
+msgid "Zoom in"
+msgstr "Mărește"
+
+#: templates/partials/pdf_viewer.html:82 templates/partials/pdf_viewer.html:83
+msgid "Bookmarks"
+msgstr "Marcaje"
+
+#: templates/partials/pdf_viewer.html:94
+msgid "Synced highlights"
+msgstr "Evidențieri sincronizate"
+
+#: templates/partials/pdf_viewer.html:95
+msgid "Highlights (synced with account)"
+msgstr "Evidențieri (sincronizate cu contul)"
+
+#: templates/partials/pdf_viewer.html:105
+msgid "Toggle dark mode"
+msgstr "Comută mod întunecat"
+
+#: templates/partials/pdf_viewer.html:106
+msgid "Dark mode"
+msgstr "Mod întunecat"
+
+#: templates/partials/pdf_viewer.html:112
+msgid "Swipe left/right to navigate • Pinch to zoom"
+msgstr "Swipe stânga/dreapta pentru navigare • Pinch pentru zoom"
+
+#: templates/partials/pdf_viewer.html:119
+msgid "Loading document..."
+msgstr "Se încarcă documentul..."
+
+#: templates/partials/pdf_viewer.html:127
+#: templates/partials/pdf_viewer.html:128
+msgid "Fullscreen"
+msgstr "Ecran complet"
+
+#: templates/payments/confirm_payment.html:5
+msgid "Order confirmation"
+msgstr "Confirmare comandă"
+
+#: templates/payments/confirm_payment.html:6
+msgid ""
+"Confirm the order for the selected book before secure payment through MAIB."
+msgstr "Confirmați comanda pentru cartea selectată înainte de plata securizată prin MAIB."
+
+#: templates/payments/confirm_payment.html:212
+msgid "Payment confirmation"
+msgstr "Confirmare plată"
+
+#: templates/payments/confirm_payment.html:213
+msgid "Secure payment through MAIB eCommerce"
+msgstr "Plată securizată prin MAIB eCommerce"
+
+#: templates/payments/confirm_payment.html:230
+msgid "Book price:"
+msgstr "Preț carte:"
+
+#: templates/payments/confirm_payment.html:234
+msgid "Total to pay:"
+msgstr "Total de plată:"
+
+#: templates/payments/confirm_payment.html:241
+msgid "Important information:"
+msgstr "Informații importante:"
+
+#: templates/payments/confirm_payment.html:243
+msgid "You will be redirected to the secure MAIB page"
+msgstr "Veți fi redirecționat către pagina securizată MAIB"
+
+#: templates/payments/confirm_payment.html:244
+msgid "After payment, you will have immediate access to the book"
+msgstr "După plată, veți avea acces imediat la carte"
+
+#: templates/payments/confirm_payment.html:245
+msgid "The transaction is protected with 3D Secure"
+msgstr "Tranzacția este protejată cu 3D Secure"
+
+#: templates/payments/confirm_payment.html:246
+msgid "Card data is processed securely by MAIB"
+msgstr "Datele cardului sunt procesate securizat de MAIB"
+
+#: templates/payments/confirm_payment.html:265
+#, python-format
+msgid ""
+"I agree to the\n"
+"                            <a href=\"%(terms_url)s\" target=\"_blank\" "
+"style=\"color: #6B8E23; font-weight: 600; text-decoration: underline;"
+"\">Terms and conditions</a>\n"
+"                            of use and confirm that I have read the\n"
+"                            <a href=\"%(privacy_url)s\" target=\"_blank\" "
+"style=\"color: #6B8E23; font-weight: 600; text-decoration: underline;"
+"\">Privacy policy</a>"
+msgstr ""
+"Sunt de acord cu\n"
+"                            <a href=\"%(terms_url)s\" target=\"_blank\" style=\"color: #6B8E23; font-weight: 600; text-decoration: underline;\">Termenii și condițiile</a>\n"
+"                            de utilizare și confirm că am citit\n"
+"                            <a href=\"%(privacy_url)s\" target=\"_blank\" style=\"color: #6B8E23; font-weight: 600; text-decoration: underline;\">Politica de confidențialitate</a>"
+
+#: templates/payments/confirm_payment.html:272
+msgid "Check to continue with payment"
+msgstr "Bifați pentru a continua cu plata"
+
+#: templates/payments/confirm_payment.html:278
+msgid "Back"
+msgstr "Înapoi"
+
+#: templates/payments/confirm_payment.html:281
+msgid "Continue to payment"
+msgstr "Continuă către plată"
+
+#: templates/payments/confirm_payment.html:289
+#, python-format
+msgid "100%% secure payment"
+msgstr "Plată 100%% securizată"
+
+#: templates/payments/confirm_payment.html:316
+msgid "Please accept the Terms and Conditions to continue with the payment."
+msgstr "Vă rugăm să acceptați Termenii și Condițiile pentru a continua cu plata."
+
+#: templates/payments/payment_fail.html:5
+#: templates/payments/payment_fail.html:247
+msgid "Payment failed"
+msgstr "Plată eșuată"
+
+#: templates/payments/payment_fail.html:6
+msgid ""
+"The payment could not be processed. Please try again or use another payment "
+"method."
+msgstr "Plata nu a putut fi procesată. Vă rugăm să încercați din nou sau să utilizați altă metodă de plată."
+
+#: templates/payments/payment_fail.html:248
+msgid "Unfortunately, the payment could not be processed"
+msgstr "Din păcate, plata nu a putut fi procesată"
+
+#: templates/payments/payment_fail.html:253
+msgid "What happened?"
+msgstr "Ce s-a întâmplat?"
+
+#: templates/payments/payment_fail.html:254
+msgid ""
+"Your transaction was not completed successfully. This may be due to "
+"incorrectly entered data, insufficient funds, or payment cancellation."
+msgstr "Tranzacția dvs. nu a fost finalizată cu succes. Aceasta poate fi din cauza datelor introduse incorect, fondurilor insuficiente sau anulării plății."
+
+#: templates/payments/payment_fail.html:259
+#: templates/payments/payment_success.html:281
+msgid "Transaction ID:"
+msgstr "ID Tranzacție:"
+
+#: templates/payments/payment_fail.html:263
+msgid "Book:"
+msgstr "Carte:"
+
+#: templates/payments/payment_fail.html:267
+msgid "Amount:"
+msgstr "Sumă:"
+
+#: templates/payments/payment_fail.html:271
+msgid "Status:"
+msgstr "Status:"
+
+#: templates/payments/payment_fail.html:277
+msgid "What can you do?"
+msgstr "Ce puteți face?"
+
+#: templates/payments/payment_fail.html:279
+msgid "Check if you have sufficient funds in your account"
+msgstr "Verificați dacă aveți fonduri suficiente în cont"
+
+#: templates/payments/payment_fail.html:280
+msgid "Make sure you entered the card details correctly"
+msgstr "Asigurați-vă că ați introdus corect datele cardului"
+
+#: templates/payments/payment_fail.html:281
+msgid "Try using another bank card"
+msgstr "Încercați să folosiți un alt card bancar"
+
+#: templates/payments/payment_fail.html:282
+msgid "Contact your bank if the issue persists"
+msgstr "Contactați banca dvs. dacă problema persistă"
+
+#: templates/payments/payment_fail.html:283
+msgid "Try again in a few minutes"
+msgstr "Încercați din nou peste câteva minute"
+
+#: templates/payments/payment_fail.html:289
+msgid "Try again"
+msgstr "Încercați din nou"
+
+#: templates/payments/payment_fail.html:297
+msgid "Need help?"
+msgstr "Aveți nevoie de ajutor?"
+
+#: templates/payments/payment_fail.html:297
+msgid "Contact support"
+msgstr "Contactați suportul"
+
+#: templates/payments/payment_history.html:5
+#: templates/payments/payment_history.html:297
+msgid "Payment history"
+msgstr "Istoricul plăților"
+
+#: templates/payments/payment_history.html:6
+msgid "View the history of payments made on your Penița Dreptului account."
+msgstr "Vizualizați istoricul plăților efectuate în contul dumneavoastră Penița Dreptului."
+
+#: templates/payments/payment_history.html:298
+msgid "All your book purchases"
+msgstr "Toate achizițiile dvs. de cărți"
+
+#: templates/payments/payment_history.html:315
+msgid "Paid"
+msgstr "Plătit"
+
+#: templates/payments/payment_history.html:317
+msgid "In process"
+msgstr "În proces"
+
+#: templates/payments/payment_history.html:319
+msgid "Refunded"
+msgstr "Returnat"
+
+#: templates/payments/payment_history.html:321
+msgid "Failed"
+msgstr "Eșuat"
+
+#: templates/payments/payment_history.html:328
+msgid "Amount"
+msgstr "Sumă"
+
+#: templates/payments/payment_history.html:332
+msgid "Date"
+msgstr "Dată"
+
+#: templates/payments/payment_history.html:336
+msgid "Transaction ID"
+msgstr "ID Tranzacție"
+
+#: templates/payments/payment_history.html:341
+msgid "Paid at"
+msgstr "Plătit la"
+
+#: templates/payments/payment_history.html:350
+msgid "Read the book"
+msgstr "Citește cartea"
+
+#: templates/payments/payment_history.html:353
+msgid "Download PDF"
+msgstr "Descarcă PDF"
+
+#: templates/payments/payment_history.html:363
+msgid "No purchases yet"
+msgstr "Nicio achiziție încă"
+
+#: templates/payments/payment_history.html:364
+msgid "You don't have any purchased books yet. Explore our library!"
+msgstr "Nu aveți încă cărți achiziționate. Explorați biblioteca noastră!"
+
+#: templates/payments/payment_history.html:366
+msgid "See available books"
+msgstr "Vezi cărțile disponibile"
+
+#: templates/payments/payment_success.html:5
+msgid "Payment successful"
+msgstr "Plată reușită"
+
+#: templates/payments/payment_success.html:6
+msgid ""
+"The payment has been processed successfully. You now have permanent access "
+"to the purchased book."
+msgstr "Plata a fost procesată cu succes. Aveți acum acces permanent la cartea achiziționată."
+
+#: templates/payments/payment_success.html:267
+msgid "Payment completed successfully!"
+msgstr "Plată realizată cu succes!"
+
+#: templates/payments/payment_success.html:268
+msgid "Thank you for your purchase"
+msgstr "Mulțumim pentru achiziție"
+
+#: templates/payments/payment_success.html:275
+msgid "Processing payment..."
+msgstr "Procesare plată..."
+
+#: templates/payments/payment_success.html:276
+msgid ""
+"Awaiting confirmation from the bank. The page will refresh automatically."
+msgstr "Așteptăm confirmarea de la bancă. Pagina se va actualiza automat."
+
+#: templates/payments/payment_success.html:285
+msgid "Book purchased:"
+msgstr "Carte achiziționată:"
+
+#: templates/payments/payment_success.html:293
+msgid "Amount paid:"
+msgstr "Suma plătită:"
+
+#: templates/payments/payment_success.html:297
+msgid "Date:"
+msgstr "Data:"
+
+#: templates/payments/payment_success.html:303
+msgid "Your book is available!"
+msgstr "Cartea dvs. este disponibilă!"
+
+#: templates/payments/payment_success.html:304
+msgid ""
+"You now have full access to the purchased book. You can read it online "
+"anytime."
+msgstr "Acum aveți acces complet la cartea achiziționată. Puteți citi cartea online oricând."
+
+#: templates/payments/payment_success.html:308
+msgid "Read the book now"
+msgstr "Citește cartea acum"
+
+#: templates/payments/payment_success.html:311
+msgid "See other books"
+msgstr "Vezi alte cărți"
+
+#: templates/payments/payment_success.html:317
+msgid "A copy of the receipt has been sent to your email."
+msgstr "O copie a chitanței a fost trimisă pe email-ul dvs."
+
+#: templates/payments/payment_success.html:319
+#, python-format
+msgid ""
+"You can see all purchases in <a href=\"%(history_url)s\" style=\"color: "
+"#6B8E23;\">Payment history</a>"
+msgstr "Puteți vedea toate achizițiile în <a href=\"%(history_url)s\" style=\"color: #6B8E23;\">Istoricul plăților</a>"
+
+#: templates/payments/payment_success.html:367
+msgid "Verification delayed"
+msgstr "Verificare întârziată"
+
+#: templates/payments/payment_success.html:368
+msgid "Payment is being processed. Please check the"
+msgstr "Plata este în procesare. Vă rugăm să verificați"
+
+#: templates/payments/payment_success.html:368
+msgid "payment history"
+msgstr "istoricul plăților"
+
+#: templates/payments/payment_success.html:368
+msgid "in a few minutes."
+msgstr "peste câteva minute."
+
+#: templates/policies/privacy.html:8
+msgid ""
+"Privacy policy and personal data protection on the Penița Dreptului website."
+msgstr "Politica de confidențialitate și protecția datelor personale pe site-ul Penița Dreptului."
+
+#: templates/policies/privacy.html:11
+msgid "privacy policy, data protection, GDPR, Penița Dreptului"
+msgstr "politica de confidențialitate, protecția datelor, GDPR, Penița Dreptului"
+
+#: templates/policies/privacy.html:16
+msgid "Privacy policy and personal data protection."
+msgstr "Politica de confidențialitate și protecția datelor personale."
+
+#: templates/policies/privacy.html:149
+msgid "Effective date: 10 November 2025"
+msgstr "Data intrării în vigoare: 10 noiembrie 2025"
+
+#: templates/policies/refund.html:5 templates/policies/refund.html:19
+msgid "Refund policy"
+msgstr "Politica de returnare"
+
+#: templates/policies/refund.html:6
+msgid ""
+"Refund policy for books purchased on Penița Dreptului. Conditions, procedure "
+"and exceptions for digital products."
+msgstr "Politica de returnare pentru cărțile achiziționate pe Penița Dreptului. Condiții, procedură și excepții pentru produsele digitale."
+
+#: templates/policies/refund.html:22
+msgid "1. Conditions for refund"
+msgstr "1. Condiții pentru returnare"
+
+#: templates/policies/refund.html:23
+msgid ""
+"A refund is possible only if the product was inaccessible due to an error on "
+"our platform."
+msgstr "Returnarea este posibilă doar în cazul în care produsul nu a fost accesibil din cauza unei erori a platformei noastre."
+
+#: templates/policies/refund.html:26
+msgid "2. Refund procedure"
+msgstr "2. Procedura de returnare"
+
+#: templates/policies/refund.html:27
+msgid ""
+"Send a refund request to <a "
+"href=\"mailto:support@penitadreptului.md\">support@penitadreptului.md</a> "
+"within 14 days of purchase."
+msgstr "Trimiteți o cerere de returnare la adresa <a href=\"mailto:support@penitadreptului.md\">support@penitadreptului.md</a> în termen de 14 zile de la achiziție."
+
+#: templates/policies/refund.html:30
+msgid "3. Exceptions"
+msgstr "3. Excepții"
+
+#: templates/policies/refund.html:31
+msgid ""
+"Digital products that have already been delivered are not eligible for a "
+"refund."
+msgstr "Produsele digitale deja livrate nu sunt eligibile pentru returnare."
+
+#: templates/policies/terms.html:8 templates/policies/terms.html:16
+msgid "Terms and conditions for using the Penița Dreptului website."
+msgstr "Termeni și condiții de utilizare a site-ului Penița Dreptului."
+
+#: templates/policies/terms.html:11
+msgid "terms and conditions, site use, Penița Dreptului"
+msgstr "termeni și condiții, utilizare site, Penița Dreptului"
+
+#: templates/policies/terms.html:140
+msgid "Last update: 5 November 2025"
+msgstr "Ultima actualizare: 5 noiembrie 2025"
+
+#: templates/socialaccount/signup.html:16
+#: templates/socialaccount/signup.html:71
+msgid "Complete registration"
+msgstr "Finalizează înregistrarea"
+
+#: templates/socialaccount/signup.html:17
+#, python-format
+msgid "You are using your %(provider_name)s account to sign in."
+msgstr "Folosești contul tău %(provider_name)s pentru a te conecta."
+
+#: templates/socialaccount/signup.html:18
+msgid "Please fill in this form:"
+msgstr "Te rugăm să completezi acest formular:"
+
+#: templates/osoianu.html:5 templates/osoianu.html:14
+msgid "Tudor Osoianu - Full Professor, expert in criminal procedural law"
+msgstr "Tudor Osoianu - profesor universitar, expert în drept procesual penal"
+
+#: templates/osoianu.html:7
+msgid "Tudor Osoianu - PhD in Law, Full Professor of criminal procedural law, criminalistics and forensic expertise with over 30 years of experience. Doctoral supervisor and laureate of the Constantin Stere Prize."
+msgstr "Tudor Osoianu - doctor în drept, profesor universitar, expert în drept procesual penal, criminalistică și expertiză judiciară cu peste 30 de ani de experiență. Conducător de doctorat, laureat al Premiului „Constantin Stere”."
+
+#: templates/osoianu.html:9
+msgid "Tudor Osoianu, Full Professor, PhD in Law, criminal procedural law, criminalistics Moldova, forensic expertise, doctoral supervisor, Constantin Stere Prize, legal author, criminal procedure"
+msgstr "Tudor Osoianu, profesor universitar, doctor în drept, drept procesual penal, criminalistică Moldova, expertiză judiciară, conducător de doctorat, Premiul Constantin Stere, autor juridic, procedura penală"
+
+#: templates/osoianu.html:15
+msgid "PhD in Law, Full Professor — expert in criminal procedural law, criminalistics and forensic expertise from the Republic of Moldova; doctoral supervisor and laureate of the Constantin Stere Prize."
+msgstr "Doctor în drept, profesor universitar — expert în drept procesual penal, criminalistică și expertiză judiciară din Republica Moldova; conducător de doctorat, laureat al Premiului „Constantin Stere”."
+
+#: templates/osoianu.html:70
+msgid "PhD in Law, Full Professor — Department of Criminal Procedure, Criminalistics and Information Security, „Ştefan cel Mare” Academy of the Ministry of Internal Affairs of the Republic of Moldova."
+msgstr "Doctor în drept, profesor universitar — Catedra „Procedură penală, criminalistică și securitate informațională”, Academia „Ştefan cel Mare” a Ministerului Afacerilor Interne al Republicii Moldova."
+
+#: templates/osoianu.html:97
+msgid "Awards and distinctions"
+msgstr "Distincții și premii"
+
+#: templates/osoianu.html:74
+msgid "<strong>Full Professor</strong>, Department of Criminal Procedure, Criminalistics and Information Security, „Ştefan cel Mare” Academy of the MIA of the Republic of Moldova (1995 - present)."
+msgstr "<strong>Profesor universitar</strong>, Catedra „Procedură penală, criminalistică și securitate informațională”, Academia „Ştefan cel Mare” a MAI al Republicii Moldova (1995 - prezent)."
+
+#: templates/osoianu.html:75
+msgid "<strong>Member of the Council of the National Institute of Justice</strong>, appointed by the Ministry of Justice (Order No. 281 of 11.11.2022)."
+msgstr "<strong>Membru al Consiliului Institutului Național al Justiției</strong>, desemnat de Ministerul Justiției (Ordinul nr. 281 din 11.11.2022)."
+
+#: templates/osoianu.html:76
+msgid "<strong>Member of the Expert Commission for Attestation No. 8</strong> — legal, political, military and information sciences, ANACEC (since 2020, reconfirmed by Order of the Ministry of Education and Research No. 221 of 19.02.2025)."
+msgstr "<strong>Membru al Comisiei de experți pentru atestare nr. 8</strong> — științele juridice, politice, militare și informaționale, ANACEC (din 2020, reconfirmat prin Ordinul Ministerului Educației și Cercetării nr. 221 din 19.02.2025)."
+
+#: templates/osoianu.html:77
+msgid "<strong>Member of the Scientific Advisory Council</strong> of the Supreme Court of Justice, Criminal Chamber (since 2014)."
+msgstr "<strong>Membru al Consiliului Științific Consultativ</strong> al Curții Supreme de Justiție, Colegiul penal (din 2014)."
+
+#: templates/osoianu.html:78
+msgid "<strong>Doctoral Supervisor</strong> in Criminal Procedural Law, Criminalistics and Forensic Expertise — six PhD theses successfully defended under his supervision."
+msgstr "<strong>Conducător de doctorat</strong> la specialitatea Drept procesual penal, criminalistică și expertiză judiciară — șase teze de doctor susținute cu succes sub conducerea sa."
+
+#: templates/osoianu.html:79
+msgid "<strong>Trainer</strong> at the National Institute of Justice in initial and continuous training courses (since 2016)."
+msgstr "<strong>Formator</strong> la Institutul Național al Justiției, cursuri de formare inițială și continuă (din 2016)."
+
+#: templates/osoianu.html:80
+msgid "<strong>Attorney at Law</strong>, Chișinău Bar — Licence No. 107 of 26 September 2001."
+msgstr "<strong>Avocat</strong>, Baroul Chișinău — Licența nr. 107 din 26 septembrie 2001."
+
+#: templates/osoianu.html:81
+msgid "<strong>Coordinating Senior Researcher</strong>, Institute for Legal and Political Research of the Academy of Sciences of Moldova (2006-2023)."
+msgstr "<strong>Cercetător științific coordonator</strong>, Institutul de Cercetări Juridice și Politice al Academiei de Științe a Moldovei (2006-2023)."
+
+#: templates/osoianu.html:86
+msgid "<strong>Certificate of Full Professor</strong>, Decision of the ANACEC Governing Council No. 8 of 30.10.2021."
+msgstr "<strong>Atestat de profesor universitar</strong>, Decizia Consiliului de Conducere al ANACEC nr. 8 din 30.10.2021."
+
+#: templates/osoianu.html:87
+msgid "<strong>Authorization as Doctoral Supervisor</strong> in Criminal Procedural Law, granted for an unlimited term by ANACEC Decision No. 15 of 24 May 2024."
+msgstr "<strong>Abilitare de conducător de doctorat</strong> la specialitatea Drept procesual penal, acordată pe termen nelimitat prin Decizia ANACEC nr. 15 din 24 mai 2024."
+
+#: templates/osoianu.html:88
+msgid "<strong>Certificate of Associate Professor</strong>, National Council for Accreditation and Attestation (2005)."
+msgstr "<strong>Atestat de conferențiar universitar</strong>, Consiliul Național pentru Acreditare și Atestare (2005)."
+
+#: templates/osoianu.html:89
+msgid "<strong>PhD in Law</strong>, speciality 12.00.09 - Criminal Procedure, Criminalistics, Forensic Expertise, Free International University of Moldova (ULIM), 2001."
+msgstr "<strong>Doctor în drept</strong>, specialitatea 12.00.09 - Procedură penală, criminalistică, expertiză judiciară, Universitatea Liberă Internațională din Moldova (ULIM), 2001."
+
+#: templates/osoianu.html:90
+msgid "<strong>Specialization internship</strong> in criminal law and forensics, Central European University, Budapest (2014)."
+msgstr "<strong>Stagiu de perfecționare</strong> în domeniul dreptului penal și criminalisticii, Universitatea Central Europeană, Budapesta (2014)."
+
+#: templates/osoianu.html:91
+msgid "<strong>Professional development internship</strong> at the National School of Penitentiary Administration (ÉNAP), Agen, France (2002)."
+msgstr "<strong>Stagiu de perfecționare profesională</strong> la Școala Națională de Administrație Penitenciară (ÉNAP), Agen, Franța (2002)."
+
+#: templates/osoianu.html:92
+msgid "<strong>Diploma with honours</strong>, „Ştefan cel Mare” National Police Academy (1991-1995)."
+msgstr "<strong>Diplomă cu mențiune</strong>, Academia Națională de Poliție „Ştefan cel Mare” (1991-1995)."
+
+#: templates/osoianu.html:96
+msgid "<strong>Languages (CEFR):</strong> Romanian (native), Russian (C2), English (B1), French (A2)."
+msgstr "<strong>Limbi vorbite (CEFR):</strong> Română (maternă), Rusă (C2), Engleză (B1), Franceză (A2)."
+
+#: templates/osoianu.html:100
+msgid "<strong>Anniversary diploma</strong> awarded by the „Universul Juridic” Publishing Group in recognition of editorial collaboration and contribution (3 April 2026)."
+msgstr "<strong>Diplomă aniversară</strong> acordată de Grupul Editorial „Universul Juridic” în semn de recunoaștere a colaborării și contribuției editoriale (3 aprilie 2026)."
+
+#: templates/osoianu.html:101
+msgid "<strong>Constantin Stere Prize</strong> in the field of legal and political sciences, Academy of Sciences of Moldova — Decision of the Presidium No. 157 of 5 November 2024, for the cycle of works „Criminal Investigation” (2022-2023)."
+msgstr "<strong>Premiul „Constantin Stere”</strong> în domeniul științelor juridice și politice, Academia de Științe a Moldovei — Hotărârea Prezidiului nr. 157 din 5 noiembrie 2024, pentru ciclul de lucrări „Urmărirea penală” (2022-2023)."
+
+#: templates/osoianu.html:102
+msgid "<strong>Medal „Promoter of the Culture of Quality in Education and Research”</strong>, First Class, awarded under the Order of ANACEC of 4 April 2023."
+msgstr "<strong>Medalia „Promotor al culturii calității în educație și cercetare”</strong>, clasa I, conferită prin Ordinul ANACEC din 4 aprilie 2023."
+
+#: templates/osoianu.html:106
+msgid "Tudor Osoianu is a renowned expert in criminal procedural law, criminalistics and forensic expertise, with over 30 years of experience in teaching, research, professional training, academic evaluation and legal practice. He has been actively involved in numerous international and national projects to improve the justice reform in the Republic of Moldova."
+msgstr "Tudor Osoianu este un expert renumit în domeniul dreptului procesual penal, criminalisticii și expertizei judiciare, cu o experiență de peste 30 de ani în activitatea didactică, cercetare științifică, formare profesională, evaluare academică și practică juridică. A fost implicat activ în numeroase proiecte internaționale și naționale dedicate consolidării reformei justiției în Republica Moldova."
+
+#: templates/osoianu.html:108
+msgid "He is the author and co-author of numerous monographs, university courses and scientific articles published in the Republic of Moldova, Romania, Ukraine, Poland and other recognized international publications. As a doctoral supervisor in Criminal Procedural Law, Criminalistics and Forensic Expertise, he has supervised six successfully defended PhD theses, including one PhD candidate of Romanian citizenship validated by CNRED."
+msgstr "Este autor și coautor al numeroaselor monografii, cursuri universitare și articole științifice publicate în Republica Moldova, România, Ucraina, Polonia și în alte publicații internaționale recunoscute. În calitate de conducător de doctorat la specialitatea Drept procesual penal, criminalistică și expertiză judiciară, a îndrumat șase teze de doctor susținute cu succes, inclusiv un doctorand de cetățenie română, validat de CNRED."

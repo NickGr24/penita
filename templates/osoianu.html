@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Tudor Osoianu - Profesor universitar, expert în drept procesual penal | Penița Dreptului{% endblock %}
+{% block title %}{% blocktrans %}Tudor Osoianu - Full Professor, expert in criminal procedural law{% endblocktrans %} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}Tudor Osoianu - doctor în drept, profesor universitar, expert în drept procesual penal, criminalistică și expertiză judiciară cu peste 30 de ani de experiență. Conducător de doctorat, laureat al Premiului „Constantin Stere".{% endblock %}
+{% block meta_description %}{% blocktrans %}Tudor Osoianu - PhD in Law, Full Professor of criminal procedural law, criminalistics and forensic expertise with over 30 years of experience. Doctoral supervisor and laureate of the Constantin Stere Prize.{% endblocktrans %}{% endblock %}
 
-{% block meta_keywords %}Tudor Osoianu, profesor universitar, doctor în drept, drept procesual penal, criminalistică Moldova, expertiză judiciară, conducător de doctorat, Premiul Constantin Stere, autor juridic, procedura penală{% endblock %}
+{% block meta_keywords %}{% blocktrans %}Tudor Osoianu, Full Professor, PhD in Law, criminal procedural law, criminalistics Moldova, forensic expertise, doctoral supervisor, Constantin Stere Prize, legal author, criminal procedure{% endblocktrans %}{% endblock %}
 
 {% block canonical %}https://penitadreptului.md/tudor-osoianu/{% endblock %}
 {% block og_url %}https://penitadreptului.md/tudor-osoianu/{% endblock %}
 {% block og_type %}profile{% endblock %}
-{% block og_title %}Tudor Osoianu - profesor universitar, expert în drept procesual penal{% endblock %}
-{% block og_description %}Doctor în drept, profesor universitar — expert în drept procesual penal, criminalistică și expertiză judiciară din Republica Moldova; conducător de doctorat, laureat al Premiului „Constantin Stere".{% endblock %}
+{% block og_title %}{% blocktrans %}Tudor Osoianu - Full Professor, expert in criminal procedural law{% endblocktrans %}{% endblock %}
+{% block og_description %}{% blocktrans %}PhD in Law, Full Professor — expert in criminal procedural law, criminalistics and forensic expertise from the Republic of Moldova; doctoral supervisor and laureate of the Constantin Stere Prize.{% endblocktrans %}{% endblock %}
 {% block og_image %}https://penitadreptului.md{% static 'img/osoianu2.webp' %}{% endblock %}
 
 {% block structured_data %}
@@ -20,13 +21,13 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Tudor Osoianu",
-    "jobTitle": "Profesor universitar de drept procesual penal, criminalistică și expertiză judiciară",
-    "description": "Doctor în drept, profesor universitar cu peste 30 de ani de experiență în drept procesual penal, criminalistică și expertiză judiciară; conducător de doctorat, laureat al Premiului „Constantin Stere\".",
+    "jobTitle": "Full Professor of Criminal Procedural Law, Criminalistics and Forensic Expertise",
+    "description": "Full Professor and PhD in Law with over 30 years of experience in criminal procedural law, criminalistics and forensic expertise; doctoral supervisor and laureate of the Constantin Stere Prize.",
     "image": "https://penitadreptului.md/static/img/osoianu2.webp",
     "url": "https://penitadreptului.md/tudor-osoianu/",
     "worksFor": {
         "@type": "Organization",
-        "name": "Academia „Ştefan cel Mare\" a Ministerului Afacerilor Interne al Republicii Moldova"
+        "name": "\"Ştefan cel Mare\" Academy of the Ministry of Internal Affairs of the Republic of Moldova"
     },
     "knowsLanguage": ["ro", "ru", "fr", "en"],
     "nationality": {
@@ -34,19 +35,19 @@
         "name": "Moldova"
     },
     "hasCredential": [
-        {"@type": "EducationalOccupationalCredential", "credentialCategory": "Doctor în drept"},
-        {"@type": "EducationalOccupationalCredential", "credentialCategory": "Profesor universitar"},
-        {"@type": "EducationalOccupationalCredential", "credentialCategory": "Conducător de doctorat"}
+        {"@type": "EducationalOccupationalCredential", "credentialCategory": "PhD in Law"},
+        {"@type": "EducationalOccupationalCredential", "credentialCategory": "Full Professor"},
+        {"@type": "EducationalOccupationalCredential", "credentialCategory": "Doctoral Supervisor"}
     ],
     "memberOf": [
-        {"@type": "Organization", "name": "Consiliul Institutului Naţional al Justiţiei"},
-        {"@type": "Organization", "name": "Consiliul Ştiinţific Consultativ al Curţii Supreme de Justiţie"},
-        {"@type": "Organization", "name": "Comisia de experţi pentru atestare nr. 8 (ANACEC)"}
+        {"@type": "Organization", "name": "Council of the National Institute of Justice"},
+        {"@type": "Organization", "name": "Scientific Advisory Council of the Supreme Court of Justice"},
+        {"@type": "Organization", "name": "ANACEC Expert Commission for Attestation No. 8"}
     ],
     "award": [
-        "Premiul „Constantin Stere\" al Academiei de Ştiinţe a Moldovei (2024)",
-        "Medalia „Promotor al culturii calităţii în educaţie şi cercetare\", clasa I, ANACEC (2023)",
-        "Diplomă aniversară, Grupul Editorial „Universul Juridic\" (2026)"
+        "Constantin Stere Prize, Academy of Sciences of Moldova (2024)",
+        "Medal \"Promoter of the Culture of Quality in Education and Research\", First Class, ANACEC (2023)",
+        "Anniversary diploma, \"Universul Juridic\" Publishing Group (2026)"
     ]
 }
 </script>
@@ -57,60 +58,60 @@
 {% block css_link %}
 <link rel="stylesheet" href="{% static 'css/authors-detail.css' %}">
 {% endblock css_link %}
-    
+
 {% include 'navbar.html' %}
 <div class="container">
     <div class="row">
         <div class="image-container">
-            <img src="{% static 'img/osoianu2.webp' %}" alt="Tudor Osoianu - Expert în Drept Procesual Penal" class="profile-image" width="400" height="533">
+            <img src="{% static 'img/osoianu2.webp' %}" alt="{% trans 'Tudor Osoianu - expert in criminal procedural law' %}" class="profile-image" width="400" height="533">
         </div>
         <div class="content-container">
             <h1 class="title">Tudor Osoianu</h1>
-            <p class="subtitle">Doctor în drept, profesor universitar — Catedra „Procedură penală, criminalistică şi securitate informaţională”, Academia „Ştefan cel Mare” a Ministerului Afacerilor Interne al Republicii Moldova.</p>
+            <p class="subtitle">{% blocktrans %}PhD in Law, Full Professor — Department of Criminal Procedure, Criminalistics and Information Security, „Ştefan cel Mare” Academy of the Ministry of Internal Affairs of the Republic of Moldova.{% endblocktrans %}</p>
 
-            <h3>Experiența profesională</h3>
+            <h3>{% trans "Professional experience" %}</h3>
             <ul>
-                <li><strong>Profesor universitar</strong>, Catedra „Procedură penală, criminalistică şi securitate informaţională”, Academia „Ştefan cel Mare” a MAI al Republicii Moldova (1995 - prezent).</li>
-                <li><strong>Membru al Consiliului Institutului Naţional al Justiţiei</strong>, desemnat de Ministerul Justiţiei (Ordinul nr. 281 din 11.11.2022).</li>
-                <li><strong>Membru al Comisiei de experţi pentru atestare nr. 8</strong> — ştiinţele juridice, politice, militare şi informaţionale, ANACEC (din 2020, reconfirmat prin Ordinul Ministerului Educaţiei şi Cercetării nr. 221 din 19.02.2025).</li>
-                <li><strong>Membru al Consiliului Ştiinţific Consultativ</strong> al Curţii Supreme de Justiţie, Colegiul penal (din 2014).</li>
-                <li><strong>Conducător de doctorat</strong> la specialitatea Drept procesual penal, criminalistică şi expertiză judiciară — şase teze de doctor susţinute cu succes sub conducerea sa.</li>
-                <li><strong>Formator</strong> la Institutul Naţional al Justiţiei, cursuri de formare iniţială şi continuă (din 2016).</li>
-                <li><strong>Avocat</strong>, Baroul Chişinău — Licenţa nr. 107 din 26 septembrie 2001.</li>
-                <li><strong>Cercetător ştiinţific coordonator</strong>, Institutul de Cercetări Juridice şi Politice al Academiei de Ştiinţe a Moldovei (2006-2023).</li>
+                <li>{% blocktrans %}<strong>Full Professor</strong>, Department of Criminal Procedure, Criminalistics and Information Security, „Ştefan cel Mare” Academy of the MIA of the Republic of Moldova (1995 - present).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Member of the Council of the National Institute of Justice</strong>, appointed by the Ministry of Justice (Order No. 281 of 11.11.2022).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Member of the Expert Commission for Attestation No. 8</strong> — legal, political, military and information sciences, ANACEC (since 2020, reconfirmed by Order of the Ministry of Education and Research No. 221 of 19.02.2025).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Member of the Scientific Advisory Council</strong> of the Supreme Court of Justice, Criminal Chamber (since 2014).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Doctoral Supervisor</strong> in Criminal Procedural Law, Criminalistics and Forensic Expertise — six PhD theses successfully defended under his supervision.{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Trainer</strong> at the National Institute of Justice in initial and continuous training courses (since 2016).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Attorney at Law</strong>, Chișinău Bar — Licence No. 107 of 26 September 2001.{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Coordinating Senior Researcher</strong>, Institute for Legal and Political Research of the Academy of Sciences of Moldova (2006-2023).{% endblocktrans %}</li>
             </ul>
 
-            <h3>Educație și formare</h3>
+            <h3>{% trans "Education and training" %}</h3>
             <ul>
-                <li><strong>Atestat de profesor universitar</strong>, Decizia Consiliului de Conducere al ANACEC nr. 8 din 30.10.2021.</li>
-                <li><strong>Abilitare de conducător de doctorat</strong> la specialitatea Drept procesual penal, acordată pe termen nelimitat prin Decizia ANACEC nr. 15 din 24 mai 2024.</li>
-                <li><strong>Atestat de conferenţiar universitar</strong>, Consiliul Naţional pentru Acreditare şi Atestare (2005).</li>
-                <li><strong>Doctor în drept</strong>, specialitatea 12.00.09 - Procedură penală, criminalistică, expertiză judiciară, Universitatea Liberă Internaţională din Moldova (ULIM), 2001.</li>
-                <li><strong>Stagiu de perfecţionare</strong> în domeniul dreptului penal şi criminalisticii, Universitatea Central Europeană, Budapesta (2014).</li>
-                <li><strong>Stagiu de perfecţionare profesională</strong> la Şcoala Naţională de Administraţie Penitenciară (ÉNAP), Agen, Franţa (2002).</li>
-                <li><strong>Diplomă cu menţiune</strong>, Academia Naţională de Poliţie „Ştefan cel Mare” (1991-1995).</li>
+                <li>{% blocktrans %}<strong>Certificate of Full Professor</strong>, Decision of the ANACEC Governing Council No. 8 of 30.10.2021.{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Authorization as Doctoral Supervisor</strong> in Criminal Procedural Law, granted for an unlimited term by ANACEC Decision No. 15 of 24 May 2024.{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Certificate of Associate Professor</strong>, National Council for Accreditation and Attestation (2005).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>PhD in Law</strong>, speciality 12.00.09 - Criminal Procedure, Criminalistics, Forensic Expertise, Free International University of Moldova (ULIM), 2001.{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Specialization internship</strong> in criminal law and forensics, Central European University, Budapest (2014).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Professional development internship</strong> at the National School of Penitentiary Administration (ÉNAP), Agen, France (2002).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Diploma with honours</strong>, „Ştefan cel Mare” National Police Academy (1991-1995).{% endblocktrans %}</li>
             </ul>
 
-            <h3>Competențe personale</h3>
-            <p><strong>Limbi vorbite (CEFR):</strong> Română (maternă), Rusă (C2), Engleză (B1), Franceză (A2).</p>
+            <h3>{% trans "Personal skills" %}</h3>
+            <p>{% blocktrans %}<strong>Languages (CEFR):</strong> Romanian (native), Russian (C2), English (B1), French (A2).{% endblocktrans %}</p>
 
-            <h3>Distincții și premii</h3>
+            <h3>{% trans "Awards and distinctions" %}</h3>
             <ul>
-                <li><strong>Diplomă aniversară</strong> acordată de Grupul Editorial „Universul Juridic” în semn de recunoaştere a colaborării şi contribuţiei editoriale (3 aprilie 2026).</li>
-                <li><strong>Premiul „Constantin Stere”</strong> în domeniul ştiinţelor juridice şi politice, Academia de Ştiinţe a Moldovei — Hotărârea Prezidiului nr. 157 din 5 noiembrie 2024, pentru ciclul de lucrări „Urmărirea penală” (2022-2023).</li>
-                <li><strong>Medalia „Promotor al culturii calităţii în educaţie şi cercetare”</strong>, clasa I, conferită prin Ordinul ANACEC din 4 aprilie 2023.</li>
+                <li>{% blocktrans %}<strong>Anniversary diploma</strong> awarded by the „Universul Juridic” Publishing Group in recognition of editorial collaboration and contribution (3 April 2026).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Constantin Stere Prize</strong> in the field of legal and political sciences, Academy of Sciences of Moldova — Decision of the Presidium No. 157 of 5 November 2024, for the cycle of works „Criminal Investigation” (2022-2023).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Medal „Promoter of the Culture of Quality in Education and Research”</strong>, First Class, awarded under the Order of ANACEC of 4 April 2023.{% endblocktrans %}</li>
             </ul>
 
-            <h3>Despre autor</h3>
-            <p>Tudor Osoianu este un expert renumit în domeniul dreptului procesual penal, criminalisticii şi expertizei judiciare, cu o experienţă de peste 30 de ani în activitatea didactică, cercetare ştiinţifică, formare profesională, evaluare academică şi practică juridică. A fost implicat activ în numeroase proiecte internaţionale şi naţionale dedicate consolidării reformei justiţiei în Republica Moldova.</p>
+            <h3>{% trans "About the author" %}</h3>
+            <p>{% blocktrans %}Tudor Osoianu is a renowned expert in criminal procedural law, criminalistics and forensic expertise, with over 30 years of experience in teaching, research, professional training, academic evaluation and legal practice. He has been actively involved in numerous international and national projects to improve the justice reform in the Republic of Moldova.{% endblocktrans %}</p>
 
-            <p>Este autor şi coautor al numeroaselor monografii, cursuri universitare şi articole ştiinţifice publicate în Republica Moldova, România, Ucraina, Polonia şi în alte publicaţii internaţionale recunoscute. În calitate de conducător de doctorat la specialitatea Drept procesual penal, criminalistică şi expertiză judiciară, a îndrumat şase teze de doctor susţinute cu succes, inclusiv un doctorand de cetăţenie română, validat de CNRED.</p>
+            <p>{% blocktrans %}He is the author and co-author of numerous monographs, university courses and scientific articles published in the Republic of Moldova, Romania, Ukraine, Poland and other recognized international publications. As a doctoral supervisor in Criminal Procedural Law, Criminalistics and Forensic Expertise, he has supervised six successfully defended PhD theses, including one PhD candidate of Romanian citizenship validated by CNRED.{% endblocktrans %}</p>
         </div>
     </div>
 
     {% if articles %}
     <div class="publications-section">
-        <h2>Articolele autorului</h2>
+        <h2>{% trans "Author's articles" %}</h2>
         <ul class="publications-list">
             {% for article in articles %}
             <li><a href="/articles/{{ article.slug }}/">{{ article.name }}</a>
@@ -123,7 +124,7 @@
 
     {% if books %}
     <div class="publications-section">
-        <h2>Cărțile autorului</h2>
+        <h2>{% trans "Author's books" %}</h2>
         <ul class="publications-list">
             {% for book in books %}
             <li><a href="/books/{{ book.slug }}/">{{ book.title }}</a></li>
