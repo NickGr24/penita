@@ -888,6 +888,25 @@ h1, h2, h3, h4, h5, h6 {
     .cookie-btn { flex: 1 1 auto; }
 }
 
+/* Profile icon link in navbar */
+.navlink.navlink--icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    line-height: 0;
+}
+.profile-icon {
+    width: 24px;
+    height: 24px;
+    color: #fff;
+    transition: color 0.3s ease, transform 0.18s ease;
+}
+.navlink--icon:hover .profile-icon {
+    color: olivedrab;
+    transform: scale(1.08);
+}
+
 /* === Personal account dashboard === */
 .dashboard {
     max-width: 1100px;
