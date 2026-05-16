@@ -2004,3 +2004,127 @@ msgstr "The email you typed does not match your account email."
 #: main/views.py:274
 msgid "Your account has been permanently deleted."
 msgstr "Your account has been permanently deleted."
+
+#: templates/account/password_change.html:6 templates/account/password_change.html:23
+msgid "Update the password for your account."
+msgstr "Update the password for your account."
+
+#: templates/account/password_change.html:43
+msgid "Current password"
+msgstr "Current password"
+
+#: templates/account/password_change.html:50
+msgid "New password"
+msgstr "New password"
+
+#: templates/account/password_change.html:57
+msgid "Confirm new password"
+msgstr "Confirm new password"
+
+#: templates/account/password_change.html:71
+msgid "Forgot your current password?"
+msgstr "Forgot your current password?"
+
+#: templates/account/password_change.html:72
+msgid "Back to account"
+msgstr "Back to account"
+
+#: templates/account/password_set.html:5 templates/account/password_set.html:22
+msgid "Set password"
+msgstr "Set password"
+
+#: templates/account/password_set.html:23
+msgid "Create a password to also be able to sign in with email and password."
+msgstr "Create a password to also be able to sign in with email and password."
+
+
+
+#: templates/account/password_reset.html:5
+msgid "Reset password"
+msgstr "Reset password"
+
+#: templates/account/password_reset.html:22
+msgid "Forgot your password?"
+msgstr "Forgot your password?"
+
+#: templates/account/password_reset.html:23
+msgid "Enter the email associated with your account. We'll send you a link to reset your password."
+msgstr "Enter the email associated with your account. We'll send you a link to reset your password."
+
+#: templates/account/password_reset.html:45
+msgid "Send reset link"
+msgstr "Send reset link"
+
+#: templates/account/password_reset.html:52
+msgid "Remembered it?"
+msgstr "Remembered it?"
+
+#: templates/account/password_reset_done.html:5
+msgid "Email sent"
+msgstr "Email sent"
+
+#: templates/account/password_reset_done.html:22
+msgid "Check your email"
+msgstr "Check your email"
+
+#: templates/account/password_reset_done.html:23
+msgid "We've sent you an email with a link to reset your password. Open the message and follow the link to set a new password."
+msgstr "We've sent you an email with a link to reset your password. Open the message and follow the link to set a new password."
+
+#: templates/account/password_reset_done.html:24
+msgid "Didn't receive anything? Check your spam folder or try again with another email."
+msgstr "Didn't receive anything? Check your spam folder or try again with another email."
+
+#: templates/account/password_reset_done.html:29
+msgid "Back to sign in"
+msgstr "Back to sign in"
+
+#: templates/account/password_reset_from_key.html:5
+msgid "Set a new password"
+msgstr "Set a new password"
+
+#: templates/account/password_reset_from_key.html:22
+msgid "Invalid link"
+msgstr "Invalid link"
+
+#: templates/account/password_reset_from_key.html:24
+msgid "This password-reset link is invalid or has expired. Please request a new one."
+msgstr "This password-reset link is invalid or has expired. Please request a new one."
+
+#: templates/account/password_reset_from_key.html:26
+msgid "Choose a strong password you don't use anywhere else."
+msgstr "Choose a strong password you don't use anywhere else."
+
+#: templates/account/password_reset_from_key.html:64
+msgid "Request a new link"
+msgstr "Request a new link"
+
+#: templates/account/password_reset_from_key_done.html:5
+msgid "Password changed"
+msgstr "Password changed"
+
+#: templates/account/password_reset_from_key_done.html:22
+msgid "Your password has been changed"
+msgstr "Your password has been changed"
+
+#: templates/account/password_reset_from_key_done.html:23
+msgid "You can now sign in with your new password."
+msgstr "You can now sign in with your new password."
+
+
+#: templates/account/logout.html:21
+msgid "Are you sure you want to sign out?"
+msgstr "Are you sure you want to sign out?"
+
+#: templates/account/logout.html:30
+msgid "Yes, sign out"
+msgstr "Yes, sign out"
+
+#: templates/account/logout.html:35
+msgid "Back to home"
+msgstr "Back to home"
+
+#: templates/account/base.html:8
+msgid "Account"
+msgstr "Account"
+

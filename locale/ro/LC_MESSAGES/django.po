@@ -1819,3 +1819,127 @@ msgstr "Emailul introdus nu corespunde emailului contului tău."
 #: main/views.py:274
 msgid "Your account has been permanently deleted."
 msgstr "Contul tău a fost șters definitiv."
+
+#: templates/account/password_change.html:6 templates/account/password_change.html:23
+msgid "Update the password for your account."
+msgstr "Actualizează parola contului tău."
+
+#: templates/account/password_change.html:43
+msgid "Current password"
+msgstr "Parola actuală"
+
+#: templates/account/password_change.html:50
+msgid "New password"
+msgstr "Parola nouă"
+
+#: templates/account/password_change.html:57
+msgid "Confirm new password"
+msgstr "Confirmă parola nouă"
+
+#: templates/account/password_change.html:71
+msgid "Forgot your current password?"
+msgstr "Ai uitat parola actuală?"
+
+#: templates/account/password_change.html:72
+msgid "Back to account"
+msgstr "Înapoi la cont"
+
+#: templates/account/password_set.html:5 templates/account/password_set.html:22
+msgid "Set password"
+msgstr "Setează parola"
+
+#: templates/account/password_set.html:23
+msgid "Create a password to also be able to sign in with email and password."
+msgstr "Creează o parolă pentru a te putea autentifica și cu email și parolă."
+
+
+
+#: templates/account/password_reset.html:5
+msgid "Reset password"
+msgstr "Resetează parola"
+
+#: templates/account/password_reset.html:22
+msgid "Forgot your password?"
+msgstr "Ai uitat parola?"
+
+#: templates/account/password_reset.html:23
+msgid "Enter the email associated with your account. We'll send you a link to reset your password."
+msgstr "Introdu emailul asociat contului tău. Îți vom trimite un link pentru a-ți reseta parola."
+
+#: templates/account/password_reset.html:45
+msgid "Send reset link"
+msgstr "Trimite link-ul de resetare"
+
+#: templates/account/password_reset.html:52
+msgid "Remembered it?"
+msgstr "Ți-ai amintit?"
+
+#: templates/account/password_reset_done.html:5
+msgid "Email sent"
+msgstr "Email trimis"
+
+#: templates/account/password_reset_done.html:22
+msgid "Check your email"
+msgstr "Verifică-ți emailul"
+
+#: templates/account/password_reset_done.html:23
+msgid "We've sent you an email with a link to reset your password. Open the message and follow the link to set a new password."
+msgstr "Ți-am trimis un email cu un link pentru a-ți reseta parola. Deschide mesajul și urmează link-ul pentru a seta o parolă nouă."
+
+#: templates/account/password_reset_done.html:24
+msgid "Didn't receive anything? Check your spam folder or try again with another email."
+msgstr "Nu ai primit nimic? Verifică folderul de spam sau încearcă din nou cu alt email."
+
+#: templates/account/password_reset_done.html:29
+msgid "Back to sign in"
+msgstr "Înapoi la autentificare"
+
+#: templates/account/password_reset_from_key.html:5
+msgid "Set a new password"
+msgstr "Setează o parolă nouă"
+
+#: templates/account/password_reset_from_key.html:22
+msgid "Invalid link"
+msgstr "Link invalid"
+
+#: templates/account/password_reset_from_key.html:24
+msgid "This password-reset link is invalid or has expired. Please request a new one."
+msgstr "Acest link de resetare a parolei este invalid sau a expirat. Te rugăm să soliciți unul nou."
+
+#: templates/account/password_reset_from_key.html:26
+msgid "Choose a strong password you don't use anywhere else."
+msgstr "Alege o parolă puternică pe care nu o folosești în altă parte."
+
+#: templates/account/password_reset_from_key.html:64
+msgid "Request a new link"
+msgstr "Solicită un link nou"
+
+#: templates/account/password_reset_from_key_done.html:5
+msgid "Password changed"
+msgstr "Parolă schimbată"
+
+#: templates/account/password_reset_from_key_done.html:22
+msgid "Your password has been changed"
+msgstr "Parola ta a fost schimbată"
+
+#: templates/account/password_reset_from_key_done.html:23
+msgid "You can now sign in with your new password."
+msgstr "Acum te poți autentifica cu parola nouă."
+
+
+#: templates/account/logout.html:21
+msgid "Are you sure you want to sign out?"
+msgstr "Ești sigur că vrei să ieși din cont?"
+
+#: templates/account/logout.html:30
+msgid "Yes, sign out"
+msgstr "Da, ieși din cont"
+
+#: templates/account/logout.html:35
+msgid "Back to home"
+msgstr "Înapoi la pagina principală"
+
+#: templates/account/base.html:8
+msgid "Account"
+msgstr "Cont"
+

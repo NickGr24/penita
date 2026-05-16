@@ -409,3 +409,113 @@
     background-color: #0056b3;
 }
 
+/* === Helpers used by password reset / verification info pages === */
+.info-icon {
+    text-align: center;
+    font-size: 3.4rem;
+    margin: 6px 0 8px;
+    line-height: 1;
+}
+.muted-note {
+    color: #888 !important;
+    font-size: 0.88rem !important;
+    margin-top: 14px !important;
+    font-style: italic;
+}
+
+/* Stand-alone logout / info card — reuses .login-wrapper / .login-container shell */
+.logout-container {
+    max-width: 480px;
+    margin: 60px auto;
+    padding: 40px 36px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 12px 36px rgba(20, 30, 10, 0.12);
+    text-align: center;
+    font-family: 'Inter', 'Poppins', sans-serif;
+}
+.logout-container h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #1d2a0c;
+    font-size: 1.6rem;
+    margin: 10px 0 18px;
+}
+.logout-container p { color: #555; line-height: 1.6; margin-bottom: 20px; }
+.logout-container a {
+    color: #6B8E23;
+    font-weight: 600;
+    text-decoration: none;
+}
+.logout-container a:hover { text-decoration: underline; }
+
+/* Account/email/connections list pages — fallback when an Allauth page
+   isn't fully overridden but inherits our account/base.html shell. */
+.auth-page {
+    max-width: 760px;
+    margin: 60px auto;
+    padding: 0 20px;
+    font-family: 'Inter', 'Poppins', sans-serif;
+}
+.auth-page__card {
+    background: #fff;
+    border: 1px solid #e0e5d1;
+    border-radius: 16px;
+    padding: 36px 38px;
+    box-shadow: 0 8px 28px rgba(20, 30, 10, 0.06);
+    color: #2c3e50;
+}
+.auth-page__card h1, .auth-page__card h2 {
+    font-family: 'Poppins', sans-serif;
+    color: #1d2a0c;
+    margin-top: 0;
+}
+.auth-page__card p { line-height: 1.6; color: #444; }
+.auth-page__card a { color: #6B8E23; font-weight: 600; }
+.auth-page__card a:hover { color: #556B2F; }
+.auth-page__card form button[type="submit"],
+.auth-page__card button[type="submit"] {
+    background: #6B8E23;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 11px 22px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.auth-page__card form button[type="submit"]:hover,
+.auth-page__card button[type="submit"]:hover { background: #556B2F; }
+.auth-page__card input[type="email"],
+.auth-page__card input[type="password"],
+.auth-page__card input[type="text"] {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #d0d5c3;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin: 6px 0 14px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+.auth-page__card input:focus { outline: none; border-color: #6B8E23; box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.15); }
+.auth-page__card ul { padding-left: 22px; line-height: 1.7; }
+.auth-page__card ul li { margin-bottom: 6px; }
+.auth-messages { max-width: 760px; margin: 16px auto -10px; padding: 0 20px; }
+.auth-message {
+    background: #f4f7e9;
+    border-left: 4px solid #6B8E23;
+    color: #2c3e50;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 10px;
+    font-family: 'Inter', 'Poppins', sans-serif;
+    font-size: 0.92rem;
+}
+.auth-message--error, .auth-message--danger {
+    background: #fdecea;
+    border-left-color: #b3261e;
+    color: #5e1410;
+}
+

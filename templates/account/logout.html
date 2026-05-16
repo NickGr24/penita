@@ -1,8 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Sign out" %} | Penița Dreptului{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block css_link %}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock css_link %}
 
 {% block content %}
+{% include 'navbar.html' %}
 <div class="logout-container">
-    <h2>You have been logged out.</h2>
-    <a href="{% url 'login' %}">Log in again</a>
+    <div class="info-icon" aria-hidden="true">👋</div>
+    <h2>{% trans "Sign out" %}</h2>
+    <p>{% trans "Are you sure you want to sign out?" %}</p>
+
+    <form method="post" action="{% url 'account_logout' %}" style="margin-top:18px">
+        {% csrf_token %}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+        {% endif %}
+        <button type="submit" class="btn-login" style="margin-top:0;display:inline-block">
+            {% trans "Yes, sign out" %}
+        </button>
+    </form>
+
+    <p style="margin-top:22px">
+        <a href="{% url 'home' %}">← {% trans "Back to home" %}</a>
+    </p>
 </div>
 {% endblock content %}
