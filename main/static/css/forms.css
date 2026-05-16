@@ -314,6 +314,12 @@
     color: #db4437;
 }
 
+.btn-google .google-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
 .login-footer {
     text-align: center;
     margin-top: 25px;
