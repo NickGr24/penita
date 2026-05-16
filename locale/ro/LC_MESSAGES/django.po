@@ -1659,3 +1659,47 @@ msgstr "Tudor Osoianu este un expert în domeniul dreptului procesual penal, cri
 #: templates/osoianu.html:108
 msgid "He is the author and co-author of numerous monographs, university courses and scientific articles published in the Republic of Moldova, Romania, Ukraine, Poland and other recognized international publications. As a doctoral supervisor in Criminal Procedural Law, Criminalistics and Forensic Expertise, he has supervised six successfully defended PhD theses, including one PhD candidate of Romanian citizenship validated by CNRED."
 msgstr "Este autor și coautor al numeroaselor monografii, cursuri universitare și articole științifice publicate în Republica Moldova, România, Ucraina, Polonia și în alte publicații internaționale recunoscute. În calitate de conducător de doctorat la specialitatea Drept procesual penal, criminalistică și expertiză judiciară, a îndrumat șase teze de doctor susținute cu succes, inclusiv un doctorand de cetățenie română, validat de CNRED."
+
+#: templates/partials/cookie_banner.html:5
+msgid "We use cookies"
+msgstr "Folosim cookie-uri"
+
+#: templates/partials/cookie_banner.html:7
+msgid "We use cookies to improve your experience and to understand how the site is used. You decide which categories to accept."
+msgstr "Folosim cookie-uri pentru a îmbunătăți experiența ta și a înțelege cum este folosit site-ul. Tu decizi ce categorii accepți."
+
+#: templates/partials/cookie_banner.html:15
+msgid "Essential"
+msgstr "Esențiale"
+
+#: templates/partials/cookie_banner.html:17
+msgid "Always active — required for login, payments and basic site functions."
+msgstr "Întotdeauna active — necesare pentru autentificare, plăți și funcțiile de bază ale site-ului."
+
+#: templates/partials/cookie_banner.html:23
+msgid "Analytics"
+msgstr "Analiză"
+
+#: templates/partials/cookie_banner.html:25
+msgid "Help us understand how visitors interact with the site (Google Analytics, Microsoft Clarity)."
+msgstr "Ne ajută să înțelegem cum interacționează vizitatorii cu site-ul (Google Analytics, Microsoft Clarity)."
+
+#: templates/partials/cookie_banner.html:31
+msgid "Marketing"
+msgstr "Marketing"
+
+#: templates/partials/cookie_banner.html:33
+msgid "Used for personalized advertising — not yet active on this site."
+msgstr "Folosite pentru publicitate personalizată — nu sunt active încă pe acest site."
+
+#: templates/partials/cookie_banner.html:40
+msgid "Customize"
+msgstr "Personalizează"
+
+#: templates/partials/cookie_banner.html:43
+msgid "Save preferences"
+msgstr "Salvează preferințele"
+
+#: templates/partials/cookie_banner.html:46
+msgid "Accept all"
+msgstr "Acceptă toate"

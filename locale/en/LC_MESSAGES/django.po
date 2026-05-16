@@ -1844,3 +1844,47 @@ msgstr "Tudor Osoianu is an expert in criminal procedural law, criminalistics an
 #: templates/osoianu.html:108
 msgid "He is the author and co-author of numerous monographs, university courses and scientific articles published in the Republic of Moldova, Romania, Ukraine, Poland and other recognized international publications. As a doctoral supervisor in Criminal Procedural Law, Criminalistics and Forensic Expertise, he has supervised six successfully defended PhD theses, including one PhD candidate of Romanian citizenship validated by CNRED."
 msgstr "He is the author and co-author of numerous monographs, university courses and scientific articles published in the Republic of Moldova, Romania, Ukraine, Poland and other recognized international publications. As a doctoral supervisor in Criminal Procedural Law, Criminalistics and Forensic Expertise, he has supervised six successfully defended PhD theses, including one PhD candidate of Romanian citizenship validated by CNRED."
+
+#: templates/partials/cookie_banner.html:5
+msgid "We use cookies"
+msgstr "We use cookies"
+
+#: templates/partials/cookie_banner.html:7
+msgid "We use cookies to improve your experience and to understand how the site is used. You decide which categories to accept."
+msgstr "We use cookies to improve your experience and to understand how the site is used. You decide which categories to accept."
+
+#: templates/partials/cookie_banner.html:15
+msgid "Essential"
+msgstr "Essential"
+
+#: templates/partials/cookie_banner.html:17
+msgid "Always active — required for login, payments and basic site functions."
+msgstr "Always active — required for login, payments and basic site functions."
+
+#: templates/partials/cookie_banner.html:23
+msgid "Analytics"
+msgstr "Analytics"
+
+#: templates/partials/cookie_banner.html:25
+msgid "Help us understand how visitors interact with the site (Google Analytics, Microsoft Clarity)."
+msgstr "Help us understand how visitors interact with the site (Google Analytics, Microsoft Clarity)."
+
+#: templates/partials/cookie_banner.html:31
+msgid "Marketing"
+msgstr "Marketing"
+
+#: templates/partials/cookie_banner.html:33
+msgid "Used for personalized advertising — not yet active on this site."
+msgstr "Used for personalized advertising — not yet active on this site."
+
+#: templates/partials/cookie_banner.html:40
+msgid "Customize"
+msgstr "Customize"
+
+#: templates/partials/cookie_banner.html:43
+msgid "Save preferences"
+msgstr "Save preferences"
+
+#: templates/partials/cookie_banner.html:46
+msgid "Accept all"
+msgstr "Accept all"

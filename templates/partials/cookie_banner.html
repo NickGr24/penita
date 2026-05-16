@@ -1,0 +1,50 @@
+{% load i18n %}
+<div id="cookie-banner" class="cookie-banner" hidden role="dialog" aria-modal="false" aria-labelledby="cookie-banner-title" aria-describedby="cookie-banner-text">
+    <div class="cookie-banner__inner">
+        <div class="cookie-banner__copy">
+            <h3 id="cookie-banner-title" class="cookie-banner__title">{% trans "We use cookies" %} 🍪</h3>
+            <p id="cookie-banner-text" class="cookie-banner__text">
+                {% blocktrans %}We use cookies to improve your experience and to understand how the site is used. You decide which categories to accept.{% endblocktrans %}
+                <a href="{% url 'privacy_policy' %}">{% trans "Privacy policy" %}</a>
+            </p>
+        </div>
+
+        <div class="cookie-banner__choices" id="cookie-choices" hidden>
+            <label class="cookie-choice cookie-choice--locked">
+                <input type="checkbox" checked disabled data-category="essential">
+                <span class="cookie-choice__label">
+                    <strong>{% trans "Essential" %}</strong>
+                    <small>{% trans "Always active — required for login, payments and basic site functions." %}</small>
+                </span>
+            </label>
+
+            <label class="cookie-choice">
+                <input type="checkbox" data-category="analytics" id="cookie-analytics">
+                <span class="cookie-choice__label">
+                    <strong>{% trans "Analytics" %}</strong>
+                    <small>{% trans "Help us understand how visitors interact with the site (Google Analytics, Microsoft Clarity)." %}</small>
+                </span>
+            </label>
+
+            <label class="cookie-choice">
+                <input type="checkbox" data-category="marketing" id="cookie-marketing">
+                <span class="cookie-choice__label">
+                    <strong>{% trans "Marketing" %}</strong>
+                    <small>{% trans "Used for personalized advertising — not yet active on this site." %}</small>
+                </span>
+            </label>
+        </div>
+
+        <div class="cookie-banner__actions">
+            <button type="button" class="cookie-btn cookie-btn--ghost" data-cookie-action="customize">
+                {% trans "Customize" %}
+            </button>
+            <button type="button" class="cookie-btn cookie-btn--ghost" data-cookie-action="save" hidden>
+                {% trans "Save preferences" %}
+            </button>
+            <button type="button" class="cookie-btn cookie-btn--primary" data-cookie-action="accept-all">
+                {% trans "Accept all" %}
+            </button>
+        </div>
+    </div>
+</div>
