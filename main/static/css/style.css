@@ -6,9 +6,17 @@
 
 body {
     font-family: 'Merriweather', Georgia, serif;
-    background: linear-gradient(180deg, #f5f5f5 0%, #e8ebe8 50%, #f0f4e8 100%);
     min-height: 100vh;
     line-height: 1.7;
+    background-color: #d6e2a6;
+    background-image:
+        url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.16  0 0 0 0 0.05  0 0 0 0.75 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E"),
+        radial-gradient(circle at 20% 15%, rgba(244,250,216,0.60) 0%, transparent 55%),
+        radial-gradient(circle at 85% 90%, rgba(155,178,98,0.35) 0%, transparent 60%),
+        linear-gradient(135deg, #e8f0c4 0%, #c8d894 55%, #dde8aa 100%);
+    background-attachment: fixed;
+    background-size: 220px 220px, 100% 100%, 100% 100%, 100% 100%;
+    background-repeat: repeat, no-repeat, no-repeat, no-repeat;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -73,9 +81,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .news-section .section-title {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: #1d2a0c;
+    letter-spacing: 0.5px;
+    margin-bottom: 30px;
 }
 
 .news-slider {
@@ -226,16 +237,18 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 36px;
-    color: #333;
-    margin-bottom: 20px;
+    color: #1d2a0c;
+    letter-spacing: 0.5px;
+    margin-bottom: 30px;
 }
 
 .section-intro p {
     font-size: 18px;
-    color: #666;
+    color: #2a3517;
     line-height: 1.6;
     max-width: 800px;
     margin: 0 auto 40px auto;
+    font-weight: 500;
 }
 
 .content {
@@ -291,14 +304,15 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 24px;
-    color: #333;
+    color: #1d2a0c;
     margin-bottom: 5px;
     text-align: center;
 }
 
 .content-item p {
     font-size: 16px;
-    color: #555;
+    color: #2a3517;
+    font-weight: 500;
 }
 
 .btn {
@@ -331,8 +345,9 @@ h1, h2, h3, h4, h5, h6 {
 .home-books-section h2 {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 2rem;
-    color: #333;
+    font-size: 36px;
+    color: #1d2a0c;
+    letter-spacing: 0.5px;
     margin-bottom: 30px;
 }
 
@@ -422,8 +437,8 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 36px;
-    color: #333;
-    letter-spacing: 1px;
+    color: #1d2a0c;
+    letter-spacing: 0.5px;
     margin-bottom: 30px;
 }
 
@@ -559,10 +574,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 .faq-section .section-title {
     text-align: center;
-    color: #2c3e50;
-    font-size: 2rem;
+    color: #1d2a0c;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    letter-spacing: 0.5px;
     margin-bottom: 30px;
-    font-family: 'Oswald', sans-serif;
 }
 .faq-container {
     display: flex;
@@ -574,12 +591,28 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid #e0e5d1;
     border-radius: 10px;
     padding: 18px 22px;
-    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    transition: box-shadow 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+                background-color 0.32s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .faq-item[open] {
     border-color: #6B8E23;
     box-shadow: 0 6px 18px rgba(107, 142, 35, 0.12);
     background: #fff;
+}
+.faq-panel {
+    overflow: hidden;
+    transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.faq-panel > p {
+    transform: translateY(-4px);
+    opacity: 0;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1) 0.05s,
+                opacity 0.28s ease 0.05s;
+}
+.faq-item[open] .faq-panel > p {
+    transform: translateY(0);
+    opacity: 1;
 }
 .faq-item summary {
     cursor: pointer;
@@ -620,7 +653,12 @@ h1, h2, h3, h4, h5, h6 {
 .faq-item p a:hover { text-decoration: underline; }
 @media (max-width: 480px) {
     .faq-section { margin: 40px auto; }
-    .faq-section .section-title { font-size: 1.5rem; }
+    .news-section .section-title,
+    .section-intro h2,
+    .home-articles-section h2,
+    .home-books-section h2,
+    .benefits-section h2,
+    .faq-section .section-title { font-size: 28px; }
     .faq-item summary { font-size: 0.98rem; }
 }
 
