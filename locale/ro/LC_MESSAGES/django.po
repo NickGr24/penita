@@ -1703,3 +1703,119 @@ msgstr "Salvează preferințele"
 #: templates/partials/cookie_banner.html:46
 msgid "Accept all"
 msgstr "Acceptă toate"
+
+#: templates/account/dashboard.html:5
+msgid "My account"
+msgstr "Contul meu"
+
+#: templates/account/dashboard.html:7
+msgid "Your personal area at Penița Dreptului — purchased books, reading progress and account management."
+msgstr "Zona ta personală pe Penița Dreptului — cărți cumpărate, progresul de citire și administrarea contului."
+
+#: templates/account/dashboard.html:21
+msgid "Welcome, <strong>%(email)s</strong>"
+msgstr "Bun venit, <strong>%(email)s</strong>"
+
+#: templates/account/dashboard.html:27
+msgid "My books"
+msgstr "Cărțile mele"
+
+#: templates/account/dashboard.html:50
+msgid "Page %(page)s"
+msgstr "Pagina %(page)s"
+
+#: templates/account/dashboard.html:59
+msgid "Continue reading"
+msgstr "Continuă lectura"
+
+#: templates/account/dashboard.html:61
+msgid "Start reading"
+msgstr "Începe lectura"
+
+#: templates/account/dashboard.html:71
+msgid "You haven't purchased any books yet."
+msgstr "Nu ai cumpărat încă nicio carte."
+
+#: templates/account/dashboard.html:72
+msgid "Browse books"
+msgstr "Vezi cărțile"
+
+#: templates/account/dashboard.html:79
+msgid "Profile"
+msgstr "Profil"
+
+#: templates/account/dashboard.html:81
+msgid "Email"
+msgstr "Email"
+
+#: templates/account/dashboard.html:85
+msgid "Member since"
+msgstr "Membru din"
+
+#: templates/account/dashboard.html:90
+msgid "Change password"
+msgstr "Schimbă parola"
+
+#: templates/account/dashboard.html:93
+msgid "Delete account"
+msgstr "Șterge contul"
+
+#: templates/account/dashboard.html:100
+msgid "Purchase history"
+msgstr "Istoricul plăților"
+
+#: templates/account/dashboard.html:109
+msgid "Book"
+msgstr "Cartea"
+
+#: templates/account/dashboard.html:111
+msgid "Status"
+msgstr "Status"
+
+#: templates/account/dashboard.html:128
+msgid "No purchases yet."
+msgstr "Nicio achiziție încă."
+
+#: templates/account/account_delete.html:5
+msgid "Delete account permanently?"
+msgstr "Șterge definitiv contul?"
+
+#: templates/account/account_delete.html:16
+msgid "This action is <strong>irreversible</strong>. The following data will be permanently erased:"
+msgstr "Această acțiune este <strong>ireversibilă</strong>. Următoarele date vor fi șterse definitiv:"
+
+#: templates/account/account_delete.html:18
+msgid "Your profile (email, username)"
+msgstr "Profilul tău (email, nume de utilizator)"
+
+#: templates/account/account_delete.html:19
+msgid "Your purchase history and access to purchased books"
+msgstr "Istoricul plăților și accesul la cărțile cumpărate"
+
+#: templates/account/account_delete.html:20
+msgid "Your reading progress and highlights"
+msgstr "Progresul de citire și evidențierile"
+
+#: templates/account/account_delete.html:22
+msgid "Purchases already paid will not be refunded — please contact us first if you need a refund."
+msgstr "Achizițiile deja plătite nu vor fi rambursate — te rugăm să ne contactezi mai întâi dacă ai nevoie de rambursare."
+
+#: templates/account/account_delete.html:28
+msgid "To confirm, type your account email (%(email)s) below:"
+msgstr "Pentru a confirma, introdu mai jos emailul contului tău (%(email)s):"
+
+#: templates/account/account_delete.html:34
+msgid "Cancel"
+msgstr "Anulează"
+
+#: templates/account/account_delete.html:37
+msgid "Yes, delete my account"
+msgstr "Da, șterge contul meu"
+
+#: main/views.py:268
+msgid "The email you typed does not match your account email."
+msgstr "Emailul introdus nu corespunde emailului contului tău."
+
+#: main/views.py:274
+msgid "Your account has been permanently deleted."
+msgstr "Contul tău a fost șters definitiv."

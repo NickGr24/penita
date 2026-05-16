@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from django.utils.translation import gettext as _
 import json
 from .models import News, ReadingProgress, Annotation, CONTENT_TYPE_CHOICES
 from articles.models import Article
@@ -238,3 +239,76 @@ def annotation_delete(request, annotation_id):
         return JsonResponse({'error': 'not found'}, status=404)
     a.delete()
     return JsonResponse({'ok': True})
+
+
+# === Personal account dashboard ===
+
+@login_required
+def account_dashboard(request):
+    """User's personal area: purchased books + reading progress, profile, payment history."""
+    from payments.models import Payment
+
+    successful = (
+        Payment.objects
+        .filter(user=request.user, status='OK')
+        .select_related('book')
+        .order_by('-paid_at', '-created_at')
+    )
+    seen_book_ids = set()
+    purchased_books = []
+    for p in successful:
+        if p.book_id in seen_book_ids:
+            continue
+        seen_book_ids.add(p.book_id)
+        purchased_books.append(p.book)
+
+    progress_map = {
+        rp.content_id: rp
+        for rp in ReadingProgress.objects.filter(
+            user=request.user,
+            content_type='book',
+            content_id__in=seen_book_ids,
+        )
+    }
+
+    books_with_progress = []
+    for book in purchased_books:
+        rp = progress_map.get(book.id)
+        books_with_progress.append({
+            'book': book,
+            'last_page': rp.last_page if rp else None,
+            'last_read_at': rp.last_read_at if rp else None,
+        })
+
+    payment_history = (
+        Payment.objects
+        .filter(user=request.user)
+        .select_related('book')
+        .order_by('-created_at')[:50]
+    )
+
+    return render(request, 'account/dashboard.html', {
+        'books_with_progress': books_with_progress,
+        'payment_history': payment_history,
+    })
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def account_delete(request):
+    """GDPR right to be forgotten: confirm and permanently delete the user account."""
+    from django.contrib.auth import logout
+
+    if request.method == 'POST':
+        typed = (request.POST.get('confirm_email') or '').strip().lower()
+        if typed != (request.user.email or '').lower():
+            messages.error(request, _("The email you typed does not match your account email."))
+            return render(request, 'account/account_delete.html')
+
+        user = request.user
+        logout(request)
+        user.delete()
+        messages.success(request, _("Your account has been permanently deleted."))
+        return redirect('home')
+
+    return render(request, 'account/account_delete.html')

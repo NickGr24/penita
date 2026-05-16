@@ -25,4 +25,8 @@ urlpatterns = [
     path('dinu-ostavciuc/', views.ostavciuc, name='ostavciuc'),
     path('terms-and-conditions/', views.terms_and_conditions, name='terms_and_conditions'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
+
+    # Personal account
+    path('account/dashboard/', views.account_dashboard, name='account_dashboard'),
+    path('account/delete/', views.account_delete, name='account_delete'),
 ]

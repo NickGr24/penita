@@ -1888,3 +1888,119 @@ msgstr "Save preferences"
 #: templates/partials/cookie_banner.html:46
 msgid "Accept all"
 msgstr "Accept all"
+
+#: templates/account/dashboard.html:5
+msgid "My account"
+msgstr "My account"
+
+#: templates/account/dashboard.html:7
+msgid "Your personal area at Penița Dreptului — purchased books, reading progress and account management."
+msgstr "Your personal area at Penița Dreptului — purchased books, reading progress and account management."
+
+#: templates/account/dashboard.html:21
+msgid "Welcome, <strong>%(email)s</strong>"
+msgstr "Welcome, <strong>%(email)s</strong>"
+
+#: templates/account/dashboard.html:27
+msgid "My books"
+msgstr "My books"
+
+#: templates/account/dashboard.html:50
+msgid "Page %(page)s"
+msgstr "Page %(page)s"
+
+#: templates/account/dashboard.html:59
+msgid "Continue reading"
+msgstr "Continue reading"
+
+#: templates/account/dashboard.html:61
+msgid "Start reading"
+msgstr "Start reading"
+
+#: templates/account/dashboard.html:71
+msgid "You haven't purchased any books yet."
+msgstr "You haven't purchased any books yet."
+
+#: templates/account/dashboard.html:72
+msgid "Browse books"
+msgstr "Browse books"
+
+#: templates/account/dashboard.html:79
+msgid "Profile"
+msgstr "Profile"
+
+#: templates/account/dashboard.html:81
+msgid "Email"
+msgstr "Email"
+
+#: templates/account/dashboard.html:85
+msgid "Member since"
+msgstr "Member since"
+
+#: templates/account/dashboard.html:90
+msgid "Change password"
+msgstr "Change password"
+
+#: templates/account/dashboard.html:93
+msgid "Delete account"
+msgstr "Delete account"
+
+#: templates/account/dashboard.html:100
+msgid "Purchase history"
+msgstr "Purchase history"
+
+#: templates/account/dashboard.html:109
+msgid "Book"
+msgstr "Book"
+
+#: templates/account/dashboard.html:111
+msgid "Status"
+msgstr "Status"
+
+#: templates/account/dashboard.html:128
+msgid "No purchases yet."
+msgstr "No purchases yet."
+
+#: templates/account/account_delete.html:5
+msgid "Delete account permanently?"
+msgstr "Delete account permanently?"
+
+#: templates/account/account_delete.html:16
+msgid "This action is <strong>irreversible</strong>. The following data will be permanently erased:"
+msgstr "This action is <strong>irreversible</strong>. The following data will be permanently erased:"
+
+#: templates/account/account_delete.html:18
+msgid "Your profile (email, username)"
+msgstr "Your profile (email, username)"
+
+#: templates/account/account_delete.html:19
+msgid "Your purchase history and access to purchased books"
+msgstr "Your purchase history and access to purchased books"
+
+#: templates/account/account_delete.html:20
+msgid "Your reading progress and highlights"
+msgstr "Your reading progress and highlights"
+
+#: templates/account/account_delete.html:22
+msgid "Purchases already paid will not be refunded — please contact us first if you need a refund."
+msgstr "Purchases already paid will not be refunded — please contact us first if you need a refund."
+
+#: templates/account/account_delete.html:28
+msgid "To confirm, type your account email (%(email)s) below:"
+msgstr "To confirm, type your account email (%(email)s) below:"
+
+#: templates/account/account_delete.html:34
+msgid "Cancel"
+msgstr "Cancel"
+
+#: templates/account/account_delete.html:37
+msgid "Yes, delete my account"
+msgstr "Yes, delete my account"
+
+#: main/views.py:268
+msgid "The email you typed does not match your account email."
+msgstr "The email you typed does not match your account email."
+
+#: main/views.py:274
+msgid "Your account has been permanently deleted."
+msgstr "Your account has been permanently deleted."

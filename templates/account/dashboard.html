@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "My account" %} | Penița Dreptului{% endblock %}
+
+{% block meta_description %}{% trans "Your personal area at Penița Dreptului — purchased books, reading progress and account management." %}{% endblock %}
+
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="dashboard">
+    <header class="dashboard__header">
+        <div class="dashboard__avatar" aria-hidden="true">
+            {{ user.email|default:user.username|slice:":1"|upper }}
+        </div>
+        <div>
+            <h1 class="dashboard__title">{% trans "My account" %}</h1>
+            <p class="dashboard__hello">
+                {% blocktrans with email=user.email|default:user.username %}Welcome, <strong>{{ email }}</strong>{% endblocktrans %}
+            </p>
+        </div>
+    </header>
+
+    {# --- My books --- #}
+    <section class="dashboard__section">
+        <h2 class="dashboard__section-title">{% trans "My books" %}</h2>
+
+        {% if books_with_progress %}
+        <div class="dashboard__books">
+            {% for item in books_with_progress %}
+            <article class="book-card">
+                {% if item.book.cover %}
+                <a href="{% url 'book_detail' slug=item.book.slug %}" class="book-card__cover-link">
+                    <img src="{{ item.book.cover.url }}" alt="{{ item.book.title }}" class="book-card__cover" loading="lazy">
+                </a>
+                {% else %}
+                <div class="book-card__cover book-card__cover--placeholder" aria-hidden="true">📖</div>
+                {% endif %}
+
+                <div class="book-card__body">
+                    <h3 class="book-card__title">
+                        <a href="{% url 'book_detail' slug=item.book.slug %}">{{ item.book.title }}</a>
+                    </h3>
+                    <p class="book-card__author">{{ item.book.author }}</p>
+
+                    {% if item.last_page %}
+                    <p class="book-card__progress">
+                        <span class="book-card__progress-icon" aria-hidden="true">📍</span>
+                        {% blocktrans with page=item.last_page %}Page {{ page }}{% endblocktrans %}
+                        <span class="book-card__progress-meta">· {{ item.last_read_at|date:"d.m.Y" }}</span>
+                    </p>
+                    {% endif %}
+
+                    <a href="{% url 'book_detail' slug=item.book.slug %}{% if item.last_page %}#page={{ item.last_page }}{% endif %}"
+                       class="book-card__cta">
+                        {% if item.last_page %}
+                            {% trans "Continue reading" %}
+                        {% else %}
+                            {% trans "Start reading" %}
+                        {% endif %}
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="dashboard__empty">
+            <p>{% trans "You haven't purchased any books yet." %}</p>
+            <a href="{% url 'books_list' %}" class="dashboard__cta">{% trans "Browse books" %}</a>
+        </div>
+        {% endif %}
+    </section>
+
+    {# --- Profile --- #}
+    <section class="dashboard__section">
+        <h2 class="dashboard__section-title">{% trans "Profile" %}</h2>
+        <dl class="dashboard__profile">
+            <dt>{% trans "Email" %}</dt>
+            <dd>{{ user.email|default:"—" }}</dd>
+            <dt>{% trans "Username" %}</dt>
+            <dd>{{ user.username }}</dd>
+            <dt>{% trans "Member since" %}</dt>
+            <dd>{{ user.date_joined|date:"d.m.Y" }}</dd>
+        </dl>
+        <div class="dashboard__profile-actions">
+            <a href="{% url 'account_change_password' %}" class="dashboard__btn dashboard__btn--ghost">
+                {% trans "Change password" %}
+            </a>
+            <a href="{% url 'account_delete' %}" class="dashboard__btn dashboard__btn--danger">
+                {% trans "Delete account" %}
+            </a>
+        </div>
+    </section>
+
+    {# --- Purchase history --- #}
+    <section class="dashboard__section">
+        <h2 class="dashboard__section-title">{% trans "Purchase history" %}</h2>
+
+        {% if payment_history %}
+        <div class="dashboard__table-wrap">
+            <table class="dashboard__table">
+                <thead>
+                    <tr>
+                        <th>{% trans "Date" %}</th>
+                        <th>{% trans "Book" %}</th>
+                        <th>{% trans "Amount" %}</th>
+                        <th>{% trans "Status" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in payment_history %}
+                    <tr>
+                        <td>{{ p.created_at|date:"d.m.Y H:i" }}</td>
+                        <td><a href="{% url 'book_detail' slug=p.book.slug %}">{{ p.book.title }}</a></td>
+                        <td>{{ p.amount }} {{ p.currency }}</td>
+                        <td>
+                            <span class="status status--{{ p.status|lower }}">{{ p.get_status_display }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="dashboard__empty-text">{% trans "No purchases yet." %}</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock content %}

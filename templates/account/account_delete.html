@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Delete account" %} | Penița Dreptului{% endblock %}
+{% block robots %}noindex, nofollow{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="account-delete">
+    <h1 class="account-delete__title">{% trans "Delete account permanently?" %}</h1>
+
+    <div class="account-delete__warning">
+        <p>{% blocktrans %}This action is <strong>irreversible</strong>. The following data will be permanently erased:{% endblocktrans %}</p>
+        <ul>
+            <li>{% trans "Your profile (email, username)" %}</li>
+            <li>{% trans "Your purchase history and access to purchased books" %}</li>
+            <li>{% trans "Your reading progress and highlights" %}</li>
+        </ul>
+        <p>{% trans "Purchases already paid will not be refunded — please contact us first if you need a refund." %}</p>
+    </div>
+
+    <form method="POST" action="{% url 'account_delete' %}" class="account-delete__form">
+        {% csrf_token %}
+        <label class="account-delete__label" for="confirm_email">
+            {% blocktrans with email=user.email|default:user.username %}To confirm, type your account email ({{ email }}) below:{% endblocktrans %}
+        </label>
+        <input type="email" id="confirm_email" name="confirm_email" autocomplete="off" required class="account-delete__input">
+
+        <div class="account-delete__actions">
+            <a href="{% url 'account_dashboard' %}" class="dashboard__btn dashboard__btn--ghost">
+                {% trans "Cancel" %}
+            </a>
+            <button type="submit" class="dashboard__btn dashboard__btn--danger">
+                {% trans "Yes, delete my account" %}
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock content %}
