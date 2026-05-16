@@ -2,7 +2,10 @@
 <div id="cookie-banner" class="cookie-banner" hidden role="dialog" aria-modal="false" aria-labelledby="cookie-banner-title" aria-describedby="cookie-banner-text">
     <div class="cookie-banner__inner">
         <div class="cookie-banner__copy">
-            <h3 id="cookie-banner-title" class="cookie-banner__title">{% trans "We use cookies" %} 🍪</h3>
+            <h3 id="cookie-banner-title" class="cookie-banner__title">
+                <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+                {% trans "We use cookies" %}
+            </h3>
             <p id="cookie-banner-text" class="cookie-banner__text">
                 {% blocktrans %}We use cookies to improve your experience and to understand how the site is used. You decide which categories to accept.{% endblocktrans %}
                 <a href="{% url 'privacy_policy' %}">{% trans "Privacy policy" %}</a>

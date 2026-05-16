@@ -416,6 +416,13 @@
     margin: 6px 0 8px;
     line-height: 1;
 }
+.info-icon ion-icon {
+    font-size: 3.6rem;
+    color: #6B8E23;
+}
+.info-icon--success ion-icon {
+    color: #2f5d0a;
+}
 .muted-note {
     color: #888 !important;
     font-size: 0.88rem !important;

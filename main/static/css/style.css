@@ -799,6 +799,13 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     color: #1d2a0c;
     margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.cookie-banner__title ion-icon {
+    font-size: 1.35rem;
+    color: #6B8E23;
 }
 .cookie-banner__text {
     font-size: 0.93rem;
@@ -996,7 +1003,10 @@ h1, h2, h3, h4, h5, h6 {
     background: #e8eed5;
     display: grid;
     place-items: center;
-    font-size: 3rem;
+}
+.book-card__cover--placeholder ion-icon {
+    font-size: 4rem;
+    color: #8a9d52;
 }
 .book-card__body { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
 .book-card__title { font-family: 'Poppins', sans-serif; font-size: 1rem; font-weight: 700; margin: 0 0 6px; line-height: 1.35; }
@@ -1012,7 +1022,12 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 0 14px;
     border-radius: 0 6px 6px 0;
 }
-.book-card__progress-icon { margin-right: 4px; }
+.book-card__progress-icon {
+    margin-right: 4px;
+    vertical-align: -2px;
+    font-size: 1rem;
+    color: #6B8E23;
+}
 .book-card__progress-meta { color: #888; font-size: 0.78rem; margin-left: 6px; }
 .book-card__cta {
     margin-top: auto;

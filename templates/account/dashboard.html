@@ -37,7 +37,9 @@
                     <img src="{{ item.book.cover.url }}" alt="{{ item.book.title }}" class="book-card__cover" loading="lazy">
                 </a>
                 {% else %}
-                <div class="book-card__cover book-card__cover--placeholder" aria-hidden="true">📖</div>
+                <div class="book-card__cover book-card__cover--placeholder" aria-hidden="true">
+                    <ion-icon name="book-outline"></ion-icon>
+                </div>
                 {% endif %}
 
                 <div class="book-card__body">
@@ -48,7 +50,7 @@
 
                     {% if item.last_page %}
                     <p class="book-card__progress">
-                        <span class="book-card__progress-icon" aria-hidden="true">📍</span>
+                        <ion-icon class="book-card__progress-icon" name="bookmark-outline" aria-hidden="true"></ion-icon>
                         {% blocktrans with page=item.last_page %}Page {{ page }}{% endblocktrans %}
                         <span class="book-card__progress-meta">· {{ item.last_read_at|date:"d.m.Y" }}</span>
                     </p>
