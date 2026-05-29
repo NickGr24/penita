@@ -1,6 +1,7 @@
 from decimal import Decimal
 from pathlib import Path
 from decouple import config
+from django.utils.translation import gettext_lazy as _
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     'django.middleware.gzip.GZipMiddleware',  # GZip сжатие для скорости
     'penita.middleware.RemoveWWWMiddleware',  # Редирект с www на версию без www
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -107,7 +109,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'ro-RO'
+LANGUAGE_CODE = 'ro'
+
+LANGUAGES = [
+    ('ro', _('Română')),
+    ('en', _('English')),
+]
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
 
 TIME_ZONE = 'Europe/Chisinau'
 

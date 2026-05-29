@@ -130,3 +130,48 @@ nav {
 .menu-icon.toggle span:nth-child(3) {
     transform: rotate(45deg) translate(-6px, -6px);
 }
+
+/* Language switcher */
+.lang-switcher {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 0 0 12px;
+    padding: 0;
+    background: none;
+    border: none;
+}
+.lang-switcher .lang-btn {
+    background: none;
+    border: none;
+    color: #cfd1c8;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    padding: 6px 8px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+.lang-switcher .lang-btn:hover {
+    color: olivedrab;
+}
+.lang-switcher .lang-btn.active {
+    color: olivedrab;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+.lang-switcher .lang-sep {
+    color: #555;
+    font-size: 16px;
+    user-select: none;
+}
+@media screen and (max-width: 768px) {
+    .lang-switcher {
+        margin: 20px 0 0;
+    }
+    .lang-switcher .lang-btn {
+        font-size: 22px;
+        color: #fff;
+    }
+}

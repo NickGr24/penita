@@ -6,6 +6,7 @@ from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseRedire
 from django.contrib import messages
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from books.models import Book
 from .models import Payment
 from .services import MAIBPaymentService
@@ -23,19 +24,19 @@ def initiate_payment(request, book_id):
     
     # Check if book requires payment
     if not book.is_paid or book.price <= 0:
-        messages.info(request, "This book is free!")
+        messages.info(request, _("This book is free!"))
         return redirect('book_detail', slug=book.slug)
-    
+
     # Check if user already purchased this book
     if book.has_user_purchased(request.user):
-        messages.info(request, "You already have access to this book!")
+        messages.info(request, _("You already have access to this book!"))
         return redirect('book_detail', slug=book.slug)
-    
+
     if request.method == 'POST':
         # Validate terms acceptance
         terms_accepted = request.POST.get('terms_accepted')
         if not terms_accepted:
-            messages.error(request, "Trebuie să acceptați Termenii și Condițiile pentru a continua.")
+            messages.error(request, _("You must accept the Terms and Conditions to continue."))
             return redirect('initiate_payment', book_id=book.id)
 
         # Create payment record
@@ -66,13 +67,13 @@ def initiate_payment(request, book_id):
                 return HttpResponseRedirect(pay_url)
             else:
                 logger.error("Payment initiation succeeded but no payUrl received")
-                messages.error(request, "Failed to get payment URL from MAIB")
+                messages.error(request, _("Failed to get payment URL from MAIB"))
                 payment.status = 'FAIL'
                 payment.save()
         else:
             error_msg = result.get('error', 'Payment initiation failed')
             logger.error(f"Payment initiation failed: {error_msg}")
-            messages.error(request, f"Eroare la plată: {error_msg}")
+            messages.error(request, _("Payment error: %(error)s") % {'error': error_msg})
             payment.status = 'FAIL'
             payment.save()
 
@@ -146,7 +147,7 @@ def payment_success(request, payment_id):
     
     # Check payment status from database
     if payment.status == 'OK':
-        messages.success(request, f"Payment successful! You can now access {payment.book.title}")
+        messages.success(request, _("Payment successful! You can now access %(title)s") % {'title': payment.book.title})
     else:
         # Try to check status from MAIB (automatically detects mode from active settings)
         from .models import MAIBSettings
@@ -159,9 +160,9 @@ def payment_success(request, payment_id):
         if status_info and status_info.get('status') == 'OK':
             payment.status = 'OK'
             payment.save()
-            messages.success(request, f"Payment successful! You can now access {payment.book.title}")
+            messages.success(request, _("Payment successful! You can now access %(title)s") % {'title': payment.book.title})
         else:
-            messages.warning(request, "Payment is being processed. Please check back later.")
+            messages.warning(request, _("Payment is being processed. Please check back later."))
     
     context = {
         'payment': payment,
@@ -179,7 +180,7 @@ def payment_fail(request, payment_id):
         payment.status = 'FAIL'
         payment.save()
     
-    messages.error(request, "Payment failed or was cancelled. Please try again.")
+    messages.error(request, _("Payment failed or was cancelled. Please try again."))
     
     context = {
         'payment': payment,

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Politica de Returnare | Penița Dreptului{% endblock %}
-{% block meta_description %}Politica de returnare pentru cărțile achiziționate pe Penița Dreptului. Condiții, procedură și excepții pentru produsele digitale.{% endblock %}
+{% block title %}{% trans "Refund policy" %} | Penița Dreptului{% endblock %}
+{% block meta_description %}{% blocktrans %}Refund policy for books purchased on Penița Dreptului. Conditions, procedure and exceptions for digital products.{% endblocktrans %}{% endblock %}
 {% block canonical %}https://penitadreptului.md/refund/{% endblock %}
 {% block og_url %}https://penitadreptului.md/refund/{% endblock %}
 {% block robots %}noindex, follow{% endblock %}
@@ -15,19 +16,19 @@
 {% include 'navbar.html' %}
 <main class="policy-container" style="max-width: 900px; margin: 40px auto; padding: 20px;">
     <header>
-        <h1>Politica de Returnare</h1>
+        <h1>{% trans "Refund policy" %}</h1>
     </header>
     <section>
-        <h2>1. Condiții pentru Returnare</h2>
-        <p>Returnarea este posibilă doar în cazul în care produsul nu a fost accesibil din cauza unei erori a platformei noastre.</p>
+        <h2>{% trans "1. Conditions for refund" %}</h2>
+        <p>{% trans "A refund is possible only if the product was inaccessible due to an error on our platform." %}</p>
     </section>
     <section>
-        <h2>2. Procedura de Returnare</h2>
-        <p>Trimiteți o cerere de returnare la adresa <a href="mailto:support@penitadreptului.md">support@penitadreptului.md</a> în termen de 14 zile de la achiziție.</p>
+        <h2>{% trans "2. Refund procedure" %}</h2>
+        <p>{% blocktrans %}Send a refund request to <a href="mailto:support@penitadreptului.md">support@penitadreptului.md</a> within 14 days of purchase.{% endblocktrans %}</p>
     </section>
     <section>
-        <h2>3. Excepții</h2>
-        <p>Produsele digitale deja livrate nu sunt eligibile pentru returnare.</p>
+        <h2>{% trans "3. Exceptions" %}</h2>
+        <p>{% trans "Digital products that have already been delivered are not eligible for a refund." %}</p>
     </section>
 </main>
 {% endblock content %}

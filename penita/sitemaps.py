@@ -12,14 +12,15 @@ class StaticViewSitemap(Sitemap):
     changefreq = 'monthly'
 
     def items(self):
+        # NB: terms_and_conditions / privacy_policy are intentionally excluded —
+        # their templates set <meta robots="noindex">, so listing them here would
+        # produce a "Submitted URL marked noindex" error in Search Console.
         return [
             'home',
             'articles',
             'books_list',
             'osoianu',
             'ostavciuc',
-            'terms_and_conditions',
-            'privacy_policy',
         ]
 
     def location(self, item):

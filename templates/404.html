@@ -1,10 +1,12 @@
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina nu a fost găsită | Penița Dreptului</title>
+    <title>{% trans "Page not found" %} | Penița Dreptului</title>
     <meta name="robots" content="noindex, follow">
     <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.webp' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -91,12 +93,12 @@
 <body>
     <div class="error-container">
         <div class="error-code">404</div>
-        <h1 class="error-title">Pagina nu a fost găsită</h1>
-        <p class="error-message">Ne pare rău, pagina pe care o căutați nu există sau a fost mutată. Vă invităm să explorați resursele noastre juridice.</p>
+        <h1 class="error-title">{% trans "Page not found" %}</h1>
+        <p class="error-message">{% blocktrans %}We're sorry, the page you are looking for does not exist or has been moved. You are invited to explore our legal resources.{% endblocktrans %}</p>
         <div class="error-links">
-            <a href="/">Pagina principală</a>
-            <a href="/articles/" class="secondary">Articole</a>
-            <a href="/books/" class="secondary">Cărți</a>
+            <a href="/">{% trans "Home" %}</a>
+            <a href="/articles/" class="secondary">{% trans "Articles" %}</a>
+            <a href="/books/" class="secondary">{% trans "Books" %}</a>
         </div>
     </div>
 </body>

@@ -1,23 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Cărți Juridice - Drept Procesual Penal și Criminalistică | Penița Dreptului{% endblock %}
+{% block title %}{% blocktrans %}Legal books - criminal procedural law and forensics{% endblocktrans %} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}Colecție de cărți juridice profesionale despre dreptul procesual penal și criminalistică. Disponibile în format PDF de la Tudor Osoianu și Dinu Ostavciuc.{% endblock %}
+{% block meta_description %}{% blocktrans %}Collection of professional legal books on criminal procedural law and forensics. Available in PDF format from Tudor Osoianu and Dinu Ostavciuc.{% endblocktrans %}{% endblock %}
 
-{% block meta_keywords %}cărți juridice, drept procesual penal, procedura penală, criminalistică, manuale juridice Moldova, cărți PDF drept, Tudor Osoianu, Dinu Ostavciuc{% endblock %}
+{% block meta_keywords %}{% blocktrans %}legal books, criminal procedural law, criminal procedure, forensics, legal manuals Moldova, PDF law books, Tudor Osoianu, Dinu Ostavciuc{% endblocktrans %}{% endblock %}
 
 {% block canonical %}https://penitadreptului.md/books/{% endblock %}
 {% block og_url %}https://penitadreptului.md/books/{% endblock %}
-{% block og_title %}Cărți Juridice | Penița Dreptului{% endblock %}
-{% block og_description %}Cărți profesionale despre dreptul procesual penal și criminalistică din Moldova.{% endblock %}
+{% block og_title %}{% blocktrans %}Legal books{% endblocktrans %} | Penița Dreptului{% endblock %}
+{% block og_description %}{% blocktrans %}Professional books on criminal procedural law and forensics from Moldova.{% endblocktrans %}{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "Cărți Juridice",
+    "name": "Cărți juridice",
     "description": "Colecție de cărți juridice despre dreptul procesual penal și criminalistică",
     "url": "https://penitadreptului.md/books/",
     "inLanguage": "ro-RO",
@@ -90,14 +91,14 @@
 {% block content %}
 {% include 'navbar.html' %}
 <div class="books-container">
-    <h1 class="page-title">Toate Cărțile</h1>
+    <h1 class="page-title">{% trans "All books" %}</h1>
     <div class="books-grid">
         {% for book in books %}
         <div class="book-card">
             <div class="book-card-body">
                 <h5 class="book-title">{{ book.title }}</h5>
                 <p class="book-description">{{ book.description|truncatewords:20 }}</p>
-                <p class="book-author"><small>Autor: {{ book.author }}</small></p>
+                <p class="book-author"><small>{% trans "Author:" %} {{ book.author }}</small></p>
 
                 <div class="book-price-info">
                     {% if book.is_paid %}
@@ -107,9 +108,9 @@
                     {% endif %}
                     <a href="{% url 'book_detail' slug=book.slug %}" class="read-more-btn">
                         {% if book.is_paid %}
-                            Vezi detalii
+                            {% trans "View details" %}
                         {% else %}
-                            Citește acum
+                            {% trans "Read now" %}
                         {% endif %}
                     </a>
                 </div>
@@ -119,7 +120,8 @@
     </div>
 </div>
 <div class="cross-link-banner">
-    <p><i class="fas fa-file-alt"></i> Citiți și <a href="{% url 'articles' %}">articolele noastre științifice</a></p>
+    {% url 'articles' as articles_url %}
+    <p><i class="fas fa-file-alt"></i> {% blocktrans %}Also read <a href="{{ articles_url }}">our scientific articles</a>{% endblocktrans %}</p>
 </div>
 <script src="{% static 'js/books.js' %}" defer></script>
 {% endblock %}

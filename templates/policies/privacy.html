@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-{% block title %}Politica de Confidențialitate | Penița Dreptului{% endblock %}
+{% block title %}{% trans "Privacy policy" %} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}Politica de confidențialitate și protecția datelor personale pe site-ul Penița Dreptului.{% endblock %}
+{% block meta_description %}{% trans "Privacy policy and personal data protection on the Penița Dreptului website." %}{% endblock %}
 
 {% block robots %}noindex, follow{% endblock %}
-{% block meta_keywords %}politica de confidențialitate, protecția datelor, GDPR, Penița Dreptului{% endblock %}
+{% block meta_keywords %}{% trans "privacy policy, data protection, GDPR, Penița Dreptului" %}{% endblock %}
 
 {% block canonical %}https://penitadreptului.md/privacy-policy/{% endblock %}
 {% block og_url %}https://penitadreptului.md/privacy-policy/{% endblock %}
-{% block og_title %}Politica de Confidențialitate | Penița Dreptului{% endblock %}
-{% block og_description %}Politica de confidențialitate și protecția datelor personale.{% endblock %}
+{% block og_title %}{% trans "Privacy policy" %} | Penița Dreptului{% endblock %}
+{% block og_description %}{% trans "Privacy policy and personal data protection." %}{% endblock %}
 
 {% block css_link %}
 <style>
@@ -143,8 +145,11 @@
 
 <div class="terms-container">
     <div class="terms-header">
-        <h1>Politica de Confidențialitate</h1>
-        <p class="subtitle">Data intrării în vigoare: 10 noiembrie 2025</p>
+        <h1>{% trans "Privacy policy" %}</h1>
+        <p class="subtitle">{% trans "Effective date: 10 November 2025" %}</p>
+        {% if LANGUAGE_CODE == 'en' %}
+        <p class="subtitle" style="margin-top:8px; font-style:italic; color:#888;">The official version of this document is in Romanian. The English text below is provided for convenience only.</p>
+        {% endif %}
     </div>
     
     <div class="terms-content">

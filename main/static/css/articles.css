@@ -2,7 +2,6 @@ body {
     font-family: 'Merriweather', Georgia, serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(180deg, #f9f9f9 0%, #e8ebe8 100%);
     color: #333;
     min-height: 100vh;
     line-height: 1.7;

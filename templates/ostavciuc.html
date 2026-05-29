@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Dinu Ostavciuc - Doctor Habilitat în Drept | Penița Dreptului{% endblock %}
+{% block title %}{% blocktrans %}Dinu Ostavciuc - doctor habilitat in law{% endblocktrans %} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}Dinu Ostavciuc - Doctor habilitat în drept, Rector al Academiei Ștefan cel Mare. Autor a peste 100 de publicații juridice.{% endblock %}
+{% block meta_description %}{% blocktrans %}Dinu Ostavciuc - Doctor habilitat in law, Rector of the Ștefan cel Mare Academy. Author of over 100 legal publications.{% endblocktrans %}{% endblock %}
 
 {% block meta_keywords %}Dinu Ostavciuc, doctor habilitat drept, rector Academia Ștefan cel Mare, expert criminalistică, autor juridic Moldova, drept procesual penal{% endblock %}
 
 {% block canonical %}https://penitadreptului.md/dinu-ostavciuc/{% endblock %}
 {% block og_url %}https://penitadreptului.md/dinu-ostavciuc/{% endblock %}
 {% block og_type %}profile{% endblock %}
-{% block og_title %}Dinu Ostavciuc - Doctor Habilitat în Drept{% endblock %}
+{% block og_title %}Dinu Ostavciuc - doctor habilitat în drept{% endblock %}
 {% block og_description %}Rector al Academiei Ștefan cel Mare, autor a peste 100 de publicații juridice.{% endblock %}
 {% block og_image %}https://penitadreptului.md{% static 'img/ostavciuc.webp' %}{% endblock %}
 
@@ -20,7 +21,7 @@
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Dinu Ostavciuc",
-    "jobTitle": "Doctor Habilitat în Drept, Rector",
+    "jobTitle": "Doctor habilitat în drept, rector",
     "description": "Rector al Academiei Ștefan cel Mare a MAI, autor a peste 100 de publicații juridice",
     "image": "https://penitadreptului.md/static/img/ostavciuc.webp",
     "url": "https://penitadreptului.md/dinu-ostavciuc/",
@@ -52,43 +53,43 @@
 <div class="container">
     <div class="row">
         <div class="image-container">
-            <img src="{% static 'img/ostavciuc.webp' %}" alt="Dinu Ostavciuc - Doctor Habilitat în Drept" class="profile-image" width="300" height="300">
+            <img src="{% static 'img/ostavciuc.webp' %}" alt="Dinu Ostavciuc - doctor habilitat în drept" class="profile-image" width="300" height="300">
         </div>
         <div class="content-container">
             <h1 class="title">Dinu Ostavciuc</h1>
-            <h3>Experiența profesională</h3>
+            <h3>{% trans "Professional experience" %}</h3>
             <ul>
-                <li><strong>Rector</strong> al Academiei „Ștefan cel Mare” a MAI (2019 - prezent).</li>
-                <li><strong>Lector universitar</strong> la Facultatea Transfrontalieră a Universității „Dunărea de Jos” din Galați, România (2022 - prezent).</li>
-                <li><strong>Profesor emerit</strong> la Universitatea de Stat al MAI al Ucrainei din Odessa (2020).</li>
-                <li><strong>Avocat</strong> (2017-2019).</li>
-                <li><strong>Șef Direcție</strong> urmărire penală, Poliția de Frontieră a MAI (2012-2017).</li>
-                <li><strong>Ofițer</strong> superior de urmărire penală, MAI (2003-2015).</li>
+                <li>{% blocktrans %}<strong>Rector</strong> of the „Ștefan cel Mare" Academy of MIA (2019 - present).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>University lecturer</strong> at the Cross-Border Faculty of „Dunărea de Jos" University, Galați, Romania (2022 - present).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Emeritus professor</strong> at the State University of MIA of Ukraine in Odessa (2020).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Lawyer</strong> (2017-2019).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Head of department</strong>, criminal investigation, Border Police of MIA (2012-2017).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Senior officer</strong>, criminal investigation, MIA (2003-2015).{% endblocktrans %}</li>
             </ul>
 
-            <h3>Educație și formare</h3>
+            <h3>{% trans "Education and training" %}</h3>
             <ul>
-                <li><strong>Doctor habilitat în drept</strong> (2024).</li>
-                <li><strong>Studii postdoctorale</strong>, Academia „Ștefan cel Mare” a MAI (2022-2023).</li>
-                <li><strong>Doctorat în drept</strong>, Academia „Ștefan cel Mare” a MAI (2005-2008).</li>
-                <li><strong>Studii în managementul organelor de drept</strong>, ILEA, Budapesta (2014).</li>
-                <li><strong>Masterat</strong>, Academia „Ștefan cel Mare” a MAI (2004-2005).</li>
-                <li><strong>Licență</strong>, Academia „Ștefan cel Mare” a MAI (1999-2003).</li>
+                <li>{% blocktrans %}<strong>Doctor habilitat in law</strong> (2024).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Postdoctoral studies</strong>, „Ștefan cel Mare" Academy of MIA (2022-2023).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>PhD in law</strong>, „Ștefan cel Mare" Academy of MIA (2005-2008).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Studies in law enforcement management</strong>, ILEA, Budapest (2014).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Master's degree</strong>, „Ștefan cel Mare" Academy of MIA (2004-2005).{% endblocktrans %}</li>
+                <li>{% blocktrans %}<strong>Bachelor's degree</strong>, „Ștefan cel Mare" Academy of MIA (1999-2003).{% endblocktrans %}</li>
             </ul>
 
-            <h3>Competențe personale</h3>
-            <p><strong>Limbi vorbite:</strong> Română (maternă), Rusă (avansat), Engleză (începător).</p>
+            <h3>{% trans "Personal skills" %}</h3>
+            <p>{% blocktrans %}<strong>Languages:</strong> Romanian (native), Russian (advanced), English (beginner).{% endblocktrans %}</p>
 
-            <h3>Despre autor</h3>
-            <p>Dinu Ostavciuc este o personalitate proeminentă în domeniul dreptului penal și al criminalisticii, cu o experiență vastă atât în domeniul academic, cât și în practica juridică. Autor a peste 100 de publicații, inclusiv monografii, articole și cursuri universitare, este cunoscut pentru contribuțiile sale semnificative la reforma justiției și la educația juridică.</p>
+            <h3>{% trans "About the author" %}</h3>
+            <p>{% blocktrans %}Dinu Ostavciuc is a prominent figure in criminal law and forensics, with extensive experience in both the academic and legal practice domains. Author of over 100 publications, including monographs, articles and university courses, he is known for his significant contributions to justice reform and legal education.{% endblocktrans %}</p>
 
-            <p>A fost decorat cu numeroase distincții, printre care Ordinul Credință Patriei clasa I și Crucea „Pentru Merit”, pentru activitatea sa remarcabilă în serviciul public.</p>
+            <p>{% blocktrans %}He has been decorated with numerous distinctions, including the Order „Credință Patriei" first class and the Cross „For Merit", for his remarkable activity in public service.{% endblocktrans %}</p>
         </div>
     </div>
 
     {% if articles %}
     <div class="publications-section">
-        <h2>Articolele autorului</h2>
+        <h2>{% trans "Author's articles" %}</h2>
         <ul class="publications-list">
             {% for article in articles %}
             <li><a href="/articles/{{ article.slug }}/">{{ article.name }}</a>
@@ -101,7 +102,7 @@
 
     {% if books %}
     <div class="publications-section">
-        <h2>Cărțile autorului</h2>
+        <h2>{% trans "Author's books" %}</h2>
         <ul class="publications-list">
             {% for book in books %}
             <li><a href="/books/{{ book.slug }}/">{{ book.title }}</a></li>

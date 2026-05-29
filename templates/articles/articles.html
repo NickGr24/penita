@@ -1,23 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Articole Juridice - Drept Procesual Penal și Criminalistică | Penița Dreptului{% endblock %}
+{% block title %}{% blocktrans %}Legal articles - criminal procedural law and forensics{% endblocktrans %} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}Colecție de articole științifice despre procedura penală, criminalistică și alte științe juridice. Scrise de experți Tudor Osoianu și Dinu Ostavciuc.{% endblock %}
+{% block meta_description %}{% blocktrans %}Collection of scientific articles on criminal procedure, forensics and other legal sciences. Written by experts Tudor Osoianu and Dinu Ostavciuc.{% endblocktrans %}{% endblock %}
 
-{% block meta_keywords %}articole juridice, drept procesual penal, procedura penală, criminalistică, publicații științifice, drept penal Moldova, Tudor Osoianu, Dinu Ostavciuc{% endblock %}
+{% block meta_keywords %}{% blocktrans %}legal articles, criminal procedural law, criminal procedure, forensics, scientific publications, criminal law Moldova, Tudor Osoianu, Dinu Ostavciuc{% endblocktrans %}{% endblock %}
 
 {% block canonical %}https://penitadreptului.md/articles/{% endblock %}
 {% block og_url %}https://penitadreptului.md/articles/{% endblock %}
-{% block og_title %}Articole Juridice | Penița Dreptului{% endblock %}
-{% block og_description %}Articole științifice despre dreptul procesual penal și criminalistică din Moldova.{% endblock %}
+{% block og_title %}{% blocktrans %}Legal articles{% endblocktrans %} | Penița Dreptului{% endblock %}
+{% block og_description %}{% blocktrans %}Scientific articles on criminal procedural law and forensics from Moldova.{% endblocktrans %}{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "name": "Articole Juridice",
+    "name": "Articole juridice",
     "description": "Colecție de articole științifice despre dreptul procesual penal și criminalistică",
     "url": "https://penitadreptului.md/articles/",
     "inLanguage": "ro-RO",
@@ -38,22 +39,22 @@
 {% include 'navbar.html' %}
 <section class="articles-section">
     <div class="header-section">
-        <h1>Articole</h1>
-    
+        <h1>{% trans "Articles" %}</h1>
+
         <form method="get" action="{% url 'articles' %}" class="filter-form">
-            <input type="text" name="q" placeholder="Căutați în articole..." value="{{ query|default:'' }}">
-            
+            <input type="text" name="q" placeholder="{% trans 'Search articles...' %}" value="{{ query|default:'' }}">
+
             <select name="category">
-                <option value="">Toate categoriile</option>
-                <option value="procedura_penala" {% if category == 'procedura_penala' %}selected{% endif %}>Procedura Penală</option>
-                <option value="criminalistica" {% if category == 'criminalistica' %}selected{% endif %}>Criminalistica</option>
-                <option value="alte_stiinte" {% if category == 'alte_stiinte' %}selected{% endif %}>Alte Științe</option>
+                <option value="">{% trans "All categories" %}</option>
+                <option value="procedura_penala" {% if category == 'procedura_penala' %}selected{% endif %}>{% trans "Criminal procedure" %}</option>
+                <option value="criminalistica" {% if category == 'criminalistica' %}selected{% endif %}>{% trans "Forensics" %}</option>
+                <option value="alte_stiinte" {% if category == 'alte_stiinte' %}selected{% endif %}>{% trans "Other sciences" %}</option>
             </select>
-            
-            <button type="submit">Filtrați</button>
+
+            <button type="submit">{% trans "Filter" %}</button>
         </form>
     </div>
-    
+
 
     <div class="articles-list">
         {% for article in articles %}
@@ -63,17 +64,17 @@
                 <p>{{ article.description }}</p>
 
                 <div class="article-meta">
-                    <p><strong>Autor:</strong> {{ article.author }}</p>
-                    <p><strong>Categorie:</strong> {{ article.get_category_display }}</p>
+                    <p><strong>{% trans "Author:" %}</strong> {{ article.author }}</p>
+                    <p><strong>{% trans "Category:" %}</strong> {{ article.get_category_display }}</p>
                 </div>
 
                 <div class="article-footer">
-                    <a href="{% url 'article_detail' slug=article.slug %}" class="btn">Citește Articol</a>
+                    <a href="{% url 'article_detail' slug=article.slug %}" class="btn">{% trans "Read article" %}</a>
                 </div>
             </div>
         </div>
         {% empty %}
-        <p style="grid-column: 1 / -1; text-align: center; color: #7f8c8d; font-size: 1.2rem;">Niciun articol găsit</p>
+        <p style="grid-column: 1 / -1; text-align: center; color: #7f8c8d; font-size: 1.2rem;">{% trans "No articles found" %}</p>
         {% endfor %}
     </div>
 
@@ -89,7 +90,7 @@
         {% endif %}
 
         <span class="pagination-info">
-            Pagina {{ page_obj.number }} din {{ page_obj.paginator.num_pages }}
+            {% blocktrans with current=page_obj.number total=page_obj.paginator.num_pages %}Page {{ current }} of {{ total }}{% endblocktrans %}
         </span>
 
         {% if page_obj.has_next %}
@@ -104,7 +105,8 @@
     {% endif %}
 </section>
 <div class="cross-link-banner">
-    <p><i class="fas fa-book"></i> Consultați și <a href="{% url 'books_list' %}">colecția noastră de cărți juridice</a></p>
+    {% url 'books_list' as books_url %}
+    <p><i class="fas fa-book"></i> {% blocktrans %}Also consult <a href="{{ books_url }}">our collection of legal books</a>{% endblocktrans %}</p>
 </div>
 <script src="{% static 'js/articles.js' %}" defer></script>
 {% endblock content %}

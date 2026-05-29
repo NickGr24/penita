@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Confirmare comandă | Penița Dreptului{% endblock %}
-{% block meta_description %}Confirmați comanda pentru cartea selectată înainte de plata securizată prin MAIB.{% endblock %}
+{% block title %}{% trans "Order confirmation" %} | Penița Dreptului{% endblock %}
+{% block meta_description %}{% blocktrans %}Confirm the order for the selected book before secure payment through MAIB.{% endblocktrans %}{% endblock %}
 {% block robots %}noindex, nofollow{% endblock %}
 
 {% block css_link %}
@@ -208,8 +209,8 @@
 <div class="payment-container">
     <div class="payment-card">
         <div class="payment-header">
-            <h1><i class="fas fa-lock"></i> Confirmare Plată</h1>
-            <p class="subtitle">Plată securizată prin MAIB eCommerce</p>
+            <h1><i class="fas fa-lock"></i> {% trans "Payment confirmation" %}</h1>
+            <p class="subtitle">{% trans "Secure payment through MAIB eCommerce" %}</p>
         </div>
         
         <div class="payment-body">
@@ -226,23 +227,23 @@
                 
                 <div class="price-section">
                     <div class="price-row">
-                        <span>Preț carte:</span>
+                        <span>{% trans "Book price:" %}</span>
                         <span>{{ amount }} {{ currency }}</span>
                     </div>
                     <div class="price-row total">
-                        <span>Total de plată:</span>
+                        <span>{% trans "Total to pay:" %}</span>
                         <span>{{ amount }} {{ currency }}</span>
                     </div>
                 </div>
             </div>
-            
+
             <div class="payment-info">
-                <h3><i class="fas fa-info-circle"></i> Informații importante:</h3>
+                <h3><i class="fas fa-info-circle"></i> {% trans "Important information:" %}</h3>
                 <ul>
-                    <li>Veți fi redirecționat către pagina securizată MAIB</li>
-                    <li>După plată, veți avea acces imediat la carte</li>
-                    <li>Tranzacția este protejată cu 3D Secure</li>
-                    <li>Datele cardului sunt procesate securizat de MAIB</li>
+                    <li>{% trans "You will be redirected to the secure MAIB page" %}</li>
+                    <li>{% trans "After payment, you will have immediate access to the book" %}</li>
+                    <li>{% trans "The transaction is protected with 3D Secure" %}</li>
+                    <li>{% trans "Card data is processed securely by MAIB" %}</li>
                 </ul>
             </div>
             
@@ -259,35 +260,33 @@
                             style="width: 20px; height: 20px; margin-right: 12px; margin-top: 2px; cursor: pointer; flex-shrink: 0;"
                         >
                         <span style="color: #2c3e50; font-size: 1rem; line-height: 1.5;">
-                            Sunt de acord cu
-                            <a href="{% url 'terms_and_conditions' %}" target="_blank" style="color: #6B8E23; font-weight: 600; text-decoration: underline;">
-                                Termenii și Condițiile
-                            </a>
-                            de utilizare și confirm că am citit
-                            <a href="{% url 'privacy_policy' %}" target="_blank" style="color: #6B8E23; font-weight: 600; text-decoration: underline;">
-                                Politica de Confidențialitate
-                            </a>
+                            {% url 'terms_and_conditions' as terms_url %}
+                            {% url 'privacy_policy' as privacy_url %}
+                            {% blocktrans %}I agree to the
+                            <a href="{{ terms_url }}" target="_blank" style="color: #6B8E23; font-weight: 600; text-decoration: underline;">Terms and conditions</a>
+                            of use and confirm that I have read the
+                            <a href="{{ privacy_url }}" target="_blank" style="color: #6B8E23; font-weight: 600; text-decoration: underline;">Privacy policy</a>{% endblocktrans %}
                         </span>
                     </label>
                     <small style="display: block; color: #6c757d; margin-top: 10px; margin-left: 32px;">
-                        <i class="fas fa-info-circle"></i> Bifați pentru a continua cu plata
+                        <i class="fas fa-info-circle"></i> {% trans "Check to continue with payment" %}
                     </small>
                 </div>
 
                 <div class="payment-actions">
                     <a href="{% url 'book_detail' book.slug %}" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Înapoi
+                        <i class="fas fa-arrow-left"></i> {% trans "Back" %}
                     </a>
                     <button type="submit" class="btn btn-primary" id="payButton">
-                        <i class="fas fa-credit-card"></i> Continuă către plată
+                        <i class="fas fa-credit-card"></i> {% trans "Continue to payment" %}
                     </button>
                 </div>
             </form>
-            
+
             <div class="security-badges">
                 <img src="{% static 'img/visa_logo.webp' %}" alt="Visa">
                 <img src="{% static 'img/mc.svg' %}" alt="Mastercard">
-                <span><i class="fas fa-shield-alt"></i> Plată 100% securizată</span>
+                <span><i class="fas fa-shield-alt"></i> {% trans "100% secure payment" %}</span>
             </div>
         </div>
     </div>
@@ -314,7 +313,7 @@
             form.addEventListener('submit', function(e) {
                 if (!termsCheckbox.checked) {
                     e.preventDefault();
-                    alert('Vă rugăm să acceptați Termenii și Condițiile pentru a continua cu plata.');
+                    alert('{% trans "Please accept the Terms and Conditions to continue with the payment." %}');
                     termsCheckbox.focus();
 
                     // Add shake animation to checkbox container

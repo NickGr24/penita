@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}{{ book.title }} | Cărți Juridice | Penița Dreptului{% endblock %}
+{% block title %}{{ book.title }} | {% trans "Legal books" %} | Penița Dreptului{% endblock %}
 
 {% block meta_description %}{{ book.description|truncatewords:25 }}{% endblock %}
 
@@ -379,9 +380,9 @@
 
 <!-- Breadcrumbs для SEO и навигации -->
 <div class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
-    <a href="{% url 'home' %}">Acasă</a>
+    <a href="{% url 'home' %}">{% trans "Home" %}</a>
     <span class="separator">/</span>
-    <a href="{% url 'books_list' %}">Cărți</a>
+    <a href="{% url 'books_list' %}">{% trans "Books" %}</a>
     <span class="separator">/</span>
     <span class="current">{{ book.title|truncatewords:8 }}</span>
 </div>
@@ -397,7 +398,7 @@
             {% if book.is_paid %}
             <span><i class="fas fa-tag"></i> {{ book.price|floatformat:0 }} MDL</span>
             {% else %}
-            <span><i class="fas fa-unlock"></i> Acces gratuit</span>
+            <span><i class="fas fa-unlock"></i> {% trans "Free access" %}</span>
             {% endif %}
         </div>
         {% if book.description %}
@@ -406,7 +407,7 @@
     </div>
     {% if book.cover %}
     <div class="book-cover-hero">
-        <img src="{{ book.cover.url }}" alt="Coperta {{ book.title }}" loading="lazy" width="400">
+        <img src="{{ book.cover.url }}" alt="{% blocktrans with title=book.title %}Cover of {{ title }}{% endblocktrans %}" loading="lazy" width="400">
     </div>
     {% endif %}
 
@@ -415,30 +416,31 @@
         {% if book.seo_content %}
             {{ book.seo_content|safe }}
             {% if book.is_paid %}
-            <p><strong>Format și acces:</strong> ediție digitală, citire online direct în vizualizatorul integrat. După achiziție prin sistemul securizat MAIB, primiți acces permanent în contul personal — puteți reveni la lectură oricând și de pe orice dispozitiv conectat la internet.</p>
+            <p>{% blocktrans %}<strong>Format and access:</strong> digital edition, online reading directly in the integrated viewer. After purchase through the secure MAIB system, you receive permanent access in your personal account — you can return to reading anytime and from any internet-connected device.{% endblocktrans %}</p>
             {% else %}
-            <p><strong>Acces:</strong> această carte este disponibilă gratuit. Citirea se face direct online, în vizualizatorul integrat al portalului — fără descărcare și fără instalare de software suplimentar.</p>
+            <p>{% blocktrans %}<strong>Access:</strong> this book is available for free. Reading is done directly online in the portal's integrated viewer — without download and without installing additional software.{% endblocktrans %}</p>
             {% endif %}
         {% else %}
-            <h2>Despre carte</h2>
+            <h2>{% trans "About the book" %}</h2>
             {% if book.description %}
             <p>{{ book.description }}</p>
             {% endif %}
-            <p><strong>{{ book.title }}</strong> este o lucrare de specialitate semnată de <a href="{% if 'Osoianu' in book.author %}{% url 'osoianu' %}{% elif 'Ostavciuc' in book.author %}{% url 'ostavciuc' %}{% else %}{% url 'home' %}{% endif %}">{{ book.author }}</a>, dedicată profesioniștilor din domeniul juridic — judecători, procurori, avocați, ofițeri de urmărire penală, cadre didactice și studenți la facultățile de drept din Republica Moldova.</p>
+            {% if 'Osoianu' in book.author %}{% url 'osoianu' as author_url %}{% elif 'Ostavciuc' in book.author %}{% url 'ostavciuc' as author_url %}{% else %}{% url 'home' as author_url %}{% endif %}
+            <p>{% blocktrans with title=book.title author=book.author %}<strong>{{ title }}</strong> is a specialty work signed by <a href="{{ author_url }}">{{ author }}</a>, dedicated to professionals in the legal field — judges, prosecutors, lawyers, criminal investigation officers, teachers and students at law faculties in the Republic of Moldova.{% endblocktrans %}</p>
 
-            <h3>Pentru cine este utilă această carte</h3>
+            <h3>{% trans "Who this book is useful for" %}</h3>
             <ul>
-                <li>Practicieni din sistemul judiciar care aplică zilnic normele dreptului procesual penal</li>
-                <li>Studenți și masteranzi la facultățile de drept ce studiază procedura penală și criminalistica</li>
-                <li>Cercetători în domeniul științelor juridice și politice</li>
-                <li>Ofițeri de urmărire penală și investigatori care doresc să își aprofundeze cunoștințele teoretice</li>
-                <li>Avocați specializați în cauze penale</li>
+                <li>{% trans "Practitioners in the judicial system who apply criminal procedural law daily" %}</li>
+                <li>{% trans "Students and master's students at law faculties studying criminal procedure and forensics" %}</li>
+                <li>{% trans "Researchers in legal and political sciences" %}</li>
+                <li>{% trans "Criminal investigation officers and investigators wishing to deepen their theoretical knowledge" %}</li>
+                <li>{% trans "Lawyers specialized in criminal cases" %}</li>
             </ul>
 
             {% if book.is_paid %}
-            <p><strong>Format de publicare:</strong> ediție digitală, citire online direct în vizualizatorul integrat. După achiziție prin sistemul securizat MAIB, primiți acces permanent în contul personal — puteți reveni la lectură oricând și de pe orice dispozitiv conectat la internet.</p>
+            <p>{% blocktrans %}<strong>Publication format:</strong> digital edition, online reading directly in the integrated viewer. After purchase through the secure MAIB system, you receive permanent access in your personal account — you can return to reading anytime and from any internet-connected device.{% endblocktrans %}</p>
             {% else %}
-            <p><strong>Acces:</strong> această carte este disponibilă gratuit. Citirea se face direct online, în vizualizatorul integrat al portalului — nu necesită descărcare și nici instalare de software suplimentar.</p>
+            <p>{% blocktrans %}<strong>Access:</strong> this book is available for free. Reading is done directly online in the portal's integrated viewer — does not require download or installation of additional software.{% endblocktrans %}</p>
             {% endif %}
         {% endif %}
     </section>
@@ -446,38 +448,38 @@
     {% if show_purchase_button %}
     <!-- Purchase Section for Paid Books -->
     <div class="purchase-section">
-        <h2><i class="fas fa-lock"></i> Această carte este cu plată</h2>
-        <p>Achiziționați cartea pentru a o putea citi complet</p>
+        <h2><i class="fas fa-lock"></i> {% trans "This book is paid" %}</h2>
+        <p>{% trans "Purchase the book to read it in full" %}</p>
 
         <div class="price-display">
             {{ book.price|floatformat:0 }} <span class="currency">MDL</span>
         </div>
 
         <a href="{% url 'initiate_payment' book.id %}" class="btn-purchase">
-            <i class="fas fa-shopping-cart"></i> Cumpără acum
+            <i class="fas fa-shopping-cart"></i> {% trans "Buy now" %}
         </a>
 
         <div class="purchase-features">
             <div class="feature-item">
                 <i class="fas fa-check-circle"></i>
-                <span>Acces permanent</span>
+                <span>{% trans "Permanent access" %}</span>
             </div>
             <div class="feature-item">
                 <i class="fas fa-book-reader"></i>
-                <span>Citire online</span>
+                <span>{% trans "Online reading" %}</span>
             </div>
             <div class="feature-item">
                 <i class="fas fa-shield-alt"></i>
-                <span>Plată securizată</span>
+                <span>{% trans "Secure payment" %}</span>
             </div>
         </div>
     </div>
     {% elif book.is_paid and user_has_access %}
     <!-- Already Purchased Badge -->
     <div class="purchase-section">
-        <span class="free-badge"><i class="fas fa-check-circle"></i> Achiziționat</span>
-        <h2>Aveți acces la această carte</h2>
-        <p>Cartea a fost achiziționată anterior. Bucurați-vă de lectură!</p>
+        <span class="free-badge"><i class="fas fa-check-circle"></i> {% trans "Purchased" %}</span>
+        <h2>{% trans "You have access to this book" %}</h2>
+        <p>{% trans "The book has been purchased previously. Enjoy your reading!" %}</p>
     </div>
     {% endif %}
 
@@ -489,9 +491,9 @@
         {% else %}
             <div class="pdf-unavailable">
                 <i class="fas fa-file-pdf"></i>
-                <h2>Documentul este temporar indisponibil</h2>
-                <p>Versiunea PDF a acestei cărți este în curs de actualizare. Vă rugăm să reveniți mai târziu sau să consultați descrierea de mai sus.</p>
-                <a href="{% url 'books_list' %}" class="btn-back-to-articles"><i class="fas fa-arrow-left"></i> Înapoi la cărți</a>
+                <h2>{% trans "The document is temporarily unavailable" %}</h2>
+                <p>{% blocktrans %}The PDF version of this book is currently being updated. Please check back later or consult the description above.{% endblocktrans %}</p>
+                <a href="{% url 'books_list' %}" class="btn-back-to-articles"><i class="fas fa-arrow-left"></i> {% trans "Back to books" %}</a>
             </div>
         {% endif %}
     {% endif %}
@@ -499,15 +501,15 @@
 
 <!-- Despre autor — E-E-A-T сигнал + расширение контента -->
 <section class="other-books">
-    <h3><i class="fas fa-user-graduate"></i> Despre autor</h3>
+    <h3><i class="fas fa-user-graduate"></i> {% trans "About the author" %}</h3>
     <div style="max-width: 900px; margin: 0 auto; padding: 0 20px; line-height: 1.7; color: #444;">
-        <p><strong>{{ book.author }}</strong> este unul dintre experții recunoscuți din Republica Moldova în domeniul dreptului procesual penal și al criminalisticii, cu o activitate academică și practică susținută de decenii. Materialele publicate sunt rezultatul cercetărilor proprii, al participării la proiecte naționale și internaționale și al experienței în formarea profesioniștilor din sistemul judiciar.</p>
+        <p>{% blocktrans with author=book.author %}<strong>{{ author }}</strong> is one of the recognized experts from the Republic of Moldova in criminal procedural law and forensics, with sustained academic and practical activity over decades. The published materials are the result of his own research, participation in national and international projects, and experience in training professionals in the judicial system.{% endblocktrans %}</p>
         <p style="margin-top: 12px;">
             {% if 'Osoianu' in book.author %}
-            <a href="{% url 'osoianu' %}" style="color: #6B8E23; font-weight: 600; text-decoration: none;">Citiți biografia completă a lui Tudor Osoianu →</a>
+            <a href="{% url 'osoianu' %}" style="color: #6B8E23; font-weight: 600; text-decoration: none;">{% trans "Read the full biography of Tudor Osoianu →" %}</a>
             {% endif %}
             {% if 'Ostavciuc' in book.author %}
-            <a href="{% url 'ostavciuc' %}" style="color: #6B8E23; font-weight: 600; text-decoration: none;">Citiți biografia completă a lui Dinu Ostavciuc →</a>
+            <a href="{% url 'ostavciuc' %}" style="color: #6B8E23; font-weight: 600; text-decoration: none;">{% trans "Read the full biography of Dinu Ostavciuc →" %}</a>
             {% endif %}
         </p>
     </div>
@@ -516,14 +518,14 @@
 <!-- Articole conexe — кросс-перелинковка book→article + расширение контента -->
 {% if related_articles %}
 <section class="other-books">
-    <h3><i class="fas fa-bookmark"></i> Articole de {{ primary_author }}</h3>
+    <h3><i class="fas fa-bookmark"></i> {% blocktrans with author=primary_author %}Articles by {{ author }}{% endblocktrans %}</h3>
     <div class="books-grid">
         {% for article in related_articles %}
         <div class="book-card-related">
             <h4><a href="{% url 'article_detail' article.slug %}">{{ article.name }}</a></h4>
             <p>{% if article.category %}<em style="color: #6B8E23;">{{ article.get_category_display }}</em><br>{% endif %}{{ article.description|default:article.name|truncatewords:18 }}</p>
             <a href="{% url 'article_detail' article.slug %}" class="view-book">
-                Citește articolul <i class="fas fa-arrow-right"></i>
+                {% trans "Read the article" %} <i class="fas fa-arrow-right"></i>
             </a>
         </div>
         {% endfor %}
@@ -534,14 +536,14 @@
 <!-- Other Books для внутренней перелинковки (SEO) -->
 {% if other_books %}
 <section class="other-books">
-    <h3><i class="fas fa-book"></i> Alte cărți de {{ book.author }}</h3>
+    <h3><i class="fas fa-book"></i> {% blocktrans with author=book.author %}Other books by {{ author }}{% endblocktrans %}</h3>
     <div class="books-grid">
         {% for other in other_books %}
         <div class="book-card-related">
             <h4><a href="{% url 'book_detail' other.slug %}">{{ other.title }}</a></h4>
             <p>{{ other.description|truncatewords:20 }}</p>
             <a href="{% url 'book_detail' other.slug %}" class="view-book">
-                Vezi cartea <i class="fas fa-arrow-right"></i>
+                {% trans "View book" %} <i class="fas fa-arrow-right"></i>
             </a>
         </div>
         {% endfor %}

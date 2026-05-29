@@ -1,6 +1,7 @@
-{% load static %}
+{% load static i18n %}
+{% get_current_language as CUR_LANG %}
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="{{ CUR_LANG }}">
 <head>
     <!-- Analytics loaders — fired by cookie-consent.js only after the user opts into "analytics" -->
     <script>
@@ -28,7 +29,7 @@
     <meta name="description" content="{% block meta_description %}Blog juridic despre dreptul procesual penal și criminalistica din Republica Moldova. Articole, cărți și resurse de Tudor Osoianu și Dinu Ostavciuc.{% endblock %}">
     <meta name="keywords" content="{% block meta_keywords %}drept procesual penal, criminalistică, Moldova, articole juridice, cărți juridice, Tudor Osoianu, Dinu Ostavciuc{% endblock %}">
     <meta name="author" content="Tudor Osoianu, Dinu Ostavciuc">
-    <meta name="robots" content="{% block robots %}index, follow{% endblock %}">
+    <meta name="robots" content="{% block robots %}{% if CUR_LANG == 'en' %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
     <link rel="canonical" href="{% block canonical %}https://penitadreptului.md{% endblock %}">
 
     <!-- hreflang -->

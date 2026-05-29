@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}{{ news.title }} | Știri | Penița Dreptului{% endblock %}
+{% block title %}{{ news.title }} | {% trans "News" %} | Penița Dreptului{% endblock %}
 
 {% block meta_description %}{{ news.content|truncatewords:25 }}{% endblock %}
 
@@ -58,8 +59,6 @@
 
     {% if news.image %}
     <div class="news-image">
-        {# Не задаём width/height — новости имеют разные пропорции (портрет/landscape),
-           hardcoded 1200x675 (16:9) искажал портретные фото в landscape. #}
         <img src="{{ news.image.url }}"
              onerror="this.onerror=null; this.src='{% static 'img/news-placeholder.webp' %}';"
              alt="{{ news.title }}" loading="lazy">
@@ -67,7 +66,7 @@
     {% endif %}
 
     <div class="news-content">
-        <p>{{ news.content }}</p>
+        {{ news.content|linebreaks|urlize }}
     </div>
 
     {% for image in news.images.all %}
@@ -79,9 +78,9 @@
     {% endfor %}
 
     <div class="news-links">
-        <a href="{% url 'articles' %}"><i class="fas fa-file-alt"></i> Articole Științifice</a>
-        <a href="{% url 'books_list' %}"><i class="fas fa-book"></i> Cărți Juridice</a>
-        <a href="{% url 'home' %}"><i class="fas fa-home"></i> Pagina Principală</a>
+        <a href="{% url 'articles' %}"><i class="fas fa-file-alt"></i> {% trans "Scientific articles" %}</a>
+        <a href="{% url 'books_list' %}"><i class="fas fa-book"></i> {% trans "Legal books" %}</a>
+        <a href="{% url 'home' %}"><i class="fas fa-home"></i> {% trans "Home" %}</a>
     </div>
 </section>
 {% endblock %}

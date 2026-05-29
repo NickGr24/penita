@@ -1,11 +1,12 @@
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 class Article(models.Model):
     CATEGORY_CHOICES = (
-        ('procedura_penala', 'Procedura Penală'),
-        ('criminalistica', 'Criminalistica'),
-        ('alte_stiinte', 'Alte Științe'),
+        ('procedura_penala', _('Criminal procedure')),
+        ('criminalistica', _('Forensics')),
+        ('alte_stiinte', _('Other sciences')),
     )
     authors = (
         ('Tudor Osoianu', 'Tudor Osoianu'),

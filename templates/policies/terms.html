@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-{% block title %}Termeni și Condiții | Penița Dreptului{% endblock %}
+{% block title %}{% trans "Terms and conditions" %} | Penița Dreptului{% endblock %}
 
-{% block meta_description %}Termeni și condiții de utilizare a site-ului Penița Dreptului.{% endblock %}
+{% block meta_description %}{% trans "Terms and conditions for using the Penița Dreptului website." %}{% endblock %}
 
 {% block robots %}noindex, follow{% endblock %}
-{% block meta_keywords %}termeni și condiții, utilizare site, Penița Dreptului{% endblock %}
+{% block meta_keywords %}{% trans "terms and conditions, site use, Penița Dreptului" %}{% endblock %}
 
 {% block canonical %}https://penitadreptului.md/terms-and-conditions/{% endblock %}
 {% block og_url %}https://penitadreptului.md/terms-and-conditions/{% endblock %}
-{% block og_title %}Termeni și Condiții | Penița Dreptului{% endblock %}
-{% block og_description %}Termeni și condiții de utilizare a site-ului Penița Dreptului.{% endblock %}
+{% block og_title %}{% trans "Terms and conditions" %} | Penița Dreptului{% endblock %}
+{% block og_description %}{% trans "Terms and conditions for using the Penița Dreptului website." %}{% endblock %}
 
 {% block css_link %}
 <style>
@@ -134,8 +136,11 @@
 
 <div class="terms-container">
     <div class="terms-header">
-        <h1>Termeni și Condiții</h1>
-        <p class="subtitle">Ultima actualizare: 5 noiembrie 2025</p>
+        <h1>{% trans "Terms and conditions" %}</h1>
+        <p class="subtitle">{% trans "Last update: 5 November 2025" %}</p>
+        {% if LANGUAGE_CODE == 'en' %}
+        <p class="subtitle" style="margin-top:8px; font-style:italic; color:#888;">The official, legally binding version of this document is in Romanian. The English text below is provided for convenience only.</p>
+        {% endif %}
     </div>
     
     <div class="terms-content">

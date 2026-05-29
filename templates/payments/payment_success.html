@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Plată reușită | Penița Dreptului{% endblock %}
-{% block meta_description %}Plata a fost procesată cu succes. Aveți acum acces permanent la cartea achiziționată.{% endblock %}
+{% block title %}{% trans "Payment successful" %} | Penița Dreptului{% endblock %}
+{% block meta_description %}{% blocktrans %}The payment has been processed successfully. You now have permanent access to the purchased book.{% endblocktrans %}{% endblock %}
 {% block robots %}noindex, nofollow{% endblock %}
 
 {% block css_link %}
@@ -263,58 +264,59 @@
             <div class="success-icon">
                 <i class="fas fa-check"></i>
             </div>
-            <h1>Plată realizată cu succes!</h1>
-            <p>Mulțumim pentru achiziție</p>
+            <h1>{% trans "Payment completed successfully!" %}</h1>
+            <p>{% trans "Thank you for your purchase" %}</p>
         </div>
         
         <div class="success-body">
             <!-- Processing notice (shown while waiting for callback) -->
             <div id="processing-notice" class="processing-notice {% if payment.status != 'OK' %}active{% endif %}">
                 <div class="spinner"></div>
-                <h3><i class="fas fa-clock"></i> Procesare plată...</h3>
-                <p>Așteptăm confirmarea de la bancă. Pagina se va actualiza automat.</p>
+                <h3><i class="fas fa-clock"></i> {% trans "Processing payment..." %}</h3>
+                <p>{% trans "Awaiting confirmation from the bank. The page will refresh automatically." %}</p>
             </div>
 
             <div class="transaction-info">
                 <div class="info-row">
-                    <span class="info-label">ID Tranzacție:</span>
+                    <span class="info-label">{% trans "Transaction ID:" %}</span>
                     <span class="info-value">{{ payment.order_id|default:payment.id|truncatechars:20 }}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Carte achiziționată:</span>
+                    <span class="info-label">{% trans "Book purchased:" %}</span>
                     <span class="info-value">{{ book.title }}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Autor:</span>
+                    <span class="info-label">{% trans "Author:" %}</span>
                     <span class="info-value">{{ book.author }}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Suma plătită:</span>
+                    <span class="info-label">{% trans "Amount paid:" %}</span>
                     <span class="info-value">{{ payment.amount }} {{ payment.currency }}</span>
                 </div>
                 <div class="info-row">
-                    <span class="info-label">Data:</span>
+                    <span class="info-label">{% trans "Date:" %}</span>
                     <span class="info-value">{{ payment.paid_at|date:"d.m.Y H:i"|default:payment.created_at|date:"d.m.Y H:i" }}</span>
                 </div>
             </div>
-            
+
             <div class="book-access">
-                <h3><i class="fas fa-book-open"></i> Cartea dvs. este disponibilă!</h3>
-                <p>Acum aveți acces complet la cartea achiziționată. Puteți citi cartea online oricând.</p>
-                
+                <h3><i class="fas fa-book-open"></i> {% trans "Your book is available!" %}</h3>
+                <p>{% trans "You now have full access to the purchased book. You can read it online anytime." %}</p>
+
                 <div class="action-buttons">
                     <a href="{% url 'book_detail' book.slug %}" class="btn btn-success">
-                        <i class="fas fa-book-reader"></i> Citește cartea acum
+                        <i class="fas fa-book-reader"></i> {% trans "Read the book now" %}
                     </a>
                     <a href="{% url 'books_list' %}" class="btn btn-outline">
-                        <i class="fas fa-books"></i> Vezi alte cărți
+                        <i class="fas fa-books"></i> {% trans "See other books" %}
                     </a>
                 </div>
             </div>
-            
+
             <div class="receipt-notice">
-                <p><i class="fas fa-envelope"></i> O copie a chitanței a fost trimisă pe email-ul dvs.</p>
-                <p><i class="fas fa-history"></i> Puteți vedea toate achizițiile în <a href="{% url 'payment_history' %}" style="color: #6B8E23;">Istoricul plăților</a></p>
+                <p><i class="fas fa-envelope"></i> {% trans "A copy of the receipt has been sent to your email." %}</p>
+                {% url 'payment_history' as history_url %}
+                <p><i class="fas fa-history"></i> {% blocktrans %}You can see all purchases in <a href="{{ history_url }}" style="color: #6B8E23;">Payment history</a>{% endblocktrans %}</p>
             </div>
         </div>
     </div>
@@ -362,8 +364,8 @@
                 clearInterval(checkInterval);
                 console.log('Stopped auto-checking after 5 minutes');
                 document.getElementById('processing-notice').innerHTML = `
-                    <h3><i class="fas fa-exclamation-triangle"></i> Verificare întârziată</h3>
-                    <p>Plata este în procesare. Vă rugăm să verificați <a href="/payment/history/">istoricul plăților</a> peste câteva minute.</p>
+                    <h3><i class="fas fa-exclamation-triangle"></i> {% trans "Verification delayed" %}</h3>
+                    <p>{% trans "Payment is being processed. Please check the" %} <a href="/payment/history/">{% trans "payment history" %}</a> {% trans "in a few minutes." %}</p>
                 `;
             }
         }, 300000); // 5 minutes

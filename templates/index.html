@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Penița Dreptului - Blog Juridic despre Dreptul Procesual Penal și Criminalistica{% endblock %}
+{% block title %}{% blocktrans %}Penița Dreptului - legal blog on criminal procedural law and forensics{% endblocktrans %}{% endblock %}
 
-{% block meta_description %}Descoperiți articole și cărți juridice despre dreptul procesual penal și criminalistica. Resurse profesionale de Tudor Osoianu și Dinu Ostavciuc pentru specialiști din Moldova.{% endblock %}
+{% block meta_description %}{% blocktrans %}Discover legal articles and books on criminal procedural law and forensics. Professional resources by Tudor Osoianu and Dinu Ostavciuc for specialists in Moldova.{% endblocktrans %}{% endblock %}
 
 {% block canonical %}https://penitadreptului.md/{% endblock %}
 {% block og_url %}https://penitadreptului.md/{% endblock %}
-{% block og_title %}Penița Dreptului - Blog Juridic despre Dreptul Procesual Penal{% endblock %}
-{% block og_description %}Blog juridic cu articole și cărți despre dreptul procesual penal și criminalistica din Moldova.{% endblock %}
+{% block og_title %}{% blocktrans %}Penița Dreptului - legal blog on criminal procedural law{% endblocktrans %}{% endblock %}
+{% block og_description %}{% blocktrans %}Legal blog with articles and books on criminal procedural law and forensics from Moldova.{% endblocktrans %}{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -53,7 +54,7 @@
         "@type": "Country",
         "name": "Moldova"
     },
-    "knowsAbout": ["Drept Procesual Penal", "Criminalistică", "Drept Penal"],
+    "knowsAbout": ["Drept procesual penal", "Criminalistică", "Drept penal"],
     "inLanguage": "ro"
 }
 </script>
@@ -128,12 +129,12 @@
             <source src="{% static 'img/bg-video.webm' %}" type="video/webm">
         </video>
         {% include 'navbar.html' %}
-        <h1 class="greeting typing">Bine ați venit la Penița Dreptului</h1>
-        <p class="slogan">Claritate în drept, încredere în acțiune</p>
+        <h1 class="greeting typing">{% trans "Welcome to Penița Dreptului" %}</h1>
+        <p class="slogan">{% trans "Clarity in law, confidence in action" %}</p>
     </section>
 
     <section class="news-section">
-        <h2 class="section-title">Ultimele Știri</h2>
+        <h2 class="section-title">{% trans "Latest news" %}</h2>
         <div class="news-slider">
           {% for news in news_list %}
           <div class="news-item">
@@ -147,37 +148,37 @@
             <div class="news-content">
               <h3>{{ news.title }}</h3>
               <p>{{ news.content|truncatewords:20 }}</p>
-              <a href="{% url 'news_detail' slug=news.slug %}" class="btn">Citește mai mult</a>
+              <a href="{% url 'news_detail' slug=news.slug %}" class="btn">{% trans "Read more" %}</a>
             </div>
           </div>
           {% endfor %}
         </div>
       </section>
-      
+
     <section class="section-intro">
-      <h2 class="hidden">Întâlniți Autorii</h2>
-      <p class="hidden">Misiunea noastră este să oferim cărți juridice aprofundate și pline de înțeles, care vă ajută să navigați cu ușurință prin complexitățile legii. Explorați experiența noastră și aflați mai multe despre activitatea pe care o desfășurăm.</p>
-    
+      <h2 class="hidden">{% trans "Meet the authors" %}</h2>
+      <p class="hidden">{% blocktrans %}Our mission is to provide insightful, in-depth legal books that help you navigate the complexities of law with ease. Explore our expertise and learn more about the work we do.{% endblocktrans %}</p>
+
       <div class="content">
           <div class="content-item" id="ostavciuc-dinu">
-              <img src="{% static 'img/ostavciuc.webp' %}" id="ostavciuc" alt="Dinu Ostavciuc - Doctor Habilitat în Drept" loading="lazy" width="300" height="300">
+              <img src="{% static 'img/ostavciuc.webp' %}" id="ostavciuc" alt="Dinu Ostavciuc - doctor habilitat în drept" loading="lazy" width="300" height="300">
               <h3>Dinu Ostavciuc</h3>
               <p>
-                Dinu Ostavciuc are peste 20 de ani de experiență în drept public și a scris mai multe cărți pe acest subiect.</p>
-              <a href="{% url 'ostavciuc' %}" class="btn">Citește mai mult</a>
+                {% blocktrans %}Dinu Ostavciuc has over 20 years of experience in public law and has authored several books on the subject.{% endblocktrans %}</p>
+              <a href="{% url 'ostavciuc' %}" class="btn">{% trans "Read more" %}</a>
           </div>
           <div class="content-item" id="osoianu">
-              <img src="{% static 'img/osoianu.webp' %}" alt="Tudor Osoianu - Expert în Drept Procesual Penal" loading="lazy" width="300" height="300">
+              <img src="{% static 'img/osoianu.webp' %}" alt="Tudor Osoianu - expert în drept procesual penal" loading="lazy" width="300" height="300">
               <h3>Tudor Osoianu</h3>
               <p>
-                Tudor Osoianu se speciacilizează în procedura penala și a fost recunoscut pentru activitatea sa în domeniul educației juridice.</p>
-              <a href="{% url 'osoianu' %}" class="btn">Citește mai mult</a>
+                {% blocktrans %}Tudor Osoianu specializes in criminal procedure and has been recognized for his work in legal education.{% endblocktrans %}</p>
+              <a href="{% url 'osoianu' %}" class="btn">{% trans "Read more" %}</a>
           </div>
       </div>
     </section>
     {% if latest_articles %}
     <section class="home-articles-section">
-        <h2>Ultimele Articole</h2>
+        <h2>{% trans "Latest articles" %}</h2>
         <div class="home-articles-grid">
             {% for article in latest_articles %}
             <a href="{% url 'article_detail' slug=article.slug %}" class="home-article-card">
@@ -188,14 +189,14 @@
             {% endfor %}
         </div>
         <div style="text-align: center; margin-top: 25px;">
-            <a href="{% url 'articles' %}" class="btn">Toate Articolele</a>
+            <a href="{% url 'articles' %}" class="btn">{% trans "All articles" %}</a>
         </div>
     </section>
     {% endif %}
 
     {% if featured_books %}
     <section class="home-books-section">
-        <h2>Cărțile Noastre</h2>
+        <h2>{% trans "Our books" %}</h2>
         <div class="home-books-grid">
             {% for book in featured_books %}
             <a href="{% url 'book_detail' slug=book.slug %}" class="home-book-card">
@@ -206,38 +207,38 @@
             {% endfor %}
         </div>
         <div style="text-align: center; margin-top: 25px;">
-            <a href="{% url 'books_list' %}" class="btn">Toate Cărțile</a>
+            <a href="{% url 'books_list' %}" class="btn">{% trans "All books" %}</a>
         </div>
     </section>
     {% endif %}
 
     <section class="benefits-section">
-      <h2>De ce să ne alegi?</h2>
+      <h2>{% trans "Why choose us?" %}</h2>
       <div class="benefits-container">
           <div class="benefit-item hidden">
               <i class="fas fa-check-circle"></i>
-              <h3>Calitate Superioară</h3>
-              <p>Cărțile noastre sunt scrise de experți renumiți în domeniul dreptului, garantând informații precise și relevante</p>
+              <h3>{% trans "Top quality" %}</h3>
+              <p>{% blocktrans %}Our books are written by renowned legal experts, guaranteeing precise and relevant information.{% endblocktrans %}</p>
           </div>
           <div class="benefit-item hidden">
-              <i class="fas fa-user-graduate"></i> 
-              <h3>Experiență de Peste 25 de Ani</h3>
-              <p>Avem mai bine de două decenii de experiență în publicarea materialelor științifice de calitate</p>
+              <i class="fas fa-user-graduate"></i>
+              <h3>{% trans "Over 25 years of experience" %}</h3>
+              <p>{% blocktrans %}We have more than two decades of experience publishing high-quality scientific materials.{% endblocktrans %}</p>
           </div>
           <div class="benefit-item hidden">
               <i class="fas fa-file-pdf"></i>
-              <h3>Acces Ușor și Convenabil</h3>
-              <p>Cărțile noastre sunt disponibile online în format PDF, accesibile oricând și oriunde</p>
+              <h3>{% trans "Easy and convenient access" %}</h3>
+              <p>{% blocktrans %}Our books are available online in PDF format, accessible anytime and anywhere.{% endblocktrans %}</p>
           </div>
       </div>
   </section>
-    
+
     <section class="reviews-section">
-      <h2 class="hidden">Ce spun cititorii noștri:</h2>
+      <h2 class="hidden">{% trans "What our readers say:" %}</h2>
       <div class="reviews-container">
         <div class="hidden review">
             <h3>Rusu Vitalie</h3>
-            <h4>Profesor</h4>
+            <h4>{% trans "Professor" %}</h4>
             <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -245,11 +246,11 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>"Această carte mi-a oferit o perspectivă profundă asupra practicilor juridice moderne. Este o lectură obligatorie pentru oricine din domeniu."</p>
+            <p>{% blocktrans %}"This book gave me a deep insight into modern legal practices. It is a must-read for anyone in the field."{% endblocktrans %}</p>
         </div>
         <div class="hidden review">
             <h3>Viorel Berliba</h3>
-            <h4>Avocat</h4>
+            <h4>{% trans "Lawyer" %}</h4>
             <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -257,11 +258,11 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>"Un ghid cuprinzător care acoperă elementele esențiale ale dreptului public. A fost o resursă valoroasă în practica mea."</p>
+            <p>{% blocktrans %}"A comprehensive guide that covers the essential elements of public law. It has been a valuable resource in my practice."{% endblocktrans %}</p>
         </div>
         <div class="hidden review">
             <h3>Nichita Grîu</h3>
-            <h4>Student</h4>
+            <h4>{% trans "Student" %}</h4>
             <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -269,11 +270,11 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>"Fiind nou în domeniul juridic, am găsit această carte extrem de utilă pentru a înțelege elementele fundamentale."</p>
+            <p>{% blocktrans %}"As someone new to the legal field, I found this book extremely useful for understanding the fundamentals."{% endblocktrans %}</p>
         </div>
         <div class="hidden review">
             <h3>Ion Covalciuc</h3>
-            <h4>Procuror</h4>
+            <h4>{% trans "Prosecutor" %}</h4>
             <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -281,11 +282,11 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>"Clară, interesantă și incredibil de informativă. O recomand cu certitudine atât studenților, cât și profesioniștilor."</p>
+            <p>{% blocktrans %}"Clear, engaging and incredibly informative. I confidently recommend it to both students and professionals."{% endblocktrans %}</p>
         </div>
         <div class="hidden review">
             <h3>Ion Chirtoacă</h3>
-            <h4>Judecător</h4>
+            <h4>{% trans "Judge" %}</h4>
             <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -293,11 +294,11 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>"Autorii au simplificat conceptele juridice complexe fără a sacrifica profunzimea."</p>
+            <p>{% blocktrans %}"The authors have simplified complex legal concepts without sacrificing depth."{% endblocktrans %}</p>
         </div>
         <div class="hidden review">
             <h3>Cătălin Andruș</h3>
-            <h4>Director CNAI România</h4>
+            <h4>{% trans "Director, CNAI Romania" %}</h4>
             <div class="stars">
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
@@ -305,37 +306,39 @@
                 <i class="fas fa-star"></i>
                 <i class="fas fa-star"></i>
             </div>
-            <p>"Informațiile și exemplele din lumea reală din această carte sunt inestimabile pentru oricine implicat în cercetarea juridică."</p>
+            <p>{% blocktrans %}"The information and real-world examples in this book are invaluable for anyone involved in legal research."{% endblocktrans %}</p>
         </div>
 
   </section>
 
   <section class="faq-section" aria-labelledby="faq-title">
-    <h2 id="faq-title" class="section-title">Întrebări frecvente</h2>
+    <h2 id="faq-title" class="section-title">{% trans "Frequently asked questions" %}</h2>
     <div class="faq-container">
       <details class="faq-item">
-        <summary>Ce este Penița Dreptului?</summary>
-        <p>Penița Dreptului este un portal juridic profesional dedicat dreptului procesual penal și criminalisticii din Republica Moldova. Oferă articole științifice și cărți de specialitate scrise de Tudor Osoianu și Dinu Ostavciuc.</p>
+        <summary>{% trans "What is Penița Dreptului?" %}</summary>
+        <p>{% blocktrans %}Penița Dreptului is a professional legal portal dedicated to criminal procedural law and forensics from the Republic of Moldova. It offers scientific articles and specialty books written by Tudor Osoianu and Dinu Ostavciuc.{% endblocktrans %}</p>
       </details>
       <details class="faq-item">
-        <summary>Cum pot accesa cărțile și articolele?</summary>
-        <p>Articolele sunt accesibile gratuit pentru toți vizitatorii. Cărțile pot fi gratuite sau cu plată; pentru cărțile cu plată este necesară crearea unui cont și efectuarea unei plăți securizate prin sistemul MAIB.</p>
+        <summary>{% trans "How can I access the books and articles?" %}</summary>
+        <p>{% blocktrans %}Articles are freely accessible to all visitors. Books may be free or paid; for paid books an account and a secure payment via the MAIB system are required.{% endblocktrans %}</p>
       </details>
       <details class="faq-item">
-        <summary>Ce subiecte juridice acoperă portalul?</summary>
-        <p>Portalul acoperă trei direcții principale: <a href="{% url 'articles' %}?category=procedura_penala">drept procesual penal</a>, <a href="{% url 'articles' %}?category=criminalistica">criminalistică</a> și <a href="{% url 'articles' %}?category=alte_stiinte">alte științe juridice conexe</a>, cu accent pe legislația și practica din Republica Moldova.</p>
+        <summary>{% trans "What legal topics does the portal cover?" %}</summary>
+        {% url 'articles' as articles_url %}
+        <p>{% blocktrans %}The portal covers three main directions: <a href="{{ articles_url }}?category=procedura_penala">criminal procedural law</a>, <a href="{{ articles_url }}?category=criminalistica">forensics</a> and <a href="{{ articles_url }}?category=alte_stiinte">other related legal sciences</a>, with a focus on the legislation and practice of the Republic of Moldova.{% endblocktrans %}</p>
       </details>
       <details class="faq-item">
-        <summary>Cine sunt autorii materialelor?</summary>
-        <p>Materialele sunt elaborate de <a href="{% url 'osoianu' %}">Tudor Osoianu</a>, expert în drept procesual penal, și <a href="{% url 'ostavciuc' %}">Dinu Ostavciuc</a>, doctor habilitat în drept, ambii având peste 20 de ani de experiență academică și practică.</p>
+        <summary>{% trans "Who are the authors of the materials?" %}</summary>
+        {% url 'osoianu' as osoianu_url %}{% url 'ostavciuc' as ostavciuc_url %}
+        <p>{% blocktrans %}The materials are written by <a href="{{ osoianu_url }}">Tudor Osoianu</a>, expert in criminal procedural law, and <a href="{{ ostavciuc_url }}">Dinu Ostavciuc</a>, doctor habilitat in law, both with over 20 years of academic and practical experience.{% endblocktrans %}</p>
       </details>
       <details class="faq-item">
-        <summary>Cum se efectuează plata pentru cărți?</summary>
-        <p>Plata se face online prin sistemul securizat MAIB cu carduri Visa și Mastercard. După confirmarea plății primiți acces permanent la cartea achiziționată în contul personal.</p>
+        <summary>{% trans "How is payment for the books made?" %}</summary>
+        <p>{% blocktrans %}Payment is made online through the secure MAIB system with Visa and Mastercard cards. After payment confirmation you get permanent access to the purchased book in your personal account.{% endblocktrans %}</p>
       </details>
       <details class="faq-item">
-        <summary>Cum pot citi cărțile achiziționate?</summary>
-        <p>Cărțile se citesc direct online, în vizualizatorul integrat al portalului. Aveți acces permanent la conținut din contul dumneavoastră, oricând și de pe orice dispozitiv conectat la internet.</p>
+        <summary>{% trans "How can I read the purchased books?" %}</summary>
+        <p>{% blocktrans %}Books are read directly online in the portal's integrated viewer. You have permanent access to the content from your account, anytime and from any internet-connected device.{% endblocktrans %}</p>
       </details>
     </div>
   </section>

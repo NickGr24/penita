@@ -26,7 +26,7 @@ def _validate_content(content_type, content_id):
     return obj, None
 
 def homepage(request):
-    news_list = News.objects.all().order_by('-id')
+    news_list = News.objects.all().order_by('-created_at', '-id')
     latest_articles = Article.objects.all().order_by('-publication_date')[:6]
     featured_books = Book.objects.all().order_by('-created_at')[:4]
     return render(request, 'index.html', {
@@ -41,7 +41,7 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Contul creat pentru {username}!')
+            messages.success(request, _('Account created for %(username)s!') % {'username': username})
             return redirect('login')
     else:
         form = UserCreationForm()

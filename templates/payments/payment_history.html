@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 
-{% block title %}Istoric plăți | Penița Dreptului{% endblock %}
-{% block meta_description %}Vizualizați istoricul plăților efectuate în contul dumneavoastră Penița Dreptului.{% endblock %}
+{% block title %}{% trans "Payment history" %} | Penița Dreptului{% endblock %}
+{% block meta_description %}{% blocktrans %}View the history of payments made on your Penița Dreptului account.{% endblocktrans %}{% endblock %}
 {% block robots %}noindex, nofollow{% endblock %}
 
 {% block css_link %}
@@ -293,8 +294,8 @@
 
 <div class="history-container">
     <div class="page-header">
-        <h1><i class="fas fa-history"></i> Istoricul Plăților</h1>
-        <p>Toate achizițiile dvs. de cărți</p>
+        <h1><i class="fas fa-history"></i> {% trans "Payment history" %}</h1>
+        <p>{% trans "All your book purchases" %}</p>
     </div>
 
     {% if payments %}
@@ -311,33 +312,33 @@
                 </div>
                 <span class="payment-status status-{{ payment.status|lower }}">
                     {% if payment.status == 'OK' %}
-                        <i class="fas fa-check-circle"></i> Plătit
+                        <i class="fas fa-check-circle"></i> {% trans "Paid" %}
                     {% elif payment.status == 'PENDING' %}
-                        <i class="fas fa-clock"></i> În proces
+                        <i class="fas fa-clock"></i> {% trans "In process" %}
                     {% elif payment.status == 'REFUNDED' %}
-                        <i class="fas fa-undo"></i> Returnat
+                        <i class="fas fa-undo"></i> {% trans "Refunded" %}
                     {% else %}
-                        <i class="fas fa-times-circle"></i> Eșuat
+                        <i class="fas fa-times-circle"></i> {% trans "Failed" %}
                     {% endif %}
                 </span>
             </div>
 
             <div class="payment-details">
                 <div class="detail-item">
-                    <span class="detail-label">Sumă</span>
+                    <span class="detail-label">{% trans "Amount" %}</span>
                     <span class="detail-value">{{ payment.amount }} {{ payment.currency }}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Dată</span>
+                    <span class="detail-label">{% trans "Date" %}</span>
                     <span class="detail-value">{{ payment.created_at|date:"d.m.Y" }}</span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">ID Tranzacție</span>
+                    <span class="detail-label">{% trans "Transaction ID" %}</span>
                     <span class="detail-value">{{ payment.order_id|default:payment.id|truncatechars:15 }}</span>
                 </div>
                 {% if payment.paid_at %}
                 <div class="detail-item">
-                    <span class="detail-label">Plătit la</span>
+                    <span class="detail-label">{% trans "Paid at" %}</span>
                     <span class="detail-value">{{ payment.paid_at|date:"H:i" }}</span>
                 </div>
                 {% endif %}
@@ -346,10 +347,10 @@
             {% if payment.status == 'OK' %}
             <div class="payment-actions">
                 <a href="{% url 'book_detail' payment.book.slug %}" class="btn-small btn-view">
-                    <i class="fas fa-book-reader"></i> Citește cartea
+                    <i class="fas fa-book-reader"></i> {% trans "Read the book" %}
                 </a>
                 <a href="{{ payment.book.file.url }}" class="btn-small btn-download" download>
-                    <i class="fas fa-download"></i> Descarcă PDF
+                    <i class="fas fa-download"></i> {% trans "Download PDF" %}
                 </a>
             </div>
             {% endif %}
@@ -359,10 +360,10 @@
     {% else %}
     <div class="empty-state">
         <i class="fas fa-shopping-cart"></i>
-        <h2>Nicio achiziție încă</h2>
-        <p>Nu aveți încă cărți achiziționate. Explorați biblioteca noastră!</p>
+        <h2>{% trans "No purchases yet" %}</h2>
+        <p>{% trans "You don't have any purchased books yet. Explore our library!" %}</p>
         <a href="{% url 'books_list' %}" class="btn-primary">
-            <i class="fas fa-book"></i> Vezi cărțile disponibile
+            <i class="fas fa-book"></i> {% trans "See available books" %}
         </a>
     </div>
     {% endif %}

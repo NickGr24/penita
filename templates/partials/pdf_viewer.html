@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 {% comment %}
 Shared PDF viewer (articles + books).
 Caller must pass:
@@ -23,53 +24,53 @@ Usage:
 
     <div class="pdf-controls">
         <div class="pdf-search">
-            <button type="button" data-action="toggle-search" aria-label="Căutare în document" title="Căutare (Ctrl+F)">
+            <button type="button" data-action="toggle-search" aria-label="{% trans 'Search in document' %}" title="{% trans 'Search (Ctrl+F)' %}">
                 <i class="fas fa-search"></i>
             </button>
             <div data-pdf-search-bar>
                 <input type="search"
                        data-pdf-search-input
-                       placeholder="Căutare în document..."
-                       aria-label="Câmp de căutare"
+                       placeholder="{% trans 'Search in document...' %}"
+                       aria-label="{% trans 'Search field' %}"
                        autocomplete="off"
                        spellcheck="false">
                 <span data-pdf-match-counter aria-live="polite"></span>
-                <button type="button" data-action="prev-match" aria-label="Match anterior" title="Anterior (Shift+Enter)">
+                <button type="button" data-action="prev-match" aria-label="{% trans 'Previous match' %}" title="{% trans 'Previous (Shift+Enter)' %}">
                     <i class="fas fa-chevron-up"></i>
                 </button>
-                <button type="button" data-action="next-match" aria-label="Match următor" title="Următor (Enter)">
+                <button type="button" data-action="next-match" aria-label="{% trans 'Next match' %}" title="{% trans 'Next (Enter)' %}">
                     <i class="fas fa-chevron-down"></i>
                 </button>
-                <button type="button" data-action="close-search" aria-label="Închide căutare" title="Închide (Esc)">&times;</button>
+                <button type="button" data-action="close-search" aria-label="{% trans 'Close search' %}" title="{% trans 'Close (Esc)' %}">&times;</button>
             </div>
         </div>
 
         <div class="page-navigation">
-            <button type="button" data-action="prev-page" aria-label="Pagina anterioară">
+            <button type="button" data-action="prev-page" aria-label="{% trans 'Previous page' %}">
                 <i class="fas fa-chevron-left"></i>
             </button>
             <span class="page-info">
                 <span data-pdf-current-page>1</span> / <span data-pdf-total-pages>-</span>
             </span>
-            <button type="button" data-action="next-page" aria-label="Pagina următoare">
+            <button type="button" data-action="next-page" aria-label="{% trans 'Next page' %}">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
 
         <div class="zoom-controls">
-            <button type="button" data-action="zoom-out" aria-label="Micșorează" title="Micșorează">
+            <button type="button" data-action="zoom-out" aria-label="{% trans 'Zoom out' %}" title="{% trans 'Zoom out' %}">
                 <i class="fas fa-minus"></i>
             </button>
-            <select data-pdf-zoom-level aria-label="Nivel de zoom">
+            <select data-pdf-zoom-level aria-label="{% trans 'Zoom level' %}">
                 <option value="0.5">50%</option>
-                <option value="0.75">75%</option>
-                <option value="1" selected>100% (lățime)</option>
+                <option value="0.75" selected>75%</option>
+                <option value="1">{% trans "100% (width)" %}</option>
                 <option value="1.25">125%</option>
                 <option value="1.5">150%</option>
                 <option value="2">200%</option>
-                <option value="auto">Pagina întreagă</option>
+                <option value="auto">{% trans "Full page" %}</option>
             </select>
-            <button type="button" data-action="zoom-in" aria-label="Mărește" title="Mărește">
+            <button type="button" data-action="zoom-in" aria-label="{% trans 'Zoom in' %}" title="{% trans 'Zoom in' %}">
                 <i class="fas fa-plus"></i>
             </button>
         </div>
@@ -78,8 +79,8 @@ Usage:
             <button type="button"
                     class="bookmarks-btn"
                     data-action="toggle-bookmarks"
-                    aria-label="Marcaje (bookmarks)"
-                    title="Marcaje (bookmarks)">
+                    aria-label="{% trans 'Bookmarks' %}"
+                    title="{% trans 'Bookmarks' %}">
                 <i class="fas fa-bookmark"></i>
             </button>
             <div class="bookmarks-panel" data-bookmarks-panel></div>
@@ -90,8 +91,8 @@ Usage:
             <button type="button"
                     class="bookmarks-btn"
                     data-action="toggle-annotations"
-                    aria-label="Evidențieri sincronizate"
-                    title="Evidențieri (sincronizate cu contul)">
+                    aria-label="{% trans 'Synced highlights' %}"
+                    title="{% trans 'Highlights (synced with account)' %}">
                 <i class="fas fa-highlighter"></i>
             </button>
             <div class="bookmarks-panel" data-annotations-panel></div>
@@ -101,21 +102,21 @@ Usage:
         <button type="button"
                 class="dark-mode-btn"
                 data-action="toggle-dark"
-                aria-label="Comută mod întunecat"
-                title="Mod întunecat">
+                aria-label="{% trans 'Toggle dark mode' %}"
+                title="{% trans 'Dark mode' %}">
             <i class="fas fa-moon"></i>
         </button>
     </div>
 
     <div class="gesture-hint">
-        <i class="fas fa-info-circle"></i> Swipe stânga/dreapta pentru navigare • Pinch pentru zoom
+        <i class="fas fa-info-circle"></i> {% trans "Swipe left/right to navigate • Pinch to zoom" %}
     </div>
 
     <div class="pdf-viewer-container" data-pdf-viewer>
         <div data-pdf-canvas-container>
             <div class="loading">
                 <div class="loading-spinner"></div>
-                Se încarcă documentul...
+                {% trans "Loading document..." %}
             </div>
         </div>
     </div>
@@ -123,8 +124,8 @@ Usage:
     <button type="button"
             class="fullscreen-btn"
             data-action="toggle-fullscreen"
-            aria-label="Ecran complet"
-            title="Ecran complet">
+            aria-label="{% trans 'Fullscreen' %}"
+            title="{% trans 'Fullscreen' %}">
         <i class="fas fa-expand"></i>
     </button>
 </div>

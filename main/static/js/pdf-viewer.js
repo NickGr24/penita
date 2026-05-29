@@ -77,7 +77,9 @@
         // localStorage позволяет вернуться на ту же страницу при повторном визите.
         this.pageNum = this.readPageFromHash() || this.readSavedPage() || 1;
         this.scale = 1;
-        this.currentZoomMode = 'page-width';
+        // Default reading width: 75% of fit-width on desktop (mobile is forced to
+        // 100% fit-width after load — see isMobile override below).
+        this.currentZoomMode = '0.75';
         this.isDarkMode = this.readSavedDarkMode();
         this.isAnimating = false;
         this.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);

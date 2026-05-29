@@ -13,9 +13,9 @@
 <div class="login-wrapper">
     <div class="login-container">
         <div class="login-header">
-            <h2>Finalizează Înregistrarea</h2>
-            <p>{% blocktrans with provider_name=account.get_provider.name %}Folosești contul tău {{ provider_name }} pentru a te conecta.{% endblocktrans %}</p>
-            <p>Te rugăm să completezi acest formular:</p>
+            <h2>{% trans "Complete registration" %}</h2>
+            <p>{% blocktrans with provider_name=account.get_provider.name %}You are using your {{ provider_name }} account to sign in.{% endblocktrans %}</p>
+            <p>{% trans "Please fill in this form:" %}</p>
         </div>
 
         <form method="POST" action="{% url 'socialaccount_signup' %}" class="login-form">
@@ -48,7 +48,7 @@
             <div class="form-group">
                 <label for="id_username">
                     <i class="fas fa-user"></i>
-                    Nume de utilizator
+                    {% trans "Username" %}
                 </label>
                 {{ form.username }}
             </div>
@@ -68,13 +68,13 @@
             {{ redirect_field }}
 
             <button type="submit" class="btn-login">
-                <span>Finalizează Înregistrarea</span>
+                <span>{% trans "Complete registration" %}</span>
                 <i class="fas fa-arrow-right"></i>
             </button>
         </form>
 
         <div class="login-footer">
-            <p>Ai deja cont? <a href="{% url 'account_login' %}">Conectează-te</a></p>
+            <p>{% trans "Already have an account?" %} <a href="{% url 'account_login' %}">{% trans "Sign in" %}</a></p>
         </div>
     </div>
 </div>

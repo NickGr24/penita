@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% load article_seo %}
 
 {% block title %}{{ article.name }} | Penița Dreptului{% endblock %}
@@ -400,9 +401,9 @@
 
 <!-- Breadcrumbs для SEO и навигации -->
 <div class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
-    <a href="{% url 'home' %}">Acasă</a>
+    <a href="{% url 'home' %}">{% trans "Home" %}</a>
     <span class="separator">/</span>
-    <a href="{% url 'articles' %}">Articole</a>
+    <a href="{% url 'articles' %}">{% trans "Articles" %}</a>
     {% if article.category %}
     <span class="separator">/</span>
     <a href="{% url 'articles' %}?category={{ article.category }}">{{ article.get_category_display }}</a>
@@ -421,7 +422,7 @@
             {% endif %}
             {% with words=article.seo_content|default:article.description|default:article.name|striptags|wordcount %}
             {% widthratio words|add:200 200 1 as read_min %}
-            <span><i class="fas fa-clock"></i> {{ read_min }} min de citit</span>
+            <span><i class="fas fa-clock"></i> {% blocktrans %}{{ read_min }} min read{% endblocktrans %}</span>
             {% endwith %}
             {% if article.publication_date %}
             <span><i class="fas fa-calendar-alt"></i> <time datetime="{{ article.publication_date|date:'Y-m-d' }}">{{ article.publication_date|date:'d M Y' }}</time></span>
@@ -438,7 +439,7 @@
     {% if article.seo_content %}
     <div class="seo-accordion">
         <details>
-            <summary>Citește textul integral al articolului</summary>
+            <summary>{% trans "Read the full article text" %}</summary>
             <div class="seo-content-body">
                 {{ article.seo_content|safe }}
             </div>
@@ -453,9 +454,9 @@
     {% else %}
         <div class="pdf-unavailable">
             <i class="fas fa-file-pdf"></i>
-            <h2>Documentul este temporar indisponibil</h2>
-            <p>Versiunea PDF a acestui articol este în curs de actualizare. Vă rugăm să reveniți mai târziu sau să consultați textul integral mai sus.</p>
-            <a href="{% url 'articles' %}" class="btn-back-to-articles"><i class="fas fa-arrow-left"></i> Înapoi la articole</a>
+            <h2>{% trans "The document is temporarily unavailable" %}</h2>
+            <p>{% blocktrans %}The PDF version of this article is currently being updated. Please check back later or consult the full text above.{% endblocktrans %}</p>
+            <a href="{% url 'articles' %}" class="btn-back-to-articles"><i class="fas fa-arrow-left"></i> {% trans "Back to articles" %}</a>
         </div>
     {% endif %}
 </div>
@@ -463,14 +464,14 @@
 <!-- Related Articles для внутренней перелинковки (SEO) -->
 {% if related_articles %}
 <section class="related-articles">
-    <h3><i class="fas fa-bookmark"></i> Articole similare</h3>
+    <h3><i class="fas fa-bookmark"></i> {% trans "Similar articles" %}</h3>
     <div class="related-grid">
         {% for related in related_articles %}
         <div class="related-card">
             <h4><a href="{% url 'article_detail' related.slug %}">{{ related.name }}</a></h4>
             <p>{{ related.description|default:related.name|truncatewords:20 }}</p>
             <a href="{% url 'article_detail' related.slug %}" class="read-more">
-                Citește articolul <i class="fas fa-arrow-right"></i>
+                {% trans "Read the article" %} <i class="fas fa-arrow-right"></i>
             </a>
         </div>
         {% endfor %}
@@ -481,14 +482,14 @@
 <!-- Recommended Books — кросс-перелинковка статья→книга (SEO + конверсия) -->
 {% if recommended_books %}
 <section class="related-articles">
-    <h3><i class="fas fa-book-open"></i> Cărți recomandate de {{ article.author }}</h3>
+    <h3><i class="fas fa-book-open"></i> {% blocktrans with author=article.author %}Books recommended by {{ author }}{% endblocktrans %}</h3>
     <div class="related-grid">
         {% for book in recommended_books %}
         <div class="related-card">
             <h4><a href="{% url 'book_detail' book.slug %}">{{ book.title }}</a></h4>
             <p>{{ book.description|default:book.title|truncatewords:18 }}</p>
             <a href="{% url 'book_detail' book.slug %}" class="read-more">
-                {% if book.is_paid %}Vezi cartea <i class="fas fa-arrow-right"></i>{% else %}Citește gratuit <i class="fas fa-arrow-right"></i>{% endif %}
+                {% if book.is_paid %}{% trans "View book" %} <i class="fas fa-arrow-right"></i>{% else %}{% trans "Read for free" %} <i class="fas fa-arrow-right"></i>{% endif %}
             </a>
         </div>
         {% endfor %}
