@@ -13,9 +13,11 @@
 {% block og_type %}book{% endblock %}
 {% block og_title %}{{ book.title }}{% endblock %}
 {% block og_description %}{{ book.description|truncatewords:25 }}{% endblock %}
+{% block og_image %}{% if book.cover %}https://penitadreptului.md{{ book.cover.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
 
 {% block twitter_title %}{{ book.title }}{% endblock %}
 {% block twitter_description %}{{ book.description|truncatewords:25 }}{% endblock %}
+{% block twitter_image %}{% if book.cover %}https://penitadreptului.md{{ book.cover.url }}{% else %}{{ block.super }}{% endif %}{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -32,7 +34,8 @@
         "@type": "Organization",
         "name": "Penița Dreptului"
     },
-    "inLanguage": "ro-RO",
+    {% if book.cover %}"image": "https://penitadreptului.md{{ book.cover.url }}",{% endif %}
+    "inLanguage": "{% if CUR_LANG == 'en' %}en{% else %}ro-RO{% endif %}",
     "bookFormat": "EBook"{% if book.is_paid %},
     "offers": {
         "@type": "Offer",

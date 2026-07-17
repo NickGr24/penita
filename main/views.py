@@ -90,11 +90,29 @@ def robots_txt(request):
         "Disallow: /accounts/email/",
         "Disallow: /accounts/social/",
         "",
+        # payments/urls.py mounts everything under /payment/ (singular, no hyphen) —
+        # the previous rules here (/payments/, /confirm-payment/, /payment-success/,
+        # /payment-fail/) never matched a real URL and blocked nothing.
         "# Disallow payment pages",
-        "Disallow: /payments/",
-        "Disallow: /confirm-payment/",
-        "Disallow: /payment-success/",
-        "Disallow: /payment-fail/",
+        "Disallow: /payment/",
+        "",
+        "# AI crawlers — default-open: search/citation discovery allowed everywhere",
+        "# search/answer engines already covered by 'Allow: /' above; listed here",
+        "# explicitly so the policy is a deliberate, documented decision, not a gap.",
+        "User-agent: GPTBot",
+        "User-agent: OAI-SearchBot",
+        "User-agent: ChatGPT-User",
+        "User-agent: ClaudeBot",
+        "User-agent: anthropic-ai",
+        "User-agent: Claude-User",
+        "User-agent: PerplexityBot",
+        "User-agent: Perplexity-User",
+        "User-agent: Google-Extended",
+        "User-agent: CCBot",
+        "Allow: /",
+        "Disallow: /admin/",
+        "Disallow: /accounts/",
+        "Disallow: /payment/",
         "",
         "# Block aggressive bots",
         "User-agent: MJ12bot",
@@ -110,6 +128,49 @@ def robots_txt(request):
         "Sitemap: https://penitadreptului.md/sitemap.xml",
     ]
     return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
+def llms_txt(request):
+    """llms.txt (emerging convention, see llmstxt.org) — a plain-text map of the
+    site for AI agents/assistants, mirroring what sitemap.xml does for search
+    engines. Built from live data so it can't drift from the actual catalog."""
+    lines = [
+        "# Penița Dreptului",
+        "",
+        "> Portal juridic profesional despre dreptul procesual penal și criminalistica "
+        "din Republica Moldova, scris de Tudor Osoianu (profesor universitar, doctor în "
+        "drept) și Dinu Ostavciuc (doctor habilitat în drept, rector al Academiei "
+        "\"Ștefan cel Mare\"). Articole și cărți gratuite disponibile fără autentificare.",
+        "",
+        "## Autori",
+        "- [Tudor Osoianu](https://penitadreptului.md/tudor-osoianu/): profesor "
+        "universitar, expert în drept procesual penal, criminalistică și expertiză "
+        "judiciară, peste 30 de ani de experiență.",
+        "- [Dinu Ostavciuc](https://penitadreptului.md/dinu-ostavciuc/): doctor "
+        "habilitat în drept, rector al Academiei \"Ștefan cel Mare\" a MAI, autor a "
+        "peste 100 de publicații juridice.",
+        "",
+        "## Articole",
+    ]
+    for article in Article.objects.all().order_by('-publication_date'):
+        lines.append(
+            f"- [{article.name}](https://penitadreptului.md/articles/{article.slug}/)"
+            f"{': ' + article.excerpt if article.excerpt else ''}"
+        )
+    lines += ["", "## Cărți"]
+    for book in Book.objects.all().order_by('-created_at'):
+        lines.append(
+            f"- [{book.title}](https://penitadreptului.md/books/{book.slug}/): "
+            f"{book.description}"
+        )
+    lines += [
+        "",
+        "## Alte resurse",
+        "- [Toate articolele](https://penitadreptului.md/articles/)",
+        "- [Toate cărțile](https://penitadreptului.md/books/)",
+        "- [sitemap.xml](https://penitadreptului.md/sitemap.xml)",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain; charset=utf-8")
 
 
 def google_verification(request):

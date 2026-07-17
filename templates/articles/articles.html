@@ -10,6 +10,7 @@
 
 {% block canonical %}https://penitadreptului.md/articles/{% endblock %}
 {% block og_url %}https://penitadreptului.md/articles/{% endblock %}
+{% block robots %}{% if request.GET %}noindex, follow{% else %}{{ block.super }}{% endif %}{% endblock %}
 {% block og_title %}{% blocktrans %}Legal articles{% endblocktrans %} | Penița Dreptului{% endblock %}
 {% block og_description %}{% blocktrans %}Scientific articles on criminal procedural law and forensics from Moldova.{% endblocktrans %}{% endblock %}
 

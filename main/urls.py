@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.homepage, name='home'),
     path('robots.txt', views.robots_txt, name='robots_txt'),
+    path('llms.txt', views.llms_txt, name='llms_txt'),
     path('google8a286773c4e6f9b1.html', views.google_verification, name='google_verification'),
     path('be563e094056a486e0ee315062904eff.txt', views.indexnow_key, name='indexnow_key'),
 

@@ -49,7 +49,7 @@
     "wordCount": {{ content_words|default:300 }},
     "timeRequired": "PT{{ read_minutes_raw }}M",
     "articleSection": "{{ article.get_category_display|default:'Drept'|escapejs }}",
-    "inLanguage": "ro-RO",
+    "inLanguage": "{% if CUR_LANG == 'en' %}en{% else %}ro-RO{% endif %}",
     "isAccessibleForFree": true,
     "about": {
         "@type": "Thing",
