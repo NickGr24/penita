@@ -31,6 +31,21 @@ class Article(models.Model):
         help_text="HTML версия статьи для SEO (будет видна Google)")
     excerpt = models.TextField(max_length=500, blank=True, null=True,
         help_text="Краткий отрывок для превью на странице")
+    meta_title = models.CharField(max_length=120, blank=True, null=True,
+        help_text=(
+            'SEO-заголовок для <title> в выдаче Google. Если пусто — берётся name. '
+            'Заголовок статьи (H1) при этом НЕ меняется. '
+            'Нужен потому, что научное название статьи ("Arestul preventiv") '
+            'конкурирует с румынскими сайтами, а привязка к нормам РМ '
+            '("Arestul preventiv în procesul penal al RM (art. 308 CPP)") выводит '
+            'в молдавскую выдачу, где конкуренции почти нет. '
+            'Оптимальная длина — до 60 символов вместе с брендом.'
+        ))
+
+    @property
+    def seo_title(self):
+        """Title for <head>; falls back to the article's own name."""
+        return self.meta_title or self.name
 
     def __str__(self):
         return self.name

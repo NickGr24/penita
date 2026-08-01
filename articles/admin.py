@@ -13,9 +13,12 @@ class ArticleAdmin(admin.ModelAdmin):
         }),
         ('SEO Content', {
             'classes': ('collapse',),
-            'fields': ('excerpt', 'seo_content'),
+            'fields': ('meta_title', 'excerpt', 'seo_content'),
             'description': 'Текстовое содержимое статьи для индексации Google. '
-                          'Заполняется автоматически из PDF или вручную.'
+                          'Заполняется автоматически из PDF или вручную. '
+                          'meta_title — заголовок в выдаче Google; если пусто, '
+                          'берётся название статьи. Заголовок на странице (H1) '
+                          'не меняется в любом случае.'
         }),
     )
 

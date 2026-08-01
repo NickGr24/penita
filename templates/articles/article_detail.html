@@ -3,7 +3,10 @@
 {% load i18n %}
 {% load article_seo %}
 
-{% block title %}{{ article.name }} | Penița Dreptului{% endblock %}
+{# seo_title = meta_title if set, else name. The visible <h1> always stays
+   article.name — the SEO title targets Moldovan queries without renaming
+   the authors' work. #}
+{% block title %}{{ article.seo_title }} | Penița Dreptului{% endblock %}
 
 {% block meta_description %}{% spaceless %}{% with cleaned=article.excerpt|clean_seo_description %}{% if cleaned %}{{ cleaned|truncate_meta:160 }}{% else %}{% with cleaned2=article.description|clean_seo_description %}{% if cleaned2 %}{{ cleaned2|truncate_meta:160 }}{% else %}{{ article.name }} — articol despre {{ article.get_category_display|default:"drept" }} de {{ article.author }}. Analiză juridică pentru specialiști din Republica Moldova.{% endif %}{% endwith %}{% endif %}{% endwith %}{% endspaceless %}{% endblock %}
 
