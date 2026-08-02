@@ -402,7 +402,7 @@
 {% block content %}
 {% include 'navbar.html' %}
 
-<!-- Breadcrumbs для SEO и навигации -->
+<!-- Breadcrumbs -->
 <div class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
     <a href="{% url 'home' %}">{% trans "Home" %}</a>
     <span class="separator">/</span>
@@ -464,7 +464,7 @@
     {% endif %}
 </div>
 
-<!-- Related Articles для внутренней перелинковки (SEO) -->
+<!-- Related articles -->
 {% if related_articles %}
 <section class="related-articles">
     <h3><i class="fas fa-bookmark"></i> {% trans "Similar articles" %}</h3>
