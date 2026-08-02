@@ -414,7 +414,7 @@
     </div>
     {% endif %}
 
-    <!-- SEO content block: расширенное описание для индексации (борьба с thin content) -->
+    <!-- Content -->
     <section class="book-seo-content">
         {% if book.seo_content %}
             {{ book.seo_content|safe }}
@@ -518,7 +518,7 @@
     </div>
 </section>
 
-<!-- Articole conexe — кросс-перелинковка book→article + расширение контента -->
+<!-- Related articles -->
 {% if related_articles %}
 <section class="other-books">
     <h3><i class="fas fa-bookmark"></i> {% blocktrans with author=primary_author %}Articles by {{ author }}{% endblocktrans %}</h3>

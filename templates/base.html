@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="{{ CUR_LANG }}">
 <head>
-    <!-- Analytics loaders — fired by cookie-consent.js only after the user opts into "analytics" -->
+    <!-- Analytics -->
     <script>
       window.loadGTM = function () {
           if (window.__gtmLoaded) return;
@@ -32,10 +32,7 @@
     <meta name="robots" content="{% block robots %}{% if CUR_LANG == 'en' %}noindex, follow{% else %}index, follow{% endif %}{% endblock %}">
     <link rel="canonical" href="{% block canonical %}https://penitadreptului.md{% endblock %}">
 
-    <!-- hreflang: self-referencing on the current page's own URL (request.path strips
-         any ?query, matching how canonical already handles listing-page filters).
-         No 'en' alternate — /en/ pages are noindex (untranslated duplicate content),
-         and hreflang must only point at indexable variants. -->
+    <!-- hreflang -->
     {% block hreflang %}
     <link rel="alternate" hreflang="ro-MD" href="https://penitadreptului.md{{ request.path }}">
     <link rel="alternate" hreflang="ro" href="https://penitadreptului.md{{ request.path }}">
@@ -79,7 +76,7 @@
     </script>
     {% endblock %}
 
-    <!-- Google Search Console verification (replace with your code) -->
+    <!-- Site verification -->
     {% block google_verification %}{% endblock %}
 
     <!-- Styles -->
